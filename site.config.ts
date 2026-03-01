@@ -48,11 +48,10 @@ export default siteConfig({
   // }
   pageUrlOverrides: null,
 
-  // whether to use the default notion navigation style or a custom one with links to
+// whether to use the default notion navigation style or a custom one with links to
   // important pages. To use `navigationLinks`, set `navigationStyle` to `custom`.
-  navigationStyle: 'default'
-  // navigationStyle: 'custom',
- navigationLinks: [
+  navigationStyle: 'custom',
+  navigationLinks: [
     {
       title: 'Tamamlanan Kitaplar',
       pageId: '316ddc548f41801080c9c34184ce448a'
