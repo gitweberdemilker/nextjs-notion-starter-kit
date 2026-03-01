@@ -58,7 +58,7 @@ export default siteConfig({
       pageId: '316ddc548f41801080c9c34184ce448a'
     },
     {
-      title: 'Aramızdalar Serisi',
+      title: 'Aramizdalar Serisi',
       pageId: '316ddc548f4180c39c22c90ef9954053'
     },
     {
@@ -66,11 +66,11 @@ export default siteConfig({
       pageId: '316ddc548f41803da4cde760b60f9b54'
     },
     {
-      title: 'Karanlık Hikayeler Seyahatnamesi',
+      title: 'Karanlik Hikayeler Seyahatnamesi',
       pageId: '316ddc548f418054aedaf59409e91fb1'
     },
     {
-      title: 'Kısa - Karanlık Hikayeler',
+      title: 'Kisa - Karanlik Hikayeler',
       pageId: '316ddc548f418063835bf9df79c7a2db'
     },
     {
