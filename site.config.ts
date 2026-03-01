@@ -72,8 +72,9 @@ export default siteConfig({
       title: 'Kisa - Karanlik Hikayeler',
       pageId: '316ddc548f418063835bf9df79c7a2db'
     },
-    {
+   {
       title: 'Karalama Defteri - Makaleler',
       pageId: '316ddc548f41809e861ee77a1a10f096'
     }
   ]
+})
