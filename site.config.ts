@@ -52,14 +52,29 @@ export default siteConfig({
   // important pages. To use `navigationLinks`, set `navigationStyle` to `custom`.
   navigationStyle: 'default'
   // navigationStyle: 'custom',
-  // navigationLinks: [
-  //   {
-  //     title: 'About',
-  //     pageId: 'f1199d37579b41cbabfc0b5174f4256a'
-  //   },
-  //   {
-  //     title: 'Contact',
-  //     pageId: '6a29ebcb935a4f0689fe661ab5f3b8d1'
-  //   }
-  // ]
-})
+ navigationLinks: [
+    {
+      title: 'Tamamlanan Kitaplar',
+      pageId: '316ddc548f41801080c9c34184ce448a'
+    },
+    {
+      title: 'Aramızdalar Serisi',
+      pageId: '316ddc548f4180c39c22c90ef9954053'
+    },
+    {
+      title: 'Devam Eden Kitaplar',
+      pageId: '316ddc548f41803da4cde760b60f9b54'
+    },
+    {
+      title: 'Karanlık Hikayeler Seyahatnamesi',
+      pageId: '316ddc548f418054aedaf59409e91fb1'
+    },
+    {
+      title: 'Kısa - Karanlık Hikayeler',
+      pageId: '316ddc548f418063835bf9df79c7a2db'
+    },
+    {
+      title: 'Karalama Defteri - Makaleler',
+      pageId: '316ddc548f41809e861ee77a1a10f096'
+    }
+  ]
