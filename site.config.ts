@@ -53,7 +53,7 @@ export default siteConfig({
   navigationStyle: 'custom',
   navigationLinks: [
     {
-      title: 'Tamamlanan Kitaplar',
+      title: 'Kitaplar',
       pageId: '316ddc548f41801080c9c34184ce448a'
     },
     {
@@ -65,15 +65,15 @@ export default siteConfig({
       pageId: '316ddc548f41803da4cde760b60f9b54'
     },
     {
-      title: 'Karanlik Hikayeler Seyahatnamesi',
+      title: 'Seyahatname',
       pageId: '316ddc548f418054aedaf59409e91fb1'
     },
     {
-      title: 'Kisa - Karanlik Hikayeler',
+      title: 'Hikayeler',
       pageId: '316ddc548f418063835bf9df79c7a2db'
     },
    {
-      title: 'Karalama Defteri - Makaleler',
+      title: 'Karalama Defteri',
       pageId: '316ddc548f41809e861ee77a1a10f096'
     }
   ]
