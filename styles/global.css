@@ -60,3 +60,27 @@ body {
 ::-webkit-scrollbar-track {           
     background-color: var(--bg-color);
 }
+
+
+
+/* --- ÜST MENÜ (KARANLIK HİKAYELER TASARIMI) --- */
+
+.notion-header .breadcrumb {
+  font-family: inherit !important;
+  font-weight: 600 !important;
+  font-size: 15px !important;
+  letter-spacing: 1px !important; /* Harflerin arasını biraz açar, sinematik durur */
+  padding: 8px 14px !important;
+  border-radius: 6px !important;
+  transition: all 0.3s ease-in-out !important; /* Animasyonların yumuşak olmasını sağlar */
+  opacity: 0.8 !important; /* Normalde biraz soluk durur */
+}
+
+/* Fareyle Üzerine Gelindiğinde (Hover Efekti) */
+.notion-header .breadcrumb:hover {
+  opacity: 1 !important; /* Tamamen belirginleşir */
+  color: #cc0000 !important; /* Kan kırmızısı metin rengi */
+  background-color: rgba(204, 0, 0, 0.08) !important; /* Arkasında çok hafif kırmızımsı bir gölge */
+  text-shadow: 0px 0px 10px rgba(204, 0, 0, 0.6) !important; /* Kırmızımsı tekinsiz bir parlama */
+  transform: scale(1.05) !important; /* Üzerine gelinen yazı çok hafif büyür (öne çıkar) */
+}
