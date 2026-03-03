@@ -50,5 +50,27 @@ export default siteConfig({
 
   // whether to use the default notion navigation style or a custom one with links to
   // important pages. To use `navigationLinks`, set `navigationStyle` to `custom`.
-  navigationStyle: 'default'
+  navigationStyle: 'custom',
+  navigationLinks: [
+    {
+      title: 'Animasyon',
+      pageId: '318ddc548f418052b800edf86e326eb3'
+    },
+    {
+      title: 'Çizgiroman',
+      pageId: '318ddc548f4180a2b91ee80a374edce8'
+    },
+    {
+      title: 'Kitaplar',
+      pageId: '318ddc548f4180358a6fd72ac0e8b557'
+    },
+    {
+      title: 'Hikayeler',
+      pageId: '318ddc548f41808f9deffcbf9d8292cc'
+    },
+    {
+      title: 'Seyahatname',
+      pageId: '318ddc548f418083b264c9dfd0215b5b'
+    }
+  ]
 })
