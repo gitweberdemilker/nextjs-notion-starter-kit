@@ -69,7 +69,7 @@ export default siteConfig({
       pageId: '318ddc548f41808f9deffcbf9d8292cc'
     },
     {
-      title: 'Seyahatname',
+      title: 'Karanlık Hikayeler Seyahatnamesi',
       pageId: '318ddc548f418083b264c9dfd0215b5b'
     }
   ]
