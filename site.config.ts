@@ -48,33 +48,7 @@ export default siteConfig({
   // }
   pageUrlOverrides: null,
 
-// whether to use the default notion navigation style or a custom one with links to
+  // whether to use the default notion navigation style or a custom one with links to
   // important pages. To use `navigationLinks`, set `navigationStyle` to `custom`.
-  navigationStyle: 'custom',
-  navigationLinks: [
-    {
-      title: 'Kitaplar',
-      pageId: '316ddc548f41801080c9c34184ce448a'
-    },
-    {
-      title: 'Aramizdalar Serisi',
-      pageId: '316ddc548f4180c39c22c90ef9954053'
-    },
-    {
-      title: 'Devam Eden Kitaplar',
-      pageId: '316ddc548f41803da4cde760b60f9b54'
-    },
-    {
-      title: 'Seyahatname',
-      pageId: '316ddc548f418054aedaf59409e91fb1'
-    },
-    {
-      title: 'Hikayeler',
-      pageId: '316ddc548f418063835bf9df79c7a2db'
-    },
-   {
-      title: 'Karalama Defteri',
-      pageId: '316ddc548f41809e861ee77a1a10f096'
-    }
-  ]
+  navigationStyle: 'default'
 })
