@@ -312,3 +312,14 @@ body::after {
   color: #ffffff !important; 
   text-shadow: 0 0 12px rgba(204, 0, 0, 0.9) !important; /* Yazıların içinden kırmızı ışık sızar */
 }
+
+/* --- SAYFA ARŞİVİ (TOGGLE) BLOKLARINI KESİN GİZLEME --- */
+.notion-toggle {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  pointer-events: none !important;
+}
