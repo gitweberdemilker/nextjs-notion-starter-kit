@@ -13,35 +13,16 @@ body,
 html {
   padding: 0;
   margin: 0;
+  background-color: #000000 !important;
 }
 
 body {
-  --notion-font: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
-    'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
-    'Droid Sans', 'Helvetica Neue', 'Noto Sans', sans-serif;
+  --notion-font: 'Crimson Text', serif;
   font-family: var(--notion-font);
   overflow-x: hidden;
 }
 
-.static-tweet blockquote {
-  margin: 0;
-  margin-block-start: 0;
-  margin-block-end: 0;
-  margin-inline-start: 0;
-  margin-inline-end: 0;
-}
-
-.static-tweet-emoji {
-  height: 1.2em !important;
-  width: 1.2em !important;
-}
-
-.searchInput {
-  color: var(--fg-color);
-  caret-color: var(--fg-color);
-}
-
-/* --- 1. KANLI KAYDIRMA ÇUBUĞU (CUSTOM SCROLLBAR) --- */
+/* --- 1. KANLI KAYDIRMA ÇUBUĞU --- */
 ::-webkit-scrollbar {
   width: 8px; 
 }
@@ -56,7 +37,7 @@ body {
   background: #8a0303; 
 }
 
-/* --- ÜST MENÜ (KARANLIK HİKAYELER TASARIMI) --- */
+/* --- ÜST MENÜ TASARIMI --- */
 .notion-header .breadcrumb {
   font-family: inherit !important;
   font-weight: 600 !important;
@@ -76,14 +57,12 @@ body {
   transform: scale(1.05) !important;
 }
 
-/* --- SAYFA İSİMLERİNİ (ANA BAŞLIKLARI) TAMAMEN GİZLEME --- */
+/* --- BAŞLIKLARI GİZLEME --- */
 .notion-title {
   display: none !important;
 }
 
-/* --- KARANLIK HİKAYELER KONSEPT KODLARI --- */
-
-/* ZİFİRİ SİYAH ARKA PLAN VE GÜMÜŞ YAZILAR */
+/* --- KARANLIK MOD AYARLARI --- */
 body.dark-mode, .dark-mode .notion-app {
   background-color: #000000 !important;
 }
@@ -91,41 +70,100 @@ body.dark-mode, .dark-mode .notion-app {
   color: #d1d1d1 !important;
 }
 
-/* KAN KIRMIZISI METİN SEÇİM EFEKTİ */
+/* KAN KIRMIZISI SEÇİM --- */
 ::selection {
   background-color: #8a0303 !important;
   color: #ffffff !important;
 }
-::-moz-selection {
-  background-color: #8a0303 !important;
-  color: #ffffff !important;
-}
 
-/* SİNEMATİK VE GOTİK TİPOGRAFİ (Font: Crimson Text) */
-.notion, .notion-text, .notion-h1, .notion-h2, .notion-h3, .notion-quote, .notion-callout {
-  font-family: 'Crimson Text', serif !important;
-}
+/* --- 2. NEFES ALAN (PULSING) KIRMIZI BAŞLIKLAR --- */
 .notion-h1, .notion-h2, .notion-h3 {
+  font-family: 'Crimson Text', serif !important;
+  animation: gothicPulse 5s infinite ease-in-out;
   letter-spacing: 0.5px !important;
 }
+@keyframes gothicPulse {
+  0% { text-shadow: 0 0 5px rgba(138, 3, 3, 0); color: #d1d1d1; }
+  50% { text-shadow: 0 0 15px rgba(204, 0, 0, 0.5); color: #f5f5f5; }
+  100% { text-shadow: 0 0 5px rgba(138, 3, 3, 0); color: #d1d1d1; }
+}
 
-/* GÖRSELLERE GOTİK DOKUNUŞ (GOTHIC HOVER) EFEKTİ */
+/* --- 3. GOTİK İKONLAR (ARAMA VE TEMA DEĞİŞTİRİCİ) --- */
+/* Standart ikonları gizle, yerine gotik karakterler koy */
+.notion-search-button svg, .notion-dark-mode-button svg {
+  display: none !important;
+}
+.notion-search-button::before {
+  content: '👁️'; /* Arama butonu yerine Göz */
+  font-size: 1.2rem;
+  opacity: 0.5;
+}
+.notion-dark-mode-button::before {
+  content: '💀'; /* Tema butonu yerine Kuru Kafa */
+  font-size: 1.2rem;
+  opacity: 0.5;
+}
+.notion-search-button:hover::before, .notion-dark-mode-button:hover::before {
+  opacity: 1;
+  filter: drop-shadow(0 0 5px #cc0000);
+}
+
+/* --- 1. SİNEMATİK SAYFA AÇILIŞI VE SİS EFEKTİ --- */
+.notion-app {
+  animation: cinematicFadeIn 1.5s ease-in-out;
+  position: relative;
+}
+/* Ekranın altından süzülen sis tabakası */
+.notion-app::after {
+  content: '';
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 15vh;
+  background: linear-gradient(to top, rgba(20,20,20,0.4), transparent);
+  pointer-events: none;
+  z-index: 10;
+  animation: fogMove 8s infinite alternate ease-in-out;
+}
+
+@keyframes cinematicFadeIn {
+  from { opacity: 0; filter: blur(8px) brightness(0.5); }
+  to { opacity: 1; filter: blur(0) brightness(1); }
+}
+@keyframes fogMove {
+  from { transform: translateY(10px); opacity: 0.3; }
+  to { transform: translateY(-10px); opacity: 0.6; }
+}
+
+/* --- GÖRSEL EFEKTLER (GOTHIC HOVER) --- */
 .notion-asset-wrapper img, .notion-collection-card {
-  filter: brightness(1) contrast(1) grayscale(0%) sepia(0%) !important;
+  filter: brightness(1) contrast(1) grayscale(0%) !important;
   transition: all 0.6s ease-in-out !important;
 }
 .notion-asset-wrapper img:hover, .notion-collection-card:hover {
-  filter: brightness(0.85) contrast(1.25) grayscale(85%) sepia(15%) !important;
+  filter: brightness(0.8) contrast(1.3) grayscale(90%) sepia(20%) !important;
   transform: scale(1.02) !important;
 }
 
-/* --- 2. SİNEMATİK SAYFA AÇILIŞI (Karanlıktan Aydınlığa) --- */
-.notion-app {
-  animation: cinematicFadeIn 1.2s ease-in-out;
+/* --- TEKİNSİZ LİNKLER --- */
+.notion-text a, .notion-list a {
+  border-bottom: 1px solid rgba(209, 209, 209, 0.3) !important;
+  transition: all 0.3s ease !important;
 }
-@keyframes cinematicFadeIn {
-  from { 
-    opacity: 0; 
-    filter: blur(4px); 
-  }
-  to {
+.notion-text a:hover, .notion-list a:hover {
+  color: #cc0000 !important;
+  border-bottom: 1px solid #cc0000 !important;
+  text-shadow: 0px 0px 8px rgba(204, 0, 0, 0.6) !important;
+}
+
+/* --- OKUNAKLI CALLOUT (GİZLİ DOSYA) --- */
+.notion-callout {
+  background-color: #111111 !important;
+  border: 1px solid #2a2a2a !important;
+  border-left: 4px solid #cc0000 !important;
+  border-radius: 6px !important;
+}
+.notion-callout, .notion-callout-text, .notion-callout a, .notion-callout span {
+  color: #f5f5f5 !important; 
+}
