@@ -1,7 +1,7 @@
 import type { GetServerSideProps } from 'next'
 
 import type { SiteMap } from '@/lib/types'
-import { host } from '@/lib/config'
+import * as config from '@/lib/config'
 import { getSiteMap } from '@/lib/get-site-map'
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
@@ -10,14 +10,12 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
     res.setHeader('Content-Type', 'application/json')
     res.write(JSON.stringify({ error: 'method not allowed' }))
     res.end()
-    return {
-      props: {}
-    }
+    return { props: {} }
   }
 
   const siteMap = await getSiteMap()
 
-  // cache for up to 8 hours
+  // 8 saat cache
   res.setHeader(
     'Cache-Control',
     'public, max-age=28800, stale-while-revalidate=28800'
@@ -26,33 +24,36 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   res.write(createSitemap(siteMap))
   res.end()
 
-  return {
-    props: {}
-  }
+  return { props: {} }
 }
 
-const createSitemap = (siteMap: SiteMap) =>
-  `<?xml version="1.0" encoding="UTF-8"?>
-  <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-    <url>
-      <loc>${host}</loc>
-    </url>
+const createSitemap = (siteMap: SiteMap) => {
+  const host = config.host
 
-    <url>
-      <loc>${host}/</loc>
-    </url>
+  const overrides = (config as any).pageUrlOverrides ?? {}
 
-    ${Object.keys(siteMap.canonicalPageMap)
-      .map((canonicalPagePath) =>
-        `
-          <url>
-            <loc>${host}/${canonicalPagePath}</loc>
-          </url>
-        `.trim()
-      )
-      .join('')}
-  </urlset>
-`
+  const urls = Object.keys(siteMap.canonicalPageMap)
+    .map((canonicalId) => {
+      const slug = overrides[canonicalId] ?? canonicalId
+
+      return `
+  <url>
+    <loc>${host}/${slug}</loc>
+  </url>`.trim()
+    })
+    .join('\n')
+
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <url>
+    <loc>${host}</loc>
+  </url>
+
+${urls}
+
+</urlset>`
+}
 
 export default function noop() {
   return null
