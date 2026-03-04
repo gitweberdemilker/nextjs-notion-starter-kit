@@ -12,10 +12,7 @@ import {
 } from 'notion-utils'
 import * as React from 'react'
 import BodyClassName from 'react-body-classname'
-import {
-  type NotionComponents,
-  NotionRenderer
-} from 'react-notion-x'
+import { type NotionComponents, NotionRenderer } from 'react-notion-x'
 import { useSearchParam } from 'react-use'
 
 import type { PageProps as NotionPageProps } from '@/lib/types'
@@ -82,7 +79,12 @@ export function NotionPage({
       Equation,
       Pdf,
       Modal,
-      Header: NotionPageHeader
+      Header: NotionPageHeader,
+      // kept from your original imports (even if not used here)
+      // so your project stays consistent
+      propertyLastEditedTimeValue: undefined as any,
+      propertyTextValue: undefined as any,
+      propertyDateValue: undefined as any
     }),
     []
   )
@@ -111,25 +113,27 @@ export function NotionPage({
   }
 
   // =========================
-  // SEO OVERRIDE SYSTEM
+  // SEO OVERRIDE SYSTEM (SAFE)
   // =========================
 
-  const seo = seoMap[pageId] || defaultSEO
+  const seo =
+    (pageId ? seoMap[pageId as keyof typeof seoMap] : undefined) ?? defaultSEO
 
-  const canonicalPageUrl = config.isDev
-    ? undefined
-    : getCanonicalPageUrl(site, recordMap)(pageId)
+  const canonicalPageUrl =
+    !config.isDev && pageId
+      ? getCanonicalPageUrl(site, recordMap)(pageId)
+      : undefined
 
   const finalTitle =
-    seo?.title || getBlockTitle(block, recordMap) || site.name
+    seo.title || getBlockTitle(block, recordMap) || site.name
 
   const finalDescription =
-    seo?.description ||
+    seo.description ||
     getPageProperty<string>('Description', block, recordMap) ||
     config.description
 
   const finalImage =
-    seo?.ogImage ||
+    seo.ogImage ||
     mapImageUrl(
       getPageProperty<string>('Social Image', block, recordMap) ||
         (block as PageBlock).format?.page_cover ||
@@ -137,7 +141,7 @@ export function NotionPage({
       block
     )
 
-  const keywords = (seo?.keywords || defaultSEO.keywords || []).join(', ')
+  const keywords = (seo.keywords || defaultSEO.keywords || []).join(', ')
 
   // =========================
 
