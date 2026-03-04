@@ -9,7 +9,7 @@ body {
   font-family: var(--notion-font);
 }
 
-/* --- GECE MODU TEMELLERİ --- */
+/* --- GECE MODU --- */
 .dark-mode, .dark-mode .notion-app, .dark-mode .notion-page {
   background-color: #000000 !important;
   color: #d1d1d1 !important;
@@ -19,122 +19,103 @@ body {
 .notion-header { background: transparent !important; }
 .notion-nav-header { backdrop-filter: blur(10px); }
 
-.notion-header .breadcrumb, 
-.notion-header .nav-header-item {
-  color: var(--fg-color) !important;
-  font-family: inherit !important;
-  font-weight: 600 !important;
-  font-size: 14px !important;
-  opacity: 0.8 !important;
-  transition: all 0.4s ease-in-out !important;
-}
-
-.notion-header .breadcrumb:hover {
-  color: #cc0000 !important;
-  text-shadow: 0px 0px 15px rgba(204, 0, 0, 0.8) !important;
-  background-color: rgba(204, 0, 0, 0.08) !important;
-  transform: scale(1.05) translateY(-1px);
-}
-
-/* --- SOSYAL MEDYA İKONLARI KESİN ÇÖZÜM --- */
-.notion-header .nav-header-item, 
-.notion-footer .nav-header-item {
-  transition: all 0.5s ease !important;
-}
-
-.notion-header .nav-header-item svg, 
-.notion-footer .nav-header-item svg {
-  fill: var(--fg-color) !important; 
-  transition: all 0.4s ease !important;
-}
-
-/* Instagram için özel fix: Beyaz modda kaybolmayı engelle */
-.notion-header .nav-header-item[href*="instagram"] svg,
-.notion-footer .nav-header-item[href*="instagram"] svg {
-  fill: var(--fg-color, #37352f) !important;
-  opacity: 1 !important;
-}
-
-/* Hover anında TÜM ikonları KAN KIRMIZISI yap */
-.notion-header .nav-header-item:hover svg, 
-.notion-footer .nav-header-item:hover svg,
-.notion-header .nav-header-item[href*="instagram"]:hover svg,
-.notion-footer .nav-header-item[href*="instagram"]:hover svg {
-  fill: #cc0000 !important;
-  filter: drop-shadow(0 0 10px rgba(204, 0, 0, 0.8)) !important;
-}
-
-.notion-header .nav-header-item:hover, 
-.notion-footer .nav-header-item:hover {
-  transform: translateY(-4px) scale(1.2) !important;
-}
-
-/* --- BAŞLIKLARI GİZLEME --- */
-.notion-title { display: none !important; }
-
-/* --- GÖRSEL EFEKTLER (YUMUŞAK GEÇİŞLİ) --- */
-.notion-asset-wrapper img, .notion-collection-card {
-  filter: brightness(1) contrast(1) grayscale(0%) !important;
-  transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1) !important;
-}
-.notion-asset-wrapper img:hover, .notion-collection-card:hover {
-  filter: brightness(0.8) contrast(1.3) grayscale(90%) sepia(20%) !important;
-  transform: scale(1.02) !important;
-}
-
-/* --- CALLOUT BLOKLARI (SABİT OKUNUR) --- */
-.notion-callout {
-  border-left: 4px solid #cc0000 !important;
-  background-color: #111111 !important;
-  border-radius: 6px !important;
-  border: 1px solid #2a2a2a !important;
-}
-.notion-callout, .notion-callout-text, .notion-callout span, .notion-callout a {
-  color: #f5f5f5 !important; 
-}
-
-/* --- İKONLAR VE BUTONLAR --- */
-.notion-dark-mode-button svg, .notion-search-button svg { display: none !important; }
-.notion-search-button::before { content: '👁️'; font-size: 1.1rem; color: var(--fg-color) !important; }
-.notion-dark-mode-button::before { content: '💀'; font-size: 1.1rem; color: var(--fg-color) !important; }
-
-.notion-h1, .notion-h2, .notion-h3 {
-  animation: gothicPulse 5s infinite ease-in-out;
-}
-@keyframes gothicPulse {
-  0% { text-shadow: 0 0 5px rgba(138, 3, 3, 0); }
-  50% { text-shadow: 0 0 15px rgba(204, 0, 0, 0.4); }
-  100% { text-shadow: 0 0 5px rgba(138, 3, 3, 0); }
-}
-
-/* --- FOOTER KESİN ÇÖZÜM TASARIMI --- */
+/* --- FOOTER KESİN ÇÖZÜM: YENİDEN İNŞA --- */
+/* Mevcut tüm çakışmaları temizlemek için footer alanını zorla genişletiyoruz */
 .notion-footer {
-  border-top: 1px solid rgba(138, 3, 3, 0.15) !important;
-  padding: 100px 0 80px 0 !important;
+  border-top: 1px solid rgba(138, 3, 3, 0.2) !important;
+  padding: 80px 0 !important;
+  margin-top: 100px !important;
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
   justify-content: center !important;
-  gap: 20px !important;
+  gap: 15px !important;
+  min-height: 300px !important;
+  height: auto !important;
+  overflow: visible !important; /* Gizlenmeyi engeller */
 }
 
-/* Sosyal Medya İkon Alanı */
+/* 1. Katman: İletişim Bilgisi */
+.notion-footer::before {
+  content: 'İletişim: erdemilker@hotmail.com' !important;
+  display: block !important;
+  color: var(--fg-color) !important;
+  font-size: 0.8rem !important;
+  letter-spacing: 2px !important;
+  opacity: 0.6 !important;
+  order: 1 !important;
+  margin-bottom: 10px !important;
+}
+
+/* 2. Katman: Sosyal Medya İkonları */
 .notion-footer .nav-header-items {
   display: flex !important;
   flex-direction: row !important;
   justify-content: center !important;
   gap: 30px !important;
-  order: 2 !important; /* İletişimden sonra gelsin */
+  order: 2 !important;
 }
 
-/* İletişim Bilgisi */
-.notion-footer::before {
-  content: 'İletişim: erdemilker@hotmail.com' !important;
+/* 3. Katman: Copyright ve İmza */
+/* Bu kısım hem eski copyright yazısını gizler hem yeni animasyonlu olanı ekler */
+.notion-footer::after {
+  content: '© 2026 Erdem İlker - Karanlıkta Yazıldı.' !important;
   display: block !important;
-  position: static !important;
-  font-size: 0.75rem !important;
-  color: var(--fg-color) !important;
-  opacity: 0.5 !important;
-  letter-spacing: 2px !important;
-  font-family: 'Crimson Text', serif !important;
-  order:
+  text-align: center !important;
+  margin-top: 20px !important;
+  font-size: 0.95rem !important;
+  letter-spacing: 5px !important;
+  color: #cc0000 !important; /* Görünürlük için kırmızı */
+  font-style: italic !important;
+  animation: footerGlow 4s ease-in-out infinite !important;
+  order: 3 !important;
+}
+
+/* Eski görünmeyen metinleri gizle (Çakışmayı önler) */
+.notion-footer-text, .notion-footer div {
+  color: transparent !important;
+  height: 0 !important;
+  margin: 0 !important;
+}
+
+@keyframes footerGlow {
+  0%, 100% { opacity: 0.4; text-shadow: none; }
+  50% { opacity: 1; text-shadow: 0 0 15px rgba(204, 0, 0, 0.6); color: #ff0000; }
+}
+
+/* --- İKON VE DÜĞME DÜZENLEMELERİ --- */
+.notion-dark-mode-button svg, .notion-search-button svg { display: none !important; }
+.notion-search-button::before { content: '👁️'; font-size: 1.1rem; color: var(--fg-color) !important; }
+.notion-dark-mode-button::before { content: '💀'; font-size: 1.1rem; color: var(--fg-color) !important; }
+
+/* --- ATMOSFERİK DETAYLAR --- */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 1000;
+  background: radial-gradient(circle, rgba(0,0,0,0) 65%, rgba(0,0,0,0.5) 100%);
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  top: 0; left: 0;
+  width: 300%; height: 300%;
+  background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+  opacity: 0.05;
+  animation: slowFog 60s linear infinite;
+  pointer-events: none;
+  z-index: -1;
+}
+
+@keyframes slowFog {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(-33%, -33%); }
+}
+
+/* Sosyal ikon hover fix */
+.notion-footer .nav-header-item svg { fill: var(--fg-color) !important; transition: all 0.3s ease !important; }
+.notion-footer .nav-header-item:hover svg { fill: #cc0000 !important; transform: scale(1.2); }
