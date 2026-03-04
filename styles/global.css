@@ -1,3 +1,5 @@
+
+
 * {
   box-sizing: border-box;
 }
@@ -88,4 +90,45 @@ body {
 /* --- SAYFA İSİMLERİNİ (ANA BAŞLIKLARI) TAMAMEN GİZLEME --- */
 .notion-title {
   display: none !important;
+}
+
+
+/* --- KARANLIK HİKAYELER KONSEPT KODLARI --- */
+
+/* 1. ZİFİRİ SİYAH ARKA PLAN VE GÜMÜŞ YAZILAR */
+body.dark-mode, .dark-mode .notion-app {
+  background-color: #000000 !important; /* Tamamen simsiyah bir hiçlik */
+}
+.dark-mode .notion-page {
+  color: #d1d1d1 !important; /* Göz yormayan, küllü gümüş grisi metinler */
+}
+
+/* 2. KAN KIRMIZISI METİN SEÇİM EFEKTİ */
+::selection {
+  background-color: #8a0303 !important; /* Koyu kan kırmızısı */
+  color: #ffffff !important;
+}
+::-moz-selection {
+  background-color: #8a0303 !important;
+  color: #ffffff !important;
+}
+
+/* 3. SİNEMATİK VE GOTİK TİPOGRAFİ (Font) */
+.notion, .notion-text, .notion-h1, .notion-h2, .notion-h3, .notion-quote, .notion-callout {
+  font-family: 'Playfair Display', serif !important;
+}
+.notion-h1, .notion-h2, .notion-h3 {
+  letter-spacing: 0.5px !important; /* Başlıkların arasını hafif açarak daha destansı yapar */
+}
+
+/* 4. GÖRSELLERE GOTİK DOKUNUŞ (GOTHIC HOVER) EFEKTİ */
+/* Resimler normalde tamamen doğal, orijinal parlaklığında ve renkli durur */
+.notion-asset-wrapper img, .notion-collection-card {
+  filter: brightness(1) contrast(1) grayscale(0%) sepia(0%) !important;
+  transition: all 0.6s ease-in-out !important;
+}
+/* Ziyaretçi resmin üzerine geldiğinde resim kasvetli, rengi solmuş ve gotik bir havaya bürünür */
+.notion-asset-wrapper img:hover, .notion-collection-card:hover {
+  filter: brightness(0.85) contrast(1.25) grayscale(85%) sepia(15%) !important;
+  transform: scale(1.02) !important; /* Çok çok hafif bir büyüme (öne çıkma) efekti */
 }
