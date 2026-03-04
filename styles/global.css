@@ -42,7 +42,6 @@ body {
   transition: all 0.5s ease !important;
 }
 
-/* İkonların içindeki SVG'yi her iki modda da görünür kıl */
 .notion-header .nav-header-item svg, 
 .notion-footer .nav-header-item svg {
   fill: var(--fg-color) !important; 
@@ -56,7 +55,7 @@ body {
   opacity: 1 !important;
 }
 
-/* Hover anında TÜM ikonları (Instagram dahil) KAN KIRMIZISI yap */
+/* Hover anında TÜM ikonları KAN KIRMIZISI yap */
 .notion-header .nav-header-item:hover svg, 
 .notion-footer .nav-header-item:hover svg,
 .notion-header .nav-header-item[href*="instagram"]:hover svg,
@@ -94,7 +93,7 @@ body {
   color: #f5f5f5 !important; 
 }
 
-/* --- İKONLAR --- */
+/* --- İKONLAR VE BUTONLAR --- */
 .notion-dark-mode-button svg, .notion-search-button svg { display: none !important; }
 .notion-search-button::before { content: '👁️'; font-size: 1.1rem; color: var(--fg-color) !important; }
 .notion-dark-mode-button::before { content: '💀'; font-size: 1.1rem; color: var(--fg-color) !important; }
@@ -108,34 +107,43 @@ body {
   100% { text-shadow: 0 0 5px rgba(138, 3, 3, 0); }
 }
 
-/* --- FOOTER --- */
+/* --- FOOTER TASARIM DÜZENLEME --- */
 .notion-footer {
-  border-top: 1px solid rgba(138, 3, 3, 0.1);
-  padding: 60px 0 !important;
+  border-top: 1px solid rgba(138, 3, 3, 0.15) !important;
+  padding: 80px 0 60px 0 !important;
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
+  justify-content: center !important;
+  gap: 20px !important;
+}
+
+.notion-footer .nav-header-items {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: center !important;
+  gap: 30px !important;
 }
 
 .notion-footer::after {
   content: '© 2026 Erdem İlker - Karanlıkta Yazıldı.';
-  display: block;
+  display: block !important;
   margin-top: 20px;
-  font-size: 0.8rem;
-  letter-spacing: 4px !important;
+  font-size: 0.85rem !important;
+  letter-spacing: 5px !important;
+  color: var(--fg-color) !important;
   opacity: 0.5;
   animation: footerGlow 4s ease-in-out infinite;
   font-style: italic;
+  font-family: 'Crimson Text', serif !important;
 }
 
 @keyframes footerGlow {
   0%, 100% { opacity: 0.3; text-shadow: none; }
-  50% { opacity: 0.8; text-shadow: 0 0 10px rgba(204, 0, 0, 0.5); color: #8a0303; }
+  50% { opacity: 0.7; text-shadow: 0 0 10px rgba(204, 0, 0, 0.4); color: #8a0303; }
 }
 
 /* --- GÖRSEL GÜZELLEŞTİRMELER: ATMOSFER PAKETİ --- */
-
-/* 1. Siyah Sis ve Vinyet Çerçeve */
 body::before {
   content: "";
   position: fixed;
@@ -146,7 +154,6 @@ body::before {
   background: radial-gradient(circle, rgba(0,0,0,0) 60%, rgba(0,0,0,0.6) 100%);
 }
 
-/* 2. Arka Plan Sis Efekti */
 body::after {
   content: "";
   position: fixed;
@@ -164,7 +171,6 @@ body::after {
   100% { transform: translate(-30%, -30%); }
 }
 
-/* 3. Başlıklar İçin Özel Harf Aralığı */
 .notion-h1, .notion-h2 {
   letter-spacing: -0.02em;
   word-spacing: 0.1em;
