@@ -233,3 +233,43 @@ body::after {
     transform: translate(-33%, -33%);
   }
 }
+
+/* --- BÖLÜM BAŞLIKLARI: SİNEMATİK VE KANLI HOVER EFEKTİ --- */
+
+/* 1. Notion'ın açık renkli (mavi/gri vb.) arka planlarını tamamen yok et */
+.notion-h1:not(.notion-title), 
+.notion-h2, 
+.notion-h3,
+.notion-h1:not(.notion-title) *, 
+.notion-h2 *, 
+.notion-h3 * {
+  background: transparent !important; 
+}
+
+/* 2. Başlıkların temel ağırbaşlı duruşu (Merkeze hizalı) */
+.notion-h1:not(.notion-title), 
+.notion-h2, 
+.notion-h3 {
+  text-align: center !important; /* Afişlerin üstünde film jeneriği gibi dursun */
+  color: var(--fg-color) !important;
+  letter-spacing: 4px !important; /* Harflerin arasını açarak derinlik katıyoruz */
+  padding-bottom: 12px !important;
+  margin-top: 60px !important;
+  margin-bottom: 25px !important;
+  border-bottom: 1px solid rgba(138, 3, 3, 0.15) !important; /* Altında kurumuş kan gibi silik bir çizgi */
+  
+  /* Geçiş süresi: Ağır ve ürkütücü bir yavaşlık (1 saniye) */
+  transition: all 1s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  will-change: transform, color, text-shadow, border-color;
+  display: block !important;
+}
+
+/* 3. Derin ve Yavaş Kanlı Hover Efekti */
+.notion-h1:not(.notion-title):hover, 
+.notion-h2:hover, 
+.notion-h3:hover {
+  color: #cc0000 !important;
+  text-shadow: 0 0 25px rgba(204, 0, 0, 0.9) !important;
+  border-bottom: 1px solid rgba(204, 0, 0, 0.8) !important;
+  transform: scale(1.04) translateY(-3px) !important; /* Hafifçe üstüne doğru büyüme */
+}
