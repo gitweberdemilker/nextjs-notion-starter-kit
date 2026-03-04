@@ -61,20 +61,19 @@ body {
   font-family: inherit !important;
   font-weight: 600 !important;
   font-size: 15px !important;
-  letter-spacing: 1px !important; /* Harflerin arasını biraz açar, sinematik durur */
+  letter-spacing: 1px !important;
   padding: 8px 14px !important;
   border-radius: 6px !important;
-  transition: all 0.3s ease-in-out !important; /* Animasyonların yumuşak olmasını sağlar */
-  opacity: 0.8 !important; /* Normalde biraz soluk durur */
+  transition: all 0.3s ease-in-out !important;
+  opacity: 0.8 !important;
 }
 
-/* Fareyle Üzerine Gelindiğinde (Hover Efekti) */
 .notion-header .breadcrumb:hover {
-  opacity: 1 !important; /* Tamamen belirginleşir */
-  color: #cc0000 !important; /* Kan kırmızısı metin rengi */
-  background-color: rgba(204, 0, 0, 0.08) !important; /* Arkasında çok hafif kırmızımsı bir gölge */
-  text-shadow: 0px 0px 10px rgba(204, 0, 0, 0.6) !important; /* Kırmızımsı tekinsiz bir parlama */
-  transform: scale(1.05) !important; /* Üzerine gelinen yazı çok hafif büyür (öne çıkar) */
+  opacity: 1 !important;
+  color: #cc0000 !important;
+  background-color: rgba(204, 0, 0, 0.08) !important;
+  text-shadow: 0px 0px 10px rgba(204, 0, 0, 0.6) !important;
+  transform: scale(1.05) !important;
 }
 
 /* --- SAYFA İSİMLERİNİ (ANA BAŞLIKLARI) TAMAMEN GİZLEME --- */
@@ -86,15 +85,15 @@ body {
 
 /* ZİFİRİ SİYAH ARKA PLAN VE GÜMÜŞ YAZILAR */
 body.dark-mode, .dark-mode .notion-app {
-  background-color: #000000 !important; /* Tamamen simsiyah bir hiçlik */
+  background-color: #000000 !important;
 }
 .dark-mode .notion-page {
-  color: #d1d1d1 !important; /* Göz yormayan, küllü gümüş grisi metinler */
+  color: #d1d1d1 !important;
 }
 
 /* KAN KIRMIZISI METİN SEÇİM EFEKTİ */
 ::selection {
-  background-color: #8a0303 !important; /* Koyu kan kırmızısı */
+  background-color: #8a0303 !important;
   color: #ffffff !important;
 }
 ::-moz-selection {
@@ -107,7 +106,7 @@ body.dark-mode, .dark-mode .notion-app {
   font-family: 'Crimson Text', serif !important;
 }
 .notion-h1, .notion-h2, .notion-h3 {
-  letter-spacing: 0.5px !important; /* Başlıkların arasını hafif açarak daha destansı yapar */
+  letter-spacing: 0.5px !important;
 }
 
 /* GÖRSELLERE GOTİK DOKUNUŞ (GOTHIC HOVER) EFEKTİ */
@@ -117,7 +116,7 @@ body.dark-mode, .dark-mode .notion-app {
 }
 .notion-asset-wrapper img:hover, .notion-collection-card:hover {
   filter: brightness(0.85) contrast(1.25) grayscale(85%) sepia(15%) !important;
-  transform: scale(1.02) !important; /* Çok çok hafif bir büyüme (öne çıkma) efekti */
+  transform: scale(1.02) !important;
 }
 
 /* --- 2. SİNEMATİK SAYFA AÇILIŞI (Karanlıktan Aydınlığa) --- */
@@ -129,27 +128,4 @@ body.dark-mode, .dark-mode .notion-app {
     opacity: 0; 
     filter: blur(4px); 
   }
-  to { 
-    opacity: 1; 
-    filter: blur(0); 
-  }
-}
-
-/* --- 3. TEKİNSİZ METİN LİNKLERİ --- */
-.notion-text a, .notion-list a {
-  border-bottom: 1px solid rgba(209, 209, 209, 0.3) !important;
-  transition: all 0.3s ease !important;
-}
-.notion-text a:hover, .notion-list a:hover {
-  color: #cc0000 !important;
-  border-bottom: 1px solid #cc0000 !important;
-  text-shadow: 0px 0px 8px rgba(204, 0, 0, 0.6) !important;
-}
-
-/* --- 4. GİZLİ DOSYA (CALLOUT) BLOKLARI --- */
-.notion-callout {
-  background-color: #050505 !important;
-  border: 1px solid #222 !important;
-  border-left: 3px solid #8a0303 !important; /* Sol tarafta kan kırmızısı bir çizgi */
-  border-radius: 4px !important;
-}
+  to {
