@@ -4,12 +4,7 @@ import Image from 'next/legacy/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { type PageBlock } from 'notion-types'
-import {
-  formatDate,
-  getBlockTitle,
-  getBlockValue,
-  getPageProperty
-} from 'notion-utils'
+import { getBlockTitle, getBlockValue, getPageProperty } from 'notion-utils'
 import * as React from 'react'
 import BodyClassName from 'react-body-classname'
 import { type NotionComponents, NotionRenderer } from 'react-notion-x'
@@ -19,7 +14,7 @@ import type { PageProps as NotionPageProps } from '@/lib/types'
 import * as config from '@/lib/config'
 import { defaultSEO, seoMap } from '@/lib/seo-map'
 import { mapImageUrl } from '@/lib/map-image-url'
-import { getCanonicalPageUrl, mapPageUrl } from '@/lib/map-page-url'
+import { mapPageUrl } from '@/lib/map-page-url'
 import { searchNotion } from '@/lib/search-notion'
 import { useDarkMode } from '@/lib/use-dark-mode'
 
@@ -79,12 +74,7 @@ export function NotionPage({
       Equation,
       Pdf,
       Modal,
-      Header: NotionPageHeader,
-      // kept from your original imports (even if not used here)
-      // so your project stays consistent
-      propertyLastEditedTimeValue: undefined as any,
-      propertyTextValue: undefined as any,
-      propertyDateValue: undefined as any
+      Header: NotionPageHeader
     }),
     []
   )
@@ -113,25 +103,47 @@ export function NotionPage({
   }
 
   // =========================
-  // SEO OVERRIDE SYSTEM (SAFE)
+  // SEO OVERRIDE SYSTEM (IMPROVED)
   // =========================
 
+  // 1) SEO entry seçimi (pageId undefined güvenli)
   const seo =
     (pageId ? seoMap[pageId as keyof typeof seoMap] : undefined) ?? defaultSEO
 
+  // 2) slug hesapla: override varsa onu kullan
+  const slug =
+    pageId && (config as any).pageUrlOverrides?.[pageId]
+      ? (config as any).pageUrlOverrides[pageId]
+      : pageId
+
+  // 3) Ana sayfa tespiti
+  const isHome = pageId === site.rootNotionPageId
+
+  // 4) Canonical: ana sayfa => root, diğerleri => /slug
   const canonicalPageUrl =
-    !config.isDev && pageId
-      ? getCanonicalPageUrl(site, recordMap)(pageId)
+    !config.isDev
+      ? isHome
+        ? `https://${site.domain}`
+        : slug
+          ? `https://${site.domain}/${slug}`
+          : undefined
       : undefined
 
-  const finalTitle =
+  // 5) Title branding
+  const baseTitle =
     seo.title || getBlockTitle(block, recordMap) || site.name
 
+  const finalTitle = isHome
+    ? `${site.name} | ${config.description}`
+    : `${baseTitle} | ${site.name}`
+
+  // 6) Description (Notion Description fallback + global description)
   const finalDescription =
     seo.description ||
     getPageProperty<string>('Description', block, recordMap) ||
     config.description
 
+  // 7) OG Image
   const finalImage =
     seo.ogImage ||
     mapImageUrl(
@@ -141,6 +153,7 @@ export function NotionPage({
       block
     )
 
+  // 8) Keywords
   const keywords = (seo.keywords || defaultSEO.keywords || []).join(', ')
 
   // =========================
