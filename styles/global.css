@@ -110,12 +110,12 @@ body {
 /* --- FOOTER TASARIM DÜZENLEME --- */
 .notion-footer {
   border-top: 1px solid rgba(138, 3, 3, 0.15) !important;
-  padding: 80px 0 60px 0 !important;
+  padding: 100px 0 60px 0 !important;
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
   justify-content: center !important;
-  gap: 20px !important;
+  gap: 15px !important;
 }
 
 .notion-footer .nav-header-items {
@@ -123,12 +123,31 @@ body {
   flex-direction: row !important;
   justify-content: center !important;
   gap: 30px !important;
+  margin-bottom: 10px !important;
 }
 
+/* İletişim Bilgisi */
+.notion-footer::before {
+  content: 'İletişim: erdemilker@hotmail.com';
+  display: block;
+  font-size: 0.75rem;
+  color: var(--fg-color);
+  opacity: 0.4;
+  letter-spacing: 2px;
+  font-family: 'Crimson Text', serif;
+  transition: opacity 0.3s ease;
+}
+
+.notion-footer:hover::before {
+  opacity: 0.8;
+  color: #cc0000;
+}
+
+/* Copyright ve İmza */
 .notion-footer::after {
   content: '© 2026 Erdem İlker - Karanlıkta Yazıldı.';
   display: block !important;
-  margin-top: 20px;
+  margin-top: 5px;
   font-size: 0.85rem !important;
   letter-spacing: 5px !important;
   color: var(--fg-color) !important;
