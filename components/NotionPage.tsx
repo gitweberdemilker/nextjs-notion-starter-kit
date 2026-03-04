@@ -1,9 +1,12 @@
+import type { PageProps as NotionPageProps } from '@/lib/types'
+import { seoMap, defaultSEO } from '@/lib/seo-map'
+
 export function NotionPage({
   site,
   recordMap,
   error,
   pageId
-}: PageProps) {
+}: NotionPageProps) {
   const router = useRouter()
   const lite = useSearchParam('lite')
 
@@ -28,6 +31,14 @@ export function NotionPage({
   const isLiteMode = lite === 'true'
   const { isDarkMode } = useDarkMode()
 
+  const siteMapPageUrl = React.useMemo(() => {
+    const params: any = {}
+    if (lite) params.lite = lite
+
+    const searchParams = new URLSearchParams(params)
+    return site ? mapPageUrl(site, recordMap!, searchParams) : undefined
+  }, [site, recordMap, lite])
+
   const keys = Object.keys(recordMap?.block || {})
   const block = getBlockValue(recordMap?.block?.[keys[0]!])
 
@@ -39,13 +50,19 @@ export function NotionPage({
     return <Page404 site={site} pageId={pageId} error={error} />
   }
 
+  // ----------------------------------------------------
+  // 🔥 SEO OVERRIDE
+  // ----------------------------------------------------
+
   const seo = seoMap[pageId] || defaultSEO
 
   const canonicalPageUrl = config.isDev
     ? undefined
     : getCanonicalPageUrl(site, recordMap)(pageId)
 
-  const finalTitle = seo?.title || getBlockTitle(block, recordMap) || site.name
+  const finalTitle =
+    seo?.title || getBlockTitle(block, recordMap) || site.name
+
   const finalDescription =
     seo?.description ||
     getPageProperty<string>('Description', block, recordMap) ||
@@ -61,6 +78,8 @@ export function NotionPage({
     )
 
   const keywords = (seo?.keywords || defaultSEO.keywords || []).join(', ')
+
+  // ----------------------------------------------------
 
   return (
     <>
@@ -100,7 +119,11 @@ export function NotionPage({
         mapImageUrl={mapImageUrl}
         searchNotion={config.isSearchEnabled ? searchNotion : undefined}
         pageAside={
-          <PageAside block={block!} recordMap={recordMap!} isBlogPost={isBlogPost} />
+          <PageAside
+            block={block!}
+            recordMap={recordMap!}
+            isBlogPost={isBlogPost}
+          />
         }
         footer={<Footer />}
       />
