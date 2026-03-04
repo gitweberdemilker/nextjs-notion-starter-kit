@@ -25,7 +25,29 @@ body {
   backdrop-filter: blur(10px);
 }
 
-/* --- FOOTER (GÖRÜNÜR VE GÜVENLİ) --- */
+/* Menü hover kırmızı efekt (geri) */
+.notion-nav-header a:hover,
+.notion-nav-header .notion-nav-header-item:hover,
+.notion-nav-header .notion-nav-header-item:hover a,
+.notion-header a:hover {
+  color: #cc0000 !important;
+}
+
+/* --- GÖRSEL HOVER KARARMA (geri) --- */
+.notion-page img {
+  transition: filter 200ms ease, transform 200ms ease;
+}
+
+.notion-page img:hover {
+  filter: brightness(0.75);
+  transform: translateY(-1px);
+}
+
+/* --- FOOTER (TEK SİSTEM - ÇAKIŞMASIZ) --- */
+/* Not: Footer.tsx ile styles.module.css kullanıyorsan,
+   globalde 'footer { }' gibi genel selector kullanmıyoruz.
+   Sadece .notion-footer alanını hedefliyoruz. */
+
 .notion-footer {
   border-top: 1px solid rgba(138, 3, 3, 0.2) !important;
   padding: 80px 0 !important;
@@ -35,52 +57,44 @@ body {
   flex-direction: column !important;
   align-items: center !important;
   justify-content: center !important;
-  gap: 15px !important;
+  gap: 16px !important;
 
   min-height: 220px !important;
   height: auto !important;
   overflow: visible !important;
 }
 
-/* SADECE eski footer text'i gizle (footer içindeki tüm div'leri öldürme!) */
+/* Eski footer yazısını gizle */
 .notion-footer-text {
   display: none !important;
 }
 
-/* Footer içindeki wrapper'lar görünür kalsın */
+/* Footer içindeki wrapper’lar kalsın (ölmesin) */
 .notion-footer div {
   height: auto !important;
   margin: initial !important;
   color: inherit !important;
 }
 
-/* 1. Katman: İletişim */
+/* Üst satır: iletişim */
 .notion-footer::before {
   content: 'İletişim: erdemilker@hotmail.com' !important;
   display: block !important;
   color: var(--fg-color) !important;
-  font-size: 0.8rem !important;
+  font-size: 0.85rem !important;
   letter-spacing: 2px !important;
-  opacity: 0.6 !important;
-  margin-bottom: 10px !important;
+  opacity: 0.65 !important;
+  margin-bottom: 8px !important;
 }
 
-/* 2. Katman: Sosyal ikonlar */
-.notion-footer .nav-header-items {
-  display: flex !important;
-  flex-direction: row !important;
-  justify-content: center !important;
-  gap: 30px !important;
-}
-
-/* 3. Katman: İmza */
+/* Alt satır: imza */
 .notion-footer::after {
   content: '© 2026 Erdem İlker - Karanlıkta Yazıldı.' !important;
   display: block !important;
   text-align: center !important;
-  margin-top: 20px !important;
+  margin-top: 14px !important;
   font-size: 0.95rem !important;
-  letter-spacing: 5px !important;
+  letter-spacing: 4px !important;
   color: #cc0000 !important;
   font-style: italic !important;
   animation: footerGlow 4s ease-in-out infinite !important;
@@ -89,14 +103,47 @@ body {
 @keyframes footerGlow {
   0%,
   100% {
-    opacity: 0.4;
+    opacity: 0.45;
     text-shadow: none;
   }
   50% {
     opacity: 1;
     text-shadow: 0 0 15px rgba(204, 0, 0, 0.6);
-    color: #ff0000;
   }
+}
+
+/* Footer ikon satırı */
+.notion-footer .nav-header-items {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: center !important;
+  gap: 30px !important;
+  align-items: center !important;
+}
+
+/* Sadece X + YouTube + Instagram kalsın (diğerlerini gizle)
+   - href içinde twitter.com, x.com, youtube.com, instagram.com dışındakileri kapatır */
+.notion-footer .nav-header-items a {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.notion-footer .nav-header-items a:not([href*="twitter.com"]):not([href*="x.com"]):not([href*="youtube.com"]):not([href*="instagram.com"]) {
+  display: none !important;
+}
+
+/* Footer ikon hover fix */
+.notion-footer .nav-header-item svg,
+.notion-footer .nav-header-items a svg {
+  fill: var(--fg-color) !important;
+  transition: all 0.3s ease !important;
+}
+
+.notion-footer .nav-header-item:hover svg,
+.notion-footer .nav-header-items a:hover svg {
+  fill: #cc0000 !important;
+  transform: scale(1.2);
 }
 
 /* --- İKON VE DÜĞME DÜZENLEMELERİ --- */
@@ -152,109 +199,5 @@ body::after {
   }
   100% {
     transform: translate(-33%, -33%);
-  }
-}
-
-/* Sosyal ikon hover fix */
-.notion-footer .nav-header-item svg {
-  fill: var(--fg-color) !important;
-  transition: all 0.3s ease !important;
-}
-.notion-footer .nav-header-item:hover svg {
-  fill: #cc0000 !important;
-  transform: scale(1.2);
-}
-
-
-/* =========================
-   FINAL FOOTER FIX
-   ========================= */
-
-/* 1) Footer wrapper'ı yakala: burada 'footer' kesin var */
-footer {
-  border-top: 1px solid rgba(138, 3, 3, 0.2) !important;
-  padding: 80px 0 !important;
-  margin-top: 100px !important;
-  position: relative !important;
-  z-index: 2 !important;
-
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: 16px !important;
-
-  min-height: 220px !important;
-  height: auto !important;
-  overflow: visible !important;
-}
-
-/* 2) Eski copyright metnini sakince gizle (tam hedefli) */
-footer small,
-footer .copyright,
-footer [class*="copyright"] {
-  display: none !important;
-}
-
-/* Eğer metin plain text ise, footer içindeki ilk yazı node'u bir p/span olabilir.
-   Bu yüzden sadece "Copyright" içeren node'u gizlemek için daha agresif ama kontrollü:
-   (Bu kısım işe yaramazsa kaldırırız) */
-footer * {
-  color: inherit !important;
-}
-
-/* 3) Yeni üst bilgi (iletişim) */
-footer::before {
-  content: 'İletişim: erdemilker@hotmail.com' !important;
-  display: block !important;
-  font-size: 0.85rem !important;
-  letter-spacing: 2px !important;
-  opacity: 0.65 !important;
-  margin-bottom: 8px !important;
-}
-
-/* 4) Yeni imza */
-footer::after {
-  content: '© 2026 Erdem İlker - Karanlıkta Yazıldı.' !important;
-  display: block !important;
-  text-align: center !important;
-  margin-top: 14px !important;
-  font-size: 0.95rem !important;
-  letter-spacing: 4px !important;
-  color: #cc0000 !important;
-  font-style: italic !important;
-  animation: footerGlow 4s ease-in-out infinite !important;
-}
-
-/* 5) Footer içindeki ikon satırı düzgün hizalansın */
-footer .nav-header-items,
-footer [class*="nav-header-items"] {
-  display: flex !important;
-  flex-direction: row !important;
-  justify-content: center !important;
-  gap: 30px !important;
-}
-
-/* 6) İkon hover */
-footer .nav-header-item svg,
-footer [class*="nav-header-item"] svg {
-  fill: currentColor !important;
-  transition: all 0.3s ease !important;
-}
-footer .nav-header-item:hover svg,
-footer [class*="nav-header-item"]:hover svg {
-  fill: #cc0000 !important;
-  transform: scale(1.2);
-}
-
-@keyframes footerGlow {
-  0%,
-  100% {
-    opacity: 0.45;
-    text-shadow: none;
-  }
-  50% {
-    opacity: 1;
-    text-shadow: 0 0 15px rgba(204, 0, 0, 0.6);
   }
 }
