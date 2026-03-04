@@ -41,32 +41,22 @@ body {
   caret-color: var(--fg-color);
 }
 
-::-webkit-scrollbar
-{
-  width: 5px;
-  height: 5px;
-  background-color: #F5F5F5;
-  background-color: var(--bg-color-1);
+/* --- 1. KANLI KAYDIRMA ÇUBUĞU (CUSTOM SCROLLBAR) --- */
+::-webkit-scrollbar {
+  width: 8px; 
 }
-
-::-webkit-scrollbar-thumb
-{
-  border-radius: 10px;
-  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-  background-color: #555;
-  border-radius: 10px;
-  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-  background-color: var(--fg-color-1);
+::-webkit-scrollbar-track {
+  background: #000000; 
 }
-
-::-webkit-scrollbar-track {            
-    background-color: var(--bg-color);
+::-webkit-scrollbar-thumb {
+  background: #222222; 
+  border-radius: 4px;
 }
-
-
+::-webkit-scrollbar-thumb:hover {
+  background: #8a0303; 
+}
 
 /* --- ÜST MENÜ (KARANLIK HİKAYELER TASARIMI) --- */
-
 .notion-header .breadcrumb {
   font-family: inherit !important;
   font-weight: 600 !important;
@@ -92,12 +82,74 @@ body {
   display: none !important;
 }
 
-
 /* --- KARANLIK HİKAYELER KONSEPT KODLARI --- */
 
-/* 1. ZİFİRİ SİYAH ARKA PLAN VE GÜMÜŞ YAZILAR */
+/* ZİFİRİ SİYAH ARKA PLAN VE GÜMÜŞ YAZILAR */
 body.dark-mode, .dark-mode .notion-app {
   background-color: #000000 !important; /* Tamamen simsiyah bir hiçlik */
 }
 .dark-mode .notion-page {
-  color: #d1d1d1 !important; /* Göz yormayan, küll
+  color: #d1d1d1 !important; /* Göz yormayan, küllü gümüş grisi metinler */
+}
+
+/* KAN KIRMIZISI METİN SEÇİM EFEKTİ */
+::selection {
+  background-color: #8a0303 !important; /* Koyu kan kırmızısı */
+  color: #ffffff !important;
+}
+::-moz-selection {
+  background-color: #8a0303 !important;
+  color: #ffffff !important;
+}
+
+/* SİNEMATİK VE GOTİK TİPOGRAFİ (Font: Crimson Text) */
+.notion, .notion-text, .notion-h1, .notion-h2, .notion-h3, .notion-quote, .notion-callout {
+  font-family: 'Crimson Text', serif !important;
+}
+.notion-h1, .notion-h2, .notion-h3 {
+  letter-spacing: 0.5px !important; /* Başlıkların arasını hafif açarak daha destansı yapar */
+}
+
+/* GÖRSELLERE GOTİK DOKUNUŞ (GOTHIC HOVER) EFEKTİ */
+.notion-asset-wrapper img, .notion-collection-card {
+  filter: brightness(1) contrast(1) grayscale(0%) sepia(0%) !important;
+  transition: all 0.6s ease-in-out !important;
+}
+.notion-asset-wrapper img:hover, .notion-collection-card:hover {
+  filter: brightness(0.85) contrast(1.25) grayscale(85%) sepia(15%) !important;
+  transform: scale(1.02) !important; /* Çok çok hafif bir büyüme (öne çıkma) efekti */
+}
+
+/* --- 2. SİNEMATİK SAYFA AÇILIŞI (Karanlıktan Aydınlığa) --- */
+.notion-app {
+  animation: cinematicFadeIn 1.2s ease-in-out;
+}
+@keyframes cinematicFadeIn {
+  from { 
+    opacity: 0; 
+    filter: blur(4px); 
+  }
+  to { 
+    opacity: 1; 
+    filter: blur(0); 
+  }
+}
+
+/* --- 3. TEKİNSİZ METİN LİNKLERİ --- */
+.notion-text a, .notion-list a {
+  border-bottom: 1px solid rgba(209, 209, 209, 0.3) !important;
+  transition: all 0.3s ease !important;
+}
+.notion-text a:hover, .notion-list a:hover {
+  color: #cc0000 !important;
+  border-bottom: 1px solid #cc0000 !important;
+  text-shadow: 0px 0px 8px rgba(204, 0, 0, 0.6) !important;
+}
+
+/* --- 4. GİZLİ DOSYA (CALLOUT) BLOKLARI --- */
+.notion-callout {
+  background-color: #050505 !important;
+  border: 1px solid #222 !important;
+  border-left: 3px solid #8a0303 !important; /* Sol tarafta kan kırmızısı bir çizgi */
+  border-radius: 4px !important;
+}
