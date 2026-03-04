@@ -164,3 +164,116 @@ body::after {
   fill: #cc0000 !important;
   transform: scale(1.2);
 }
+
+
+/* =========================================
+   FOOTER FORCE OVERRIDE (DEBUG + FIX)
+   En sona ekle
+   ========================================= */
+
+/* 1) CSS gerçekten uygulanıyor mu? Görmek için */
+.notion-footer,
+footer,
+.site-footer,
+.footer,
+[class*="footer"] {
+  outline: 3px solid red !important; /* TEST: kırmızı çizgi görmüyorsan bu dosya yüklenmiyor */
+}
+
+/* 2) react-notion-x default footer ise */
+.notion-footer {
+  border-top: 1px solid rgba(138, 3, 3, 0.2) !important;
+  padding: 80px 0 !important;
+  margin-top: 100px !important;
+  min-height: 220px !important;
+  height: auto !important;
+
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 15px !important;
+
+  overflow: visible !important;
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+/* Default footer text'i varsa kapat */
+.notion-footer-text {
+  display: none !important;
+}
+
+/* Pseudo katmanları zorla göster */
+.notion-footer::before,
+.notion-footer::after {
+  position: relative !important;
+  z-index: 3 !important;
+}
+
+.notion-footer::before {
+  content: 'İletişim: erdemilker@hotmail.com' !important;
+  display: block !important;
+  color: var(--fg-color) !important;
+  font-size: 0.85rem !important;
+  letter-spacing: 2px !important;
+  opacity: 0.7 !important;
+  margin-bottom: 12px !important;
+}
+
+.notion-footer::after {
+  content: '© 2026 Erdem İlker - Karanlıkta Yazıldı.' !important;
+  display: block !important;
+  text-align: center !important;
+  margin-top: 18px !important;
+  font-size: 0.95rem !important;
+  letter-spacing: 4px !important;
+  color: #cc0000 !important;
+  font-style: italic !important;
+  animation: footerGlow 4s ease-in-out infinite !important;
+}
+
+/* Sosyal ikonlar react-notion-x footer içinde ise */
+.notion-footer .nav-header-items {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: center !important;
+  gap: 30px !important;
+}
+
+/* 3) Custom Footer component ise (starter kitlerde sık) */
+footer,
+.site-footer,
+.footer,
+[class*="footer"] {
+  border-top: 1px solid rgba(138, 3, 3, 0.2) !important;
+  padding: 60px 0 !important;
+  margin-top: 80px !important;
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+/* Custom footer'ın içindeki metni görünür yap */
+footer *,
+.site-footer *,
+.footer *,
+[class*="footer"] * {
+  color: inherit !important;
+  height: auto !important;
+}
+
+/* Senin eski “div öldüren” kuralın başka yerde kaldıysa bunu ez */
+.notion-footer div,
+footer div,
+.site-footer div,
+.footer div,
+[class*="footer"] div {
+  height: auto !important;
+  margin: initial !important;
+  color: inherit !important;
+}
+
+@keyframes footerGlow {
+  0%, 100% { opacity: 0.45; text-shadow: none; }
+  50% { opacity: 1; text-shadow: 0 0 15px rgba(204, 0, 0, 0.6); }
+}
