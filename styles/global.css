@@ -7,7 +7,6 @@
 body {
   --notion-font: 'Crimson Text', serif;
   font-family: var(--notion-font);
-  transition: background-color 0.3s ease;
 }
 
 /* --- GECE MODU TEMELLERİ --- */
@@ -16,7 +15,7 @@ body {
   color: #d1d1d1 !important;
 }
 
-/* --- MENÜ VE HEADER (KAN KIRMIZISI EFEKTİ GERİ GELDİ) --- */
+/* --- MENÜ VE HEADER (İLK EFEKT GERİ GELDİ) --- */
 .notion-header {
   background: transparent !important;
 }
@@ -27,25 +26,57 @@ body {
 
 .notion-header .breadcrumb, 
 .notion-header .nav-header-item {
-  color: var(--fg-color) !important; /* Gündüz siyah, gece gümüş */
+  color: var(--fg-color) !important;
   font-family: inherit !important;
   font-weight: 600 !important;
   font-size: 14px !important;
   opacity: 0.8 !important;
-  transition: all 0.3s ease !important;
+  transition: all 0.4s ease-in-out !important; /* Yumuşak geçiş süresi */
 }
 
-/* Üzerine gelince her iki modda da KAN KIRMIZISI parlar */
+/* İlk beğendiğiniz o geniş kan kırmızısı parlama efekti */
 .notion-header .breadcrumb:hover, 
 .notion-header .nav-header-item:hover {
   color: #cc0000 !important;
   opacity: 1 !important;
-  text-shadow: 0px 0px 10px rgba(204, 0, 0, 0.6) !important;
-  transform: translateY(-2px);
+  text-shadow: 0px 0px 15px rgba(204, 0, 0, 0.8) !important; /* Daha derin parlama */
+  background-color: rgba(204, 0, 0, 0.08) !important; /* Hafif arka plan gölgesi */
+  transform: scale(1.05) translateY(-1px); /* Hafif büyüme ve yükselme */
 }
 
-/* --- BAŞLIKLAR VE PARLAMA --- */
+/* --- BAŞLIKLARI GİZLEME --- */
 .notion-title { display: none !important; }
+
+/* --- GÖRSEL EFEKTLER (YUMUŞAK GEÇİŞLİ GOTHIC HOVER) --- */
+/* Resimler normalde tamamen doğal */
+.notion-asset-wrapper img, .notion-collection-card {
+  filter: brightness(1) contrast(1) grayscale(0%) sepia(0%) !important;
+  transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1) !important; /* Geçişi çok daha akıcı hale getirdik */
+}
+
+/* Fareyle üzerine gelince YAVAŞÇA kararır ve gotikleşir */
+.notion-asset-wrapper img:hover, .notion-collection-card:hover {
+  filter: brightness(0.8) contrast(1.3) grayscale(90%) sepia(20%) !important;
+  transform: scale(1.02) !important;
+}
+
+/* --- CALLOUT BLOKLARI (SABİT OKUNUR TASARIM) --- */
+.notion-callout {
+  border-left: 4px solid #cc0000 !important;
+  background-color: #111111 !important; /* Gündüz modunda da koyu kalsın */
+  border-radius: 6px !important;
+  border: 1px solid #2a2a2a !important;
+  border-left: 4px solid #cc0000 !important;
+}
+
+.notion-callout, .notion-callout-text, .notion-callout span, .notion-callout a {
+  color: #f5f5f5 !important; 
+}
+
+/* --- İKONLAR VE DİĞER DETAYLAR --- */
+.notion-dark-mode-button svg, .notion-search-button svg { display: none !important; }
+.notion-search-button::before { content: '👁️'; font-size: 1.1rem; color: var(--fg-color) !important; }
+.notion-dark-mode-button::before { content: '💀'; font-size: 1.1rem; color: var(--fg-color) !important; }
 
 .notion-h1, .notion-h2, .notion-h3 {
   animation: gothicPulse 5s infinite ease-in-out;
@@ -56,28 +87,7 @@ body {
   100% { text-shadow: 0 0 5px rgba(138, 3, 3, 0); }
 }
 
-/* --- CALLOUT BLOKLARI (GÜNDÜZ MODU TAMİRİ) --- */
-/* Gündüz modunda o çirkin gri kutu yerine daha şık bir antrasit panel yapar */
-.notion-callout {
-  border-left: 4px solid #cc0000 !important;
-  background-color: #1a1a1a !important; /* Her iki modda da koyu kalması için zorladık */
-  border-radius: 6px !important;
-  border-top: 1px solid #333 !important;
-  border-right: 1px solid #333 !important;
-  border-bottom: 1px solid #333 !important;
-}
-
-/* Callout içindeki yazıların her zaman okunur (gümüş/beyaz) olmasını sağlar */
-.notion-callout, .notion-callout-text, .notion-callout span, .notion-callout a {
-  color: #f5f5f5 !important; 
-}
-
-/* --- İKONLAR --- */
-.notion-dark-mode-button svg, .notion-search-button svg { display: none !important; }
-.notion-search-button::before { content: '👁️'; font-size: 1.1rem; color: var(--fg-color) !important; }
-.notion-dark-mode-button::before { content: '💀'; font-size: 1.1rem; color: var(--fg-color) !important; }
-
-/* --- FOOTER VE SOSYAL MEDYA --- */
+/* --- FOOTER --- */
 .notion-footer {
   border-top: 1px solid rgba(138, 3, 3, 0.1);
   padding: 60px 0 !important;
