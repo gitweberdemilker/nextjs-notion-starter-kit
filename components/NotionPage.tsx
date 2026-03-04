@@ -1,5 +1,68 @@
+import cs from 'classnames'
+import dynamic from 'next/dynamic'
+import Image from 'next/legacy/image'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { type PageBlock } from 'notion-types'
+import {
+  formatDate,
+  getBlockTitle,
+  getBlockValue,
+  getPageProperty
+} from 'notion-utils'
+import * as React from 'react'
+import BodyClassName from 'react-body-classname'
+import {
+  type NotionComponents,
+  NotionRenderer
+} from 'react-notion-x'
+import { useSearchParam } from 'react-use'
+
 import type { PageProps as NotionPageProps } from '@/lib/types'
-import { seoMap, defaultSEO } from '@/lib/seo-map'
+import * as config from '@/lib/config'
+import { defaultSEO, seoMap } from '@/lib/seo-map'
+import { mapImageUrl } from '@/lib/map-image-url'
+import { getCanonicalPageUrl, mapPageUrl } from '@/lib/map-page-url'
+import { searchNotion } from '@/lib/search-notion'
+import { useDarkMode } from '@/lib/use-dark-mode'
+
+import { Footer } from './Footer'
+import { GitHubShareButton } from './GitHubShareButton'
+import { Loading } from './Loading'
+import { NotionPageHeader } from './NotionPageHeader'
+import { Page404 } from './Page404'
+import { PageAside } from './PageAside'
+import { PageHead } from './PageHead'
+import styles from './styles.module.css'
+
+// Dynamic imports (optional blocks)
+const Code = dynamic(() =>
+  import('react-notion-x/build/third-party/code').then((m) => m.Code)
+)
+
+const Collection = dynamic(() =>
+  import('react-notion-x/build/third-party/collection').then(
+    (m) => m.Collection
+  )
+)
+
+const Equation = dynamic(() =>
+  import('react-notion-x/build/third-party/equation').then((m) => m.Equation)
+)
+
+const Pdf = dynamic(
+  () => import('react-notion-x/build/third-party/pdf').then((m) => m.Pdf),
+  { ssr: false }
+)
+
+const Modal = dynamic(
+  () =>
+    import('react-notion-x/build/third-party/modal').then((m) => {
+      m.Modal.setAppElement('.notion-viewport')
+      return m.Modal
+    }),
+  { ssr: false }
+)
 
 export function NotionPage({
   site,
@@ -19,11 +82,7 @@ export function NotionPage({
       Equation,
       Pdf,
       Modal,
-      Tweet,
-      Header: NotionPageHeader,
-      propertyLastEditedTimeValue,
-      propertyTextValue,
-      propertyDateValue
+      Header: NotionPageHeader
     }),
     []
   )
@@ -46,13 +105,14 @@ export function NotionPage({
     block?.type === 'page' && block?.parent_table === 'collection'
 
   if (router.isFallback) return <Loading />
+
   if (error || !site || !block || !recordMap) {
     return <Page404 site={site} pageId={pageId} error={error} />
   }
 
-  // ----------------------------------------------------
-  // 🔥 SEO OVERRIDE
-  // ----------------------------------------------------
+  // =========================
+  // SEO OVERRIDE SYSTEM
+  // =========================
 
   const seo = seoMap[pageId] || defaultSEO
 
@@ -79,7 +139,7 @@ export function NotionPage({
 
   const keywords = (seo?.keywords || defaultSEO.keywords || []).join(', ')
 
-  // ----------------------------------------------------
+  // =========================
 
   return (
     <>
