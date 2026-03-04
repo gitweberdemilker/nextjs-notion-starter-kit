@@ -353,23 +353,35 @@ body::after {
 }
 
 
-/* --- SOL TARAFA SİNEMATİK DİKEY DAMGA --- */
+/* --- SOL TARAFA SİNEMATİK DİKEY DAMGA (KESİN ORTALAMA) --- */
 .notion-app::before {
-  content: 'KARANLIK HİKAYELER'; /* İstersen buraya 'KİMSESİZLER MEZARLIĞI' yazabilirsin */
+  content: 'KARANLIK HİKAYELER';
   position: fixed;
-  left: 30px; /* Sol kenara olan uzaklık */
-  top: 50%; /* Tam dikey ortalama */
-  transform: translateY(-50%) rotate(-90deg); /* Yazıyı dik çevirir */
-  transform-origin: left center;
+  left: 20px; /* Ekrana biraz daha yaklaştırdım */
+  top: 0;
+  bottom: 0; /* Yazı alanını ekranın en üstünden en altına kadar gerdirir */
+  margin: auto;
+  
+  /* Kusursuz Dikey Ortalama (Taşmayı %100 Engeller) */
+  display: flex;
+  align-items: center; 
+  justify-content: center;
+  
+  /* Yazıyı aşağıdan yukarı okutmak için özel yazım modu */
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  
   color: #cc0000;
   font-family: 'Crimson Text', serif;
-  font-size: 1.1rem;
-  letter-spacing: 12px; /* Harflerin arasını ciddi şekilde açarak gizem katar */
-  opacity: 0.4; /* Hafif silik durarak içeriğin önüne geçmez */
-  pointer-events: none; /* Farenin yazının üstüne takılmasını engeller */
+  font-size: 1.15rem; /* Boyutu biraz daha sinematik hale getirdim */
+  letter-spacing: 14px; 
+  white-space: nowrap; /* Ekran kısalsa bile harflerin alt satıra düşmesini önler */
+  
+  opacity: 0.4;
+  pointer-events: none;
   z-index: 100;
   text-shadow: 0 0 15px rgba(204, 0, 0, 0.5);
-  animation: slowPulse 6s ease-in-out infinite; /* Yavaşça nefes alıp veren parlama */
+  animation: slowPulse 6s ease-in-out infinite;
 }
 
 /* Damga için nefes alma animasyonu */
@@ -378,7 +390,7 @@ body::after {
   50% { opacity: 0.6; text-shadow: 0 0 20px rgba(204, 0, 0, 0.8); }
 }
 
-/* Mobilde ve dar ekranlarda dikey yazıyı gizle (okunabilirliği bozmaması için) */
+/* Mobilde ve dar ekranlarda dikey yazıyı gizle (Tasarımı korumak için) */
 @media (max-width: 1200px) {
   .notion-app::before {
     display: none !important;
