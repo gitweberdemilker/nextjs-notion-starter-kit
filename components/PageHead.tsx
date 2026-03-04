@@ -11,13 +11,15 @@ export function PageHead({
   pageId,
   image,
   url,
-  isBlogPost
+  isBlogPost,
+  keywords
 }: types.PageProps & {
   title?: string
   description?: string
   image?: string
   url?: string
   isBlogPost?: boolean
+  keywords?: string
 }) {
   const rssFeedUrl = `${config.host}/feed`
 
@@ -73,6 +75,10 @@ export function PageHead({
         </>
       )}
 
+      {keywords && (
+        <meta name='keywords' content={keywords} />
+      )}
+
       {socialImageUrl ? (
         <>
           <meta name='twitter:card' content='summary_large_image' />
@@ -102,8 +108,8 @@ export function PageHead({
       <meta name='twitter:title' content={title} />
       <title>{title}</title>
 
-      {/* Better SEO for the blog posts */}
-      {isBlogPost && (
+      {/* Blog Schema Markup */}
+      {isBlogPost && url && (
         <script type='application/ld+json'>
           {JSON.stringify({
             '@context': 'https://schema.org',
