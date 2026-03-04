@@ -3,7 +3,7 @@ export function NotionPage({
   recordMap,
   error,
   pageId
-}: types.PageProps) {
+}: PageProps) {
   const router = useRouter()
   const lite = useSearchParam('lite')
 
@@ -39,10 +39,6 @@ export function NotionPage({
     return <Page404 site={site} pageId={pageId} error={error} />
   }
 
-  // ----------------------------------------------------
-  // 🔥 SEO OVERRIDE SİSTEMİ
-  // ----------------------------------------------------
-
   const seo = seoMap[pageId] || defaultSEO
 
   const canonicalPageUrl = config.isDev
@@ -66,8 +62,6 @@ export function NotionPage({
 
   const keywords = (seo?.keywords || defaultSEO.keywords || []).join(', ')
 
-  // ----------------------------------------------------
-
   return (
     <>
       <PageHead
@@ -78,7 +72,7 @@ export function NotionPage({
         image={finalImage}
         url={canonicalPageUrl}
         isBlogPost={isBlogPost}
-        keywords={keywords} // 👈 bunu PageHead’e ekleyeceğiz
+        keywords={keywords}
       />
 
       {isLiteMode && <BodyClassName className='notion-lite' />}
@@ -102,10 +96,12 @@ export function NotionPage({
         defaultPageIcon={config.defaultPageIcon}
         defaultPageCover={config.defaultPageCover}
         defaultPageCoverPosition={config.defaultPageCoverPosition}
-        mapPageUrl={site ? mapPageUrl(site, recordMap!) : undefined}
+        mapPageUrl={siteMapPageUrl}
         mapImageUrl={mapImageUrl}
         searchNotion={config.isSearchEnabled ? searchNotion : undefined}
-        pageAside={<PageAside block={block!} recordMap={recordMap!} isBlogPost={isBlogPost} />}
+        pageAside={
+          <PageAside block={block!} recordMap={recordMap!} isBlogPost={isBlogPost} />
+        }
         footer={<Footer />}
       />
 
