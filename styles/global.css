@@ -42,16 +42,25 @@ body {
   transition: all 0.5s ease !important;
 }
 
-/* İkonların içindeki SVG'yi her iki modda da görünür kıl ve hoverda KIRMIZI yap */
+/* İkonların içindeki SVG'yi her iki modda da görünür kıl */
 .notion-header .nav-header-item svg, 
 .notion-footer .nav-header-item svg {
-  fill: var(--fg-color) !important; /* Gündüz siyah, gece beyaz/gri */
+  fill: var(--fg-color) !important; 
   transition: all 0.4s ease !important;
+}
+
+/* Instagram için özel fix: Beyaz modda kaybolmayı engelle */
+.notion-header .nav-header-item[href*="instagram"] svg,
+.notion-footer .nav-header-item[href*="instagram"] svg {
+  fill: var(--fg-color, #37352f) !important;
+  opacity: 1 !important;
 }
 
 /* Hover anında TÜM ikonları (Instagram dahil) KAN KIRMIZISI yap */
 .notion-header .nav-header-item:hover svg, 
-.notion-footer .nav-header-item:hover svg {
+.notion-footer .nav-header-item:hover svg,
+.notion-header .nav-header-item[href*="instagram"]:hover svg,
+.notion-footer .nav-header-item[href*="instagram"]:hover svg {
   fill: #cc0000 !important;
   filter: drop-shadow(0 0 10px rgba(204, 0, 0, 0.8)) !important;
 }
@@ -107,11 +116,24 @@ body {
   flex-direction: column !important;
   align-items: center !important;
 }
+
 .notion-footer::after {
   content: '© 2026 Erdem İlker - Karanlıkta Yazıldı.';
   display: block;
+  margin-top: 20px;
+  font-size: 0.8rem;
+  letter-spacing: 4px !important;
+  opacity: 0.5;
+  animation: footerGlow 4s ease-in-out infinite;
+  font-style: italic;
+}
 
-  /* --- GÖRSEL GÜZELLEŞTİRMELER: ATMOSFER PAKETİ --- */
+@keyframes footerGlow {
+  0%, 100% { opacity: 0.3; text-shadow: none; }
+  50% { opacity: 0.8; text-shadow: 0 0 10px rgba(204, 0, 0, 0.5); color: #8a0303; }
+}
+
+/* --- GÖRSEL GÜZELLEŞTİRMELER: ATMOSFER PAKETİ --- */
 
 /* 1. Siyah Sis ve Vinyet Çerçeve */
 body::before {
@@ -121,17 +143,16 @@ body::before {
   width: 100%; height: 100%;
   pointer-events: none;
   z-index: 1000;
-  /* Kenar Karartma (Vignette) */
   background: radial-gradient(circle, rgba(0,0,0,0) 60%, rgba(0,0,0,0.6) 100%);
 }
 
-/* 2. Arka Plan Sis Efekti (Düşük Opaklık) */
+/* 2. Arka Plan Sis Efekti */
 body::after {
   content: "";
   position: fixed;
   top: 0; left: 0;
   width: 300%; height: 300%;
-  background-image: url('https://www.transparenttextures.com/patterns/stardust.png'); /* Hafif toz/sis dokusu */
+  background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
   opacity: 0.05;
   animation: slowFog 60s linear infinite;
   pointer-events: none;
@@ -143,19 +164,7 @@ body::after {
   100% { transform: translate(-30%, -30%); }
 }
 
-/* 3. Footer Yazısı İçin Parlayan Künye Animasyonu */
-.notion-footer::after {
-  animation: footerGlow 4s ease-in-out infinite;
-  letter-spacing: 4px !important; /* Harfleri biraz daha açalım, daha sinematik durur */
-  font-style: italic;
-}
-
-@keyframes footerGlow {
-  0%, 100% { opacity: 0.3; text-shadow: none; }
-  50% { opacity: 0.8; text-shadow: 0 0 10px rgba(204, 0, 0, 0.5); color: #8a0303; }
-}
-
-/* 4. Başlıklar İçin Özel Harf Aralığı */
+/* 3. Başlıklar İçin Özel Harf Aralığı */
 .notion-h1, .notion-h2 {
   letter-spacing: -0.02em;
   word-spacing: 0.1em;
