@@ -17,7 +17,7 @@ body {
   color: #d1d1d1 !important;
 }
 
-/* --- MENÜ VE HEADER --- */
+/* --- MENÜ VE HEADER (KANLI ZOOM EFEKTİ KESİN ÇÖZÜM) --- */
 .notion-header {
   background: transparent !important;
 }
@@ -25,42 +25,39 @@ body {
   backdrop-filter: blur(10px);
 }
 
-/* Menü hover: 0.6s süreçli + zoom + glow */
 .notion-nav-header a,
 .notion-nav-header .notion-nav-header-item,
-.notion-nav-header .notion-nav-header-item a,
 .notion-header a {
-  display: inline-block;
-  transition: color 0.6s ease, transform 0.6s ease, text-shadow 0.6s ease;
-  will-change: transform, color;
-  transform: translateZ(0);
+  color: var(--fg-color) !important;
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  transform: translateZ(0) !important;
 }
 
 .notion-nav-header a:hover,
 .notion-nav-header .notion-nav-header-item:hover,
-.notion-nav-header .notion-nav-header-item:hover a,
 .notion-header a:hover {
   color: #cc0000 !important;
-  transform: scale(1.06);
-  text-shadow: 0 0 12px rgba(204, 0, 0, 0.35);
+  transform: scale(1.08) translateY(-2px) !important;
+  text-shadow: 0 0 15px rgba(204, 0, 0, 0.7) !important;
 }
 
-/* --- GÖRSEL HOVER KARARMA: 0.6s süreçli + hafif zoom --- */
+/* --- GÖRSEL HOVER: KARARMA VE ZOOM (SİNEMATİK GEÇİŞ) --- */
+.notion-asset-wrapper img, 
+.notion-collection-card,
 .notion-page img {
-  transition: filter 0.6s ease, transform 0.6s ease;
+  filter: brightness(1) contrast(1) grayscale(0%) !important;
+  transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1) !important;
   will-change: transform, filter;
 }
 
+.notion-asset-wrapper img:hover, 
+.notion-collection-card:hover,
 .notion-page img:hover {
-  filter: brightness(0.72) contrast(1.05);
-  transform: scale(1.03);
+  filter: brightness(0.7) contrast(1.2) sepia(20%) !important;
+  transform: scale(1.03) !important;
 }
 
 /* --- FOOTER (TEK SİSTEM - ÇAKIŞMASIZ) --- */
-/* Not: Footer.tsx ile styles.module.css kullanıyorsan,
-   globalde 'footer { }' gibi genel selector kullanmıyoruz.
-   Sadece .notion-footer alanını hedefliyoruz. */
-
 .notion-footer {
   border-top: 1px solid rgba(138, 3, 3, 0.2) !important;
   padding: 80px 0 !important;
@@ -153,14 +150,14 @@ body {
 .notion-footer .nav-header-item svg,
 .notion-footer .nav-header-items a svg {
   fill: var(--fg-color) !important;
-  transition: transform 0.6s ease, fill 0.6s ease;
+  transition: transform 0.6s ease, fill 0.6s ease !important;
   will-change: transform;
 }
 
 .notion-footer .nav-header-item:hover svg,
 .notion-footer .nav-header-items a:hover svg {
   fill: #cc0000 !important;
-  transform: scale(1.18);
+  transform: scale(1.18) !important;
 }
 
 /* --- İKON VE DÜĞME DÜZENLEMELERİ --- */
