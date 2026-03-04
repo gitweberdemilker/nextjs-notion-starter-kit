@@ -1,109 +1,90 @@
 @import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap');
 
-/* --- VARSAYILAN KARANLIK MOD ZORLAMASI --- */
-:root {
-  --bg-color: #000000 !important;
-  --fg-color: #d1d1d1 !important;
-}
-
 * {
   box-sizing: border-box;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-body,
-html {
-  padding: 0 !important;
-  margin: 0 !important;
-  background-color: #000000 !important; /* Tarayıcı yüklenirken beyaz parlamayı engeller */
 }
 
 body {
   --notion-font: 'Crimson Text', serif;
   font-family: var(--notion-font);
-  overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* --- GECE/GÜNDÜZ MODU TAMİRİ --- */
+/* Sadece karanlık mod aktifken (dark-mode sınıfı varken) siyah yap */
+.dark-mode, .dark-mode .notion-app, .dark-mode .notion-page {
   background-color: #000000 !important;
   color: #d1d1d1 !important;
 }
 
-/* --- HEADER VE MENÜ (HER ZAMAN GÖRÜNÜR) --- */
+/* --- ÜST MENÜ VE İKONLAR --- */
 .notion-header {
   background: transparent !important;
-  position: relative !important;
-  z-index: 1000 !important;
 }
 
 .notion-nav-header {
   backdrop-filter: blur(10px);
-  background: rgba(0, 0, 0, 0.5) !important;
 }
 
-.notion-header .breadcrumb, 
-.notion-header .nav-header-item {
-  color: #e0e0e0 !important; /* Menü yazılarını gece modunda sabitledik */
+.notion-header .breadcrumb, .notion-header .nav-header-item {
   font-family: inherit !important;
   font-weight: 600 !important;
-  font-size: 14px !important;
-  opacity: 1 !important;
   transition: all 0.3s ease !important;
 }
 
-.notion-header .breadcrumb:hover {
+/* Sosyal Medya İkon Efektleri (Üst ve Alt) */
+.notion-header .nav-header-item:hover, 
+.notion-footer .nav-header-item:hover {
   color: #cc0000 !important;
-  text-shadow: 0px 0px 10px rgba(204, 0, 0, 0.8) !important;
+  filter: drop-shadow(0 0 8px rgba(204, 0, 0, 0.8)) !important;
+  transform: translateY(-3px) scale(1.1);
 }
 
-/* --- İKONLAR VE BUTONLAR --- */
-.notion-dark-mode-button {
-  display: none !important; /* Üstteki karmaşayı engellemek için gizli kalsın */
-}
-
-.notion-search-button svg {
-  display: none !important;
-}
-.notion-search-button::before {
-  content: '👁️' !important;
-  font-size: 1.1rem !important;
-  opacity: 0.7;
-  color: #e0e0e0 !important;
-}
-
-/* --- KARANLIK MOD GÖRÜNÜMÜ --- */
-/* Sitenin Notion tarafındaki 'dark-mode' sınıfı aktif olmasa bile bu renkleri zorlar */
-.notion-app, .notion-page {
-  background-color: #000000 !important;
-  color: #d1d1d1 !important;
-}
-
-/* --- BAŞLIKLAR VE PARLAMA --- */
+/* --- BAŞLIKLARI GİZLEME --- */
 .notion-title { display: none !important; }
 
+/* --- NEFES ALAN KIRMIZILI BAŞLIKLAR --- */
 .notion-h1, .notion-h2, .notion-h3 {
   animation: gothicPulse 5s infinite ease-in-out;
-  color: #f5f5f5 !important;
 }
 @keyframes gothicPulse {
   0% { text-shadow: 0 0 5px rgba(138, 3, 3, 0); }
-  50% { text-shadow: 0 0 15px rgba(204, 0, 0, 0.5); }
+  50% { text-shadow: 0 0 15px rgba(204, 0, 0, 0.4); }
   100% { text-shadow: 0 0 5px rgba(138, 3, 3, 0); }
 }
 
-/* --- DİĞER EFEKTLER --- */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #000; }
-::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: #8a0303; }
+/* --- GÖZ (ARAMA) VE KURU KAFA (TEMA) İKONLARI --- */
+.notion-search-button svg, .notion-dark-mode-button svg {
+  display: none !important;
+}
+.notion-search-button::before { content: '👁️'; font-size: 1.1rem; opacity: 0.7; }
+.notion-dark-mode-button::before { content: '💀'; font-size: 1.1rem; opacity: 0.7; }
 
-.notion-asset-wrapper img:hover {
-  filter: brightness(0.8) contrast(1.2) grayscale(80%) !important;
+/* --- FOOTER (ALT KISIM) DÜZENLEME --- */
+.notion-footer {
+  border-top: 1px solid rgba(138, 3, 3, 0.1);
+  padding: 60px 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
 }
 
+.notion-footer::after {
+  content: '© 2026 Erdem İlker - Karanlıkta Yazıldı.';
+  display: block;
+  margin-top: 20px;
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  opacity: 0.5;
+}
+
+/* --- GÖRSEL EFEKTLER (GOTHIC HOVER) --- */
+.notion-asset-wrapper img:hover {
+  filter: brightness(0.8) contrast(1.2) grayscale(90%) !important;
+}
+
+/* --- CALLOUT BLOKLARI --- */
 .notion-callout {
-  background-color: #111111 !important;
   border-left: 4px solid #cc0000 !important;
-  color: #f5f5f5 !important;
+  background-color: rgba(20, 20, 20, 0.5) !important;
 }
