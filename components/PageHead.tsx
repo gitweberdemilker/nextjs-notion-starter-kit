@@ -75,9 +75,7 @@ export function PageHead({
         </>
       )}
 
-      {keywords && (
-        <meta name='keywords' content={keywords} />
-      )}
+      {keywords && <meta name='keywords' content={keywords} />}
 
       {socialImageUrl ? (
         <>
@@ -108,7 +106,7 @@ export function PageHead({
       <meta name='twitter:title' content={title} />
       <title>{title}</title>
 
-      {/* Blog Schema Markup */}
+      {/* BlogPosting Schema */}
       {isBlogPost && url && (
         <script type='application/ld+json'>
           {JSON.stringify({
@@ -128,6 +126,51 @@ export function PageHead({
           })}
         </script>
       )}
+
+      {/* Person Schema */}
+      <script type='application/ld+json'>
+        {JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'Person',
+          name: 'Erdem İlker',
+          url: 'https://www.erdemilker.com.tr',
+          sameAs: config.twitter
+            ? [`https://twitter.com/${config.twitter}`]
+            : [],
+          jobTitle: 'Yazar',
+          worksFor: {
+            '@type': 'Organization',
+            name: 'Karanlık Hikayeler'
+          }
+        })}
+      </script>
+
+      {/* Organization Schema */}
+      <script type='application/ld+json'>
+        {JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'Organization',
+          name: 'Karanlık Hikayeler',
+          url: 'https://www.erdemilker.com.tr',
+          logo: `${config.host}/og/default.jpg`
+        })}
+      </script>
+
+      {/* WebSite Schema */}
+      <script type='application/ld+json'>
+        {JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'WebSite',
+          name: 'Karanlık Hikayeler',
+          url: 'https://www.erdemilker.com.tr',
+          potentialAction: {
+            '@type': 'SearchAction',
+            target:
+              'https://www.erdemilker.com.tr/?q={search_term_string}',
+            'query-input': 'required name=search_term_string'
+          }
+        })}
+      </script>
     </Head>
   )
 }
