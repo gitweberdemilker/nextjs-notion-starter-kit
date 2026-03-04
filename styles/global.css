@@ -110,3 +110,53 @@ body {
 .notion-footer::after {
   content: '© 2026 Erdem İlker - Karanlıkta Yazıldı.';
   display: block;
+
+  /* --- GÖRSEL GÜZELLEŞTİRMELER: ATMOSFER PAKETİ --- */
+
+/* 1. Siyah Sis ve Vinyet Çerçeve */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 1000;
+  /* Kenar Karartma (Vignette) */
+  background: radial-gradient(circle, rgba(0,0,0,0) 60%, rgba(0,0,0,0.6) 100%);
+}
+
+/* 2. Arka Plan Sis Efekti (Düşük Opaklık) */
+body::after {
+  content: "";
+  position: fixed;
+  top: 0; left: 0;
+  width: 300%; height: 300%;
+  background-image: url('https://www.transparenttextures.com/patterns/stardust.png'); /* Hafif toz/sis dokusu */
+  opacity: 0.05;
+  animation: slowFog 60s linear infinite;
+  pointer-events: none;
+  z-index: -1;
+}
+
+@keyframes slowFog {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(-30%, -30%); }
+}
+
+/* 3. Footer Yazısı İçin Parlayan Künye Animasyonu */
+.notion-footer::after {
+  animation: footerGlow 4s ease-in-out infinite;
+  letter-spacing: 4px !important; /* Harfleri biraz daha açalım, daha sinematik durur */
+  font-style: italic;
+}
+
+@keyframes footerGlow {
+  0%, 100% { opacity: 0.3; text-shadow: none; }
+  50% { opacity: 0.8; text-shadow: 0 0 10px rgba(204, 0, 0, 0.5); color: #8a0303; }
+}
+
+/* 4. Başlıklar İçin Özel Harf Aralığı */
+.notion-h1, .notion-h2 {
+  letter-spacing: -0.02em;
+  word-spacing: 0.1em;
+}
