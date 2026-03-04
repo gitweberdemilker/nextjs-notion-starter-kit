@@ -7,17 +7,16 @@
 body {
   --notion-font: 'Crimson Text', serif;
   font-family: var(--notion-font);
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color 0.3s ease;
 }
 
-/* --- GECE/GÜNDÜZ MODU TAMİRİ --- */
-/* Sadece karanlık mod aktifken (dark-mode sınıfı varken) siyah yap */
+/* --- GECE MODU TEMELLERİ --- */
 .dark-mode, .dark-mode .notion-app, .dark-mode .notion-page {
   background-color: #000000 !important;
   color: #d1d1d1 !important;
 }
 
-/* --- ÜST MENÜ VE İKONLAR --- */
+/* --- MENÜ VE HEADER (KAN KIRMIZISI EFEKTİ GERİ GELDİ) --- */
 .notion-header {
   background: transparent !important;
 }
@@ -26,24 +25,28 @@ body {
   backdrop-filter: blur(10px);
 }
 
-.notion-header .breadcrumb, .notion-header .nav-header-item {
+.notion-header .breadcrumb, 
+.notion-header .nav-header-item {
+  color: var(--fg-color) !important; /* Gündüz siyah, gece gümüş */
   font-family: inherit !important;
   font-weight: 600 !important;
+  font-size: 14px !important;
+  opacity: 0.8 !important;
   transition: all 0.3s ease !important;
 }
 
-/* Sosyal Medya İkon Efektleri (Üst ve Alt) */
-.notion-header .nav-header-item:hover, 
-.notion-footer .nav-header-item:hover {
+/* Üzerine gelince her iki modda da KAN KIRMIZISI parlar */
+.notion-header .breadcrumb:hover, 
+.notion-header .nav-header-item:hover {
   color: #cc0000 !important;
-  filter: drop-shadow(0 0 8px rgba(204, 0, 0, 0.8)) !important;
-  transform: translateY(-3px) scale(1.1);
+  opacity: 1 !important;
+  text-shadow: 0px 0px 10px rgba(204, 0, 0, 0.6) !important;
+  transform: translateY(-2px);
 }
 
-/* --- BAŞLIKLARI GİZLEME --- */
+/* --- BAŞLIKLAR VE PARLAMA --- */
 .notion-title { display: none !important; }
 
-/* --- NEFES ALAN KIRMIZILI BAŞLIKLAR --- */
 .notion-h1, .notion-h2, .notion-h3 {
   animation: gothicPulse 5s infinite ease-in-out;
 }
@@ -53,14 +56,28 @@ body {
   100% { text-shadow: 0 0 5px rgba(138, 3, 3, 0); }
 }
 
-/* --- GÖZ (ARAMA) VE KURU KAFA (TEMA) İKONLARI --- */
-.notion-search-button svg, .notion-dark-mode-button svg {
-  display: none !important;
+/* --- CALLOUT BLOKLARI (GÜNDÜZ MODU TAMİRİ) --- */
+/* Gündüz modunda o çirkin gri kutu yerine daha şık bir antrasit panel yapar */
+.notion-callout {
+  border-left: 4px solid #cc0000 !important;
+  background-color: #1a1a1a !important; /* Her iki modda da koyu kalması için zorladık */
+  border-radius: 6px !important;
+  border-top: 1px solid #333 !important;
+  border-right: 1px solid #333 !important;
+  border-bottom: 1px solid #333 !important;
 }
-.notion-search-button::before { content: '👁️'; font-size: 1.1rem; opacity: 0.7; }
-.notion-dark-mode-button::before { content: '💀'; font-size: 1.1rem; opacity: 0.7; }
 
-/* --- FOOTER (ALT KISIM) DÜZENLEME --- */
+/* Callout içindeki yazıların her zaman okunur (gümüş/beyaz) olmasını sağlar */
+.notion-callout, .notion-callout-text, .notion-callout span, .notion-callout a {
+  color: #f5f5f5 !important; 
+}
+
+/* --- İKONLAR --- */
+.notion-dark-mode-button svg, .notion-search-button svg { display: none !important; }
+.notion-search-button::before { content: '👁️'; font-size: 1.1rem; color: var(--fg-color) !important; }
+.notion-dark-mode-button::before { content: '💀'; font-size: 1.1rem; color: var(--fg-color) !important; }
+
+/* --- FOOTER VE SOSYAL MEDYA --- */
 .notion-footer {
   border-top: 1px solid rgba(138, 3, 3, 0.1);
   padding: 60px 0 !important;
@@ -68,7 +85,6 @@ body {
   flex-direction: column !important;
   align-items: center !important;
 }
-
 .notion-footer::after {
   content: '© 2026 Erdem İlker - Karanlıkta Yazıldı.';
   display: block;
@@ -76,15 +92,4 @@ body {
   font-size: 0.8rem;
   letter-spacing: 2px;
   opacity: 0.5;
-}
-
-/* --- GÖRSEL EFEKTLER (GOTHIC HOVER) --- */
-.notion-asset-wrapper img:hover {
-  filter: brightness(0.8) contrast(1.2) grayscale(90%) !important;
-}
-
-/* --- CALLOUT BLOKLARI --- */
-.notion-callout {
-  border-left: 4px solid #cc0000 !important;
-  background-color: rgba(20, 20, 20, 0.5) !important;
 }
