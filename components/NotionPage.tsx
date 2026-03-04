@@ -1,3 +1,7 @@
+import Head from 'next/head'
+import { seoMap, defaultSEO } from '@/lib/seo-map'
+import { pageUrlOverrides, domain } from '@/lib/config'
+
 import cs from 'classnames'
 import dynamic from 'next/dynamic'
 import Image from 'next/legacy/image'
