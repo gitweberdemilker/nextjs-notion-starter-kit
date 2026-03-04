@@ -13,7 +13,6 @@ body,
 html {
   padding: 0 !important;
   margin: 0 !important;
-  background-color: #000000 !important;
 }
 
 body {
@@ -22,7 +21,7 @@ body {
   overflow-x: hidden;
 }
 
-/* --- HEADER VE MENÜ TAMİRİ --- */
+/* --- AKILLI MENÜ VE HEADER (GÜNDÜZ/GECE UYUMLU) --- */
 .notion-header {
   background: transparent !important;
   position: relative !important;
@@ -30,79 +29,77 @@ body {
 }
 
 .notion-nav-header {
-  background: rgba(0, 0, 0, 0.5) !important;
   backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(128, 128, 128, 0.1);
 }
 
-/* Menü Yazılarını Görünür Yapma */
+/* Menü Yazıları: Arka plana göre otomatik renk değiştirir */
 .notion-header .breadcrumb, 
 .notion-header .nav-header-item {
-  color: #e0e0e0 !important; /* Gümüş beyazı, karanlıkta parlar */
+  color: var(--fg-color) !important; /* Notion'ın kendi yazı rengini takip eder */
   font-family: inherit !important;
   font-weight: 600 !important;
   font-size: 14px !important;
-  opacity: 1 !important;
+  opacity: 0.8 !important;
   visibility: visible !important;
   transition: all 0.3s ease !important;
 }
 
+/* Menü Üzerine Gelince Kan Kırmızısı Parlama */
 .notion-header .breadcrumb:hover {
   color: #cc0000 !important;
-  text-shadow: 0px 0px 12px rgba(204, 0, 0, 0.8) !important;
+  opacity: 1 !important;
+  text-shadow: 0px 0px 10px rgba(204, 0, 0, 0.4) !important;
 }
 
-/* --- ÜSTTEKİ FAZLA İKONLARI TEMİZLEME --- */
-/* Üstteki karanlık mod butonunu tamamen gizle (çünkü altta zaten var) */
+/* --- ÜSTTEKİ FAZLA BUTONLARI TEMİZLEME --- */
 .notion-dark-mode-button {
   display: none !important;
 }
 
-/* Arama ikonunu (Göz) şık bir şekilde bırak */
 .notion-search-button svg {
   display: none !important;
 }
 .notion-search-button::before {
   content: '👁️' !important;
   font-size: 1.1rem !important;
-  opacity: 0.7;
-  transition: opacity 0.3s ease;
-}
-.notion-search-button:hover::before {
-  opacity: 1;
-  filter: drop-shadow(0 0 5px #cc0000);
+  opacity: 0.6;
+  color: var(--fg-color) !important;
 }
 
-/* --- DİĞER KONSEPT AYARLARI --- */
+/* --- KARANLIK MOD ÖZELLEŞTİRMELERİ --- */
+body.dark-mode, .dark-mode .notion-app { 
+  background-color: #000000 !important; 
+}
+
+/* --- BAŞLIKLAR VE PARLAMA --- */
 .notion-title { display: none !important; }
 
-body.dark-mode, .dark-mode .notion-app { background-color: #000000 !important; }
-.dark-mode .notion-page { color: #d1d1d1 !important; }
-
-/* Başlık Parlaması */
 .notion-h1, .notion-h2, .notion-h3 {
   animation: gothicPulse 5s infinite ease-in-out;
 }
 @keyframes gothicPulse {
   0% { text-shadow: 0 0 5px rgba(138, 3, 3, 0); }
-  50% { text-shadow: 0 0 15px rgba(204, 0, 0, 0.5); }
+  50% { text-shadow: 0 0 15px rgba(204, 0, 0, 0.3); }
   100% { text-shadow: 0 0 5px rgba(138, 3, 3, 0); }
 }
 
-/* --- GÖRSEL VE KAYDIRMA ÇUBUĞU --- */
+/* --- KAYDIRMA ÇUBUĞU --- */
 ::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #000000; }
-::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #555; border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: #8a0303; }
 
+/* --- GÖRSEL EFEKTLER --- */
+.notion-asset-wrapper img {
+  transition: all 0.6s ease-in-out !important;
+}
 .notion-asset-wrapper img:hover {
   filter: brightness(0.8) contrast(1.2) grayscale(80%) !important;
 }
 
 /* --- CALLOUT BLOKLARI --- */
 .notion-callout {
-  background-color: #111111 !important;
   border-left: 4px solid #cc0000 !important;
-}
-.notion-callout, .notion-callout-text, .notion-callout span {
-  color: #f5f5f5 !important; 
+  background-color: var(--bg-color-0) !important;
 }
