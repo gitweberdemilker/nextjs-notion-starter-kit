@@ -38,10 +38,20 @@ body {
   text-shadow: 0 0 10px rgba(204, 0, 0, 0.4) !important;
 }
 
-/* Aydınlık Mod Menü Görünürlüğü (Düzeltildi) */
+/* =========================================================
+   AYDINLIK MOD MENÜ VE LOGO GÖRÜNÜRLÜĞÜ (KAPSAMLI ÇÖZÜM)
+   ========================================================= */
+.light-mode .notion-nav-header,
+.light-mode .notion-nav-header-lhs,
+.light-mode .notion-nav-header-rhs,
 .light-mode .notion-nav-header a,
+.light-mode .notion-nav-header span,
+.light-mode .notion-nav-header .title,
+.light-mode .notion-nav-header .breadcrumbs,
 .light-mode .notion-nav-header .notion-nav-header-item,
 .light-mode .notion-header a,
+.light-mode .notion-search-button,
+.light-mode .notion-dark-mode-button,
 .light-mode .notion-search-button::before,
 .light-mode .notion-dark-mode-button::before {
   color: #1a1a1a !important;
@@ -223,19 +233,29 @@ h1.notion-title,
 }
 
 /* --- İKON VE DÜĞME DÜZENLEMELERİ --- */
+.notion-dark-mode-button, 
+.notion-search-button {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
 .notion-dark-mode-button svg,
 .notion-search-button svg {
   display: none !important;
 }
+
 .notion-search-button::before {
   content: '👁️';
   font-size: 1.1rem;
-  color: var(--fg-color) !important;
+  color: inherit !important;
 }
 .notion-dark-mode-button::before {
   content: '💀';
   font-size: 1.1rem;
-  color: var(--fg-color) !important;
+  color: inherit !important;
 }
 
 /* --- ATMOSFERİK DETAYLAR --- */
@@ -458,7 +478,7 @@ body::after {
 }
 
 /* =========================================================
-   MOBİL EKRAN İÇİN GÜVENLİ DÜZEN (BOŞLUKLAR DÜZELTİLDİ)
+   MOBİL EKRAN İÇİN GÜVENLİ DÜZEN
    ========================================================= */
 @media (max-width: 768px) {
   .notion-collection-card-cover {
@@ -466,7 +486,6 @@ body::after {
     max-height: 350px !important;
   }
 
-  /* 1. ÜST MENÜYÜ DARALT VE TOPARLA */
   .notion-header,
   .notion-nav-header {
     position: relative !important;
@@ -488,7 +507,6 @@ body::after {
     position: static !important;
   }
 
-  /* 2. MENÜYÜ SIKIŞTIR VE KOMPAKT HALE GETİR */
   .notion-nav-header-rhs,
   .nav-header-rhs {
     display: flex !important;
@@ -517,14 +535,12 @@ body::after {
     line-height: 1.2 !important;
   }
 
-  /* 3. İKON VE KAPAK GÖRSELİ (AÇIKLIK BURADA KAPATILDI) */
   .notion-page-icon-hero,
   .notion-page-icon-wrapper {
     display: block !important;
     position: relative !important;
     width: 80px !important;
     height: 80px !important;
-    /* Alttaki boşluk 20px'den 5px'e düşürüldü */
     margin: -40px auto 5px auto !important; 
     left: 0 !important;
     right: 0 !important;
@@ -551,20 +567,17 @@ body::after {
     object-position: center !important; 
   }
 
-  /* --- YENİ: SAYFA VE BAŞLIK BOŞLUKLARINI MOBİLDE SIFIRLAMA --- */
   .notion-page {
     padding-top: 10px !important; 
   }
 
-  /* Mobilde masaüstünün devasa başlık boşluğunu daraltıyoruz */
   .notion-h1:not(.notion-title), 
   .notion-h2, 
   .notion-h3 {
-    margin-top: 25px !important; /* Masaüstündeki 60px burada 25px'e iniyor */
+    margin-top: 25px !important; 
     margin-bottom: 15px !important;
   }
 
-  /* 4. SÜTUNLARI MOBİLDE ALT ALTA DİZ VE HİZALA */
   .notion-row {
     display: flex !important;
     flex-direction: column !important;
