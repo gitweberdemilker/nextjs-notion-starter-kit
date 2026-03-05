@@ -396,3 +396,51 @@ body::after {
     display: none !important;
   }
 }
+/* --- MOBİL EKRAN (TELEFON) KUSURSUZLAŞTIRMA --- */
+@media (max-width: 768px) {
+  /* 1. ÜST MENÜ (HEADER) ÇAKIŞMASINI ÖNLEME */
+  .notion-nav-header {
+    flex-direction: column !important; /* Başlık ve menüyü alt alta ayırır */
+    height: auto !important;
+    padding: 15px 15px 5px 15px !important;
+    gap: 12px !important;
+  }
+  
+  /* Sol Taraf (Logo/Başlık): Merkeze hizala */
+  .notion-nav-header > div:first-child {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+  
+  /* Sağ Taraf (Linkler): Telefonlarda parmakla sağa-sola kaydırılabilir yap */
+  .notion-nav-header > div:last-child {
+    width: 100% !important;
+    justify-content: flex-start !important;
+    overflow-x: auto !important; 
+    white-space: nowrap !important;
+    padding-bottom: 8px !important;
+    -webkit-overflow-scrolling: touch !important; /* Kaydırmayı pürüzsüzleştirir */
+    scrollbar-width: none !important; /* Çirkin kaydırma çubuğunu gizle */
+  }
+  .notion-nav-header > div:last-child::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  /* 2. YAN YANA DURAN KUTULARI (CALLOUT VE GÖRSELLERİ) ALT ALTA DİZME */
+  .notion-row {
+    display: flex !important;
+    flex-direction: column !important; /* Yan yana durmayı iptal edip alt alta dizer */
+    width: 100% !important;
+  }
+  
+  .notion-column {
+    width: 100% !important; /* Sütunlar ekrana tam otursun */
+    margin: 0 0 15px 0 !important; /* Aralarına nefes alma boşluğu ekle */
+  }
+
+  .notion-callout {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    width: 100% !important;
+  }
+}
