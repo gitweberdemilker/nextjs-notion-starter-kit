@@ -3,7 +3,9 @@ import Head from 'next/head'
 import type * as types from '@/lib/types'
 import * as config from '@/lib/config'
 import { getSocialImageUrl } from '@/lib/get-social-image-url'
-import { siteConfig } from '@/site.config' // Temiz sözlüğü çekiyoruz
+
+// Hata veren import satırı düzeltildi ve doğru yoldan (../) çağrıldı
+import siteConfig from '../site.config' 
 
 export function PageHead({
   site,
@@ -33,9 +35,9 @@ export function PageHead({
   // CANONICAL URL KESİN ÇÖZÜMÜ
   // ==========================================
   let canonicalUrl = url;
-  if (canonicalUrl && pageId) {
+  if (canonicalUrl && pageId && siteConfig?.pageUrlOverrides) {
     const cleanId = pageId.replace(/-/g, '').toLowerCase();
-    const overrideKeys = Object.keys(siteConfig.pageUrlOverrides || {});
+    const overrideKeys = Object.keys(siteConfig.pageUrlOverrides);
     
     for (const key of overrideKeys) {
       if (key.replace(/-/g, '').toLowerCase() === cleanId) {
@@ -79,6 +81,23 @@ export function PageHead({
 
       <meta name='robots' content='index,follow' />
       <meta property='og:type' content='website' />
+
+      {/* ==========================================
+          VARSAYILAN KARANLIK MOD ZORLAMASI
+          Site ilk açıldığında beyaz parlamayı önler ve karanlık modu kilitler
+          ========================================== */}
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `
+            try {
+              if (!localStorage.getItem('theme')) {
+                localStorage.setItem('theme', 'dark');
+                document.documentElement.classList.add('dark-mode');
+              }
+            } catch (e) {}
+          `
+        }}
+      />
 
       {site && (
         <>
@@ -183,7 +202,7 @@ export function PageHead({
             name: title,
             description: description || 'Kimsesizler Mezarlığı Animasyon Serisi',
             thumbnailUrl: socialImageUrl || `${config.host}/og/default.jpg`,
-            uploadDate: '2026-01-01T08:00:00+08:00', // Varsayılan bir tarih
+            uploadDate: '2026-01-01T08:00:00+08:00', 
             author: {
               '@type': 'Person',
               name: 'Erdem İlker'
