@@ -29,18 +29,39 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 
 const createSitemap = (siteMap: SiteMap) => {
   const host = config.host
-
   const overrides = (config as any).pageUrlOverrides ?? {}
+  
+  // Ana sayfanın Notion ID'sini alıyoruz (Çift yazımı engellemek için)
+  const rootNotionPageId = ((config as any).rootNotionPageId || '').replace(/-/g, '').toLowerCase()
 
   const urls = Object.keys(siteMap.canonicalPageMap)
     .map((canonicalId) => {
-      const slug = overrides[canonicalId] ?? canonicalId
+      const cleanCanonicalId = canonicalId.replace(/-/g, '').toLowerCase()
+      
+      // 1. KORUMA: Eğer sayfa sitenin ana sayfasıysa, onu listeden çıkar 
+      // (Çünkü aşağıda <urlset> içinde zaten manuel olarak ekleniyor)
+      if (cleanCanonicalId === rootNotionPageId) {
+        return null
+      }
+
+      let targetSlug = canonicalId
+
+      // 2. TERSİNE EŞLEŞTİRME: Karmaşık ID'nin sözlükteki temiz URL karşılığını bul
+      for (const slug in overrides) {
+        const idValue = overrides[slug]
+        if (typeof idValue === 'string' && idValue.replace(/-/g, '').toLowerCase() === cleanCanonicalId) {
+          // URL'nin başındaki eğik çizgiyi (/) siliyoruz ki // şeklinde hatalı link çıkmasın
+          targetSlug = slug.startsWith('/') ? slug.substring(1) : slug
+          break
+        }
+      }
 
       return `
   <url>
-    <loc>${host}/${slug}</loc>
+    <loc>${host}/${targetSlug}</loc>
   </url>`.trim()
     })
+    .filter(Boolean) // null dönen ana sayfayı listeden temizler
     .join('\n')
 
   return `<?xml version="1.0" encoding="UTF-8"?>
