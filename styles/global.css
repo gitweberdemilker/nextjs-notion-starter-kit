@@ -349,7 +349,7 @@ body::after {
    ========================================================= */
 @media (max-width: 768px) {
   
-  /* 1. ÜST MENÜYÜ TEMİZ BİR ŞERİT YAP (LOGO ÜSTTE, MENÜ ALTTA) */
+  /* 1. ÜST MENÜYÜ DARALT VE TOPARLA */
   .notion-header,
   .notion-nav-header {
     position: relative !important;
@@ -357,8 +357,8 @@ body::after {
     flex-direction: column !important;
     height: auto !important;
     min-height: auto !important;
-    padding: 15px 10px 15px 10px !important;
-    background-color: #050505 !important; /* Karışmayı önleyen zifiri siyah zemin */
+    padding: 10px 5px !important; /* Gereksiz devasa boşlukları ciddi şekilde kıstık */
+    background-color: #050505 !important; 
     overflow: hidden !important;
     z-index: 999 !important;
   }
@@ -368,19 +368,20 @@ body::after {
     display: flex !important;
     width: 100% !important;
     justify-content: center !important;
-    margin-bottom: 15px !important; /* Menü ile logoyu ayırır */
+    margin-bottom: 5px !important; /* Logoyu altındaki menüye yaklaştırdık */
     position: static !important;
   }
 
-  /* 2. MENÜYÜ İKİ SATIRA DAĞIT VE MERKEZLE */
+  /* 2. MENÜYÜ SIKIŞTIR VE KOMPAKT HALE GETİR */
   .notion-nav-header-rhs,
   .nav-header-rhs {
     display: flex !important;
-    flex-wrap: wrap !important; /* Linkleri alt satıra nazikçe atar */
+    flex-wrap: wrap !important; 
     width: 100% !important;
     justify-content: center !important;
-    gap: 12px 18px !important; /* Dikey ve yatay boşluk */
-    position: static !important; /* Saçma sapan fırlamasını engeller */
+    align-items: center !important;
+    gap: 6px 12px !important; /* Öğeler arasındaki o devasa mesafeyi (gap) daralttık */
+    position: static !important; 
     transform: none !important;
     visibility: visible !important;
     opacity: 1 !important;
@@ -388,27 +389,30 @@ body::after {
     padding: 0 !important;
   }
 
-  /* Menü Yazıları */
+  /* Menü Yazıları (Daha derli toplu ve hafif küçük) */
   .notion-nav-header-rhs a,
-  .nav-header-rhs a {
-    display: block !important;
-    font-size: 0.85rem !important; 
+  .nav-header-rhs a,
+  .notion-nav-header-rhs .notion-nav-header-item {
+    display: inline-flex !important;
+    font-size: 0.8rem !important; /* Fontu mobil için estetik bir boyuta çektik */
     white-space: nowrap !important; 
     text-align: center !important;
     margin: 0 !important;
+    padding: 2px !important; /* İç boşlukları sıfıra indirdik */
+    line-height: 1.2 !important;
   }
 
-  /* 3. SERSERİ GİBİ KAYAN İKONU ZORLA KAPAĞIN ORTASINA KİLİTLE */
+  /* 3. İKON VE KAPAK GÖRSELİ (AYNEN KORUNDU) */
   .notion-page-icon-hero,
   .notion-page-icon-wrapper {
     display: block !important;
     position: relative !important;
     width: 80px !important;
     height: 80px !important;
-    margin: -40px auto 20px auto !important; /* Yukarı çekip sağdan soldan tam merkeze oturtur */
+    margin: -40px auto 20px auto !important; 
     left: 0 !important;
     right: 0 !important;
-    transform: none !important; /* Sistem kaydırmalarını iptal eder */
+    transform: none !important; 
     z-index: 10 !important;
   }
   
@@ -419,7 +423,6 @@ body::after {
     object-fit: cover !important;
   }
 
-  /* 4. MOBİLDE KAPAK GÖRSELİ (ŞERİT) */
   .notion-page-cover-wrapper {
     height: 120px !important; 
     min-height: 120px !important;
@@ -432,7 +435,7 @@ body::after {
     object-position: center !important; 
   }
 
-  /* 5. SÜTUNLARI VE KUTULARI ZORUNLU ALT ALTA DİZME */
+  /* 4. SÜTUNLARI VE KUTULARI ALT ALTA DİZME */
   .notion-row {
     display: flex !important;
     flex-direction: column !important;
