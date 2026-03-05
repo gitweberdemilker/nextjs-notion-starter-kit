@@ -30,22 +30,34 @@ export function PageHead({
   const socialImageUrl = getSocialImageUrl(pageId) || image
 
   // ==========================================
-  // CANONICAL URL KESİN ÇÖZÜMÜ (TS HATASI GİDERİLDİ)
+  // CANONICAL URL KESİN ÇÖZÜMÜ & ANA SAYFA KORUMASI
   // ==========================================
   let canonicalUrl = url;
-  if (pageId && siteConfig?.pageUrlOverrides) {
+  if (pageId && siteConfig) {
     const cleanId = pageId.replace(/-/g, '').toLowerCase();
-    const overrides = siteConfig.pageUrlOverrides;
     
-    for (const slug in overrides) {
-      const overrideValue = overrides[slug];
-      // TYPESCRIPT GÜVENLİK KONTROLÜ: Değer gerçekten varsa işlemi yap
-      if (overrideValue) {
-        const mappedId = overrideValue.replace(/-/g, '').toLowerCase();
-        if (mappedId === cleanId) {
-          const cleanSlug = slug.startsWith('/') ? slug : `/${slug}`;
-          canonicalUrl = `https://www.erdemilker.com.tr${cleanSlug}`;
-          break;
+    // 1. ANA SAYFA KORUMASI: Eğer bu sayfa sitenin kök (root) ID'si ise URL'yi koru
+    let rootId = '';
+    if (siteConfig.rootNotionPageId) {
+      rootId = siteConfig.rootNotionPageId.replace(/-/g, '').toLowerCase();
+    }
+    
+    if (cleanId === rootId) {
+      canonicalUrl = 'https://www.erdemilker.com.tr/';
+    } 
+    // 2. DİĞER SAYFALAR İÇİN SÖZLÜK KONTROLÜ
+    else if (siteConfig.pageUrlOverrides) {
+      const overrides = siteConfig.pageUrlOverrides;
+      for (const slug in overrides) {
+        const overrideValue = overrides[slug];
+        // TYPESCRIPT GÜVENLİK KONTROLÜ
+        if (overrideValue) {
+          const mappedId = overrideValue.replace(/-/g, '').toLowerCase();
+          if (mappedId === cleanId) {
+            const cleanSlug = slug.startsWith('/') ? slug : `/${slug}`;
+            canonicalUrl = `https://www.erdemilker.com.tr${cleanSlug}`;
+            break;
+          }
         }
       }
     }
