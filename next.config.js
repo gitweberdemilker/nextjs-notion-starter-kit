@@ -3,6 +3,13 @@ export default {
 
   async redirects() {
     return [
+      // Kırık "yeni-site-yaynda" bağlantısını onaran yönlendirme
+      {
+        source: '/yeni-site-yaynda',
+        destination: '/yeni-site-yayinda',
+        permanent: true
+      },
+
       // Eski tamamlanan-kitaplar klasörü
       {
         source: '/tamamlanan-kitaplar/:slug',
