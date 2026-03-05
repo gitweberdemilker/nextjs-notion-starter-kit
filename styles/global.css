@@ -9,7 +9,64 @@ body {
   font-family: var(--notion-font);
 }
 
-/* --- GECE MODU --- */
+/* =========================================================
+   1. AYDINLIK (BEYAZ) MOD GÖRÜNÜRLÜĞÜ (VARSAYILAN DURUM)
+   Sistem karanlık modda DEĞİLSE bu kurallar işler
+   ========================================================= */
+body:not(.dark-mode),
+body:not(.dark-mode) .notion-app,
+body:not(.dark-mode) .notion-page {
+  background-color: #fcfcfc !important;
+  color: #1a1a1a !important;
+}
+
+/* Aydınlık modda menü, ikonlar ve yazılar SİYAH olur */
+body:not(.dark-mode) .notion-nav-header a,
+body:not(.dark-mode) .notion-nav-header span,
+body:not(.dark-mode) .notion-nav-header .title,
+body:not(.dark-mode) .notion-nav-header .notion-nav-header-item,
+body:not(.dark-mode) .notion-header a {
+  color: #1a1a1a !important;
+}
+
+/* İŞTE BURASI: Aydınlık modda Güneş/Ay ve Arama ikonunu siyah yapar */
+body:not(.dark-mode) .notion-dark-mode-button svg,
+body:not(.dark-mode) .notion-search-button svg {
+  fill: #1a1a1a !important;
+  color: #1a1a1a !important;
+}
+
+body:not(.dark-mode) .notion-h1:not(.notion-title), 
+body:not(.dark-mode) .notion-h2, 
+body:not(.dark-mode) .notion-h3 {
+  color: #1a1a1a !important;
+}
+
+body:not(.dark-mode) .notion-callout {
+  background-color: #f5f5f5 !important;
+  border: 1px solid #d1d1d1 !important;
+  border-left: 4px solid #cc0000 !important;
+}
+
+body:not(.dark-mode) .notion-callout, 
+body:not(.dark-mode) .notion-callout-text, 
+body:not(.dark-mode) .notion-callout span, 
+body:not(.dark-mode) .notion-callout a {
+  color: #1a1a1a !important;
+}
+
+/* Aydınlık Mod Hover (Üzerine gelince kırmızı parlama) */
+body:not(.dark-mode) .notion-nav-header a:hover,
+body:not(.dark-mode) .notion-nav-header .notion-nav-header-item:hover,
+body:not(.dark-mode) .notion-dark-mode-button:hover svg,
+body:not(.dark-mode) .notion-search-button:hover svg {
+  color: #cc0000 !important;
+  fill: #cc0000 !important;
+}
+
+/* =========================================================
+   2. GECE (KARANLIK) MOD GÖRÜNÜRLÜĞÜ
+   ========================================================= */
 .dark-mode,
 .dark-mode .notion-app,
 .dark-mode .notion-page {
@@ -17,81 +74,67 @@ body {
   color: #d1d1d1 !important;
 }
 
-/* --- PARLAK (LIGHT) MOD OKUNURLUK DÜZELTMELERİ --- */
-.light-mode,
-.light-mode .notion-app,
-.light-mode .notion-page {
-  background-color: #fcfcfc !important;
-  color: #1a1a1a !important;
+.dark-mode .notion-nav-header a,
+.dark-mode .notion-nav-header span,
+.dark-mode .notion-nav-header .notion-nav-header-item,
+.dark-mode .notion-header a {
+  color: var(--fg-color) !important;
 }
 
-.light-mode .notion-h1:not(.notion-title), 
-.light-mode .notion-h2, 
-.light-mode .notion-h3 {
-  color: #1a1a1a !important;
+.dark-mode .notion-dark-mode-button svg,
+.dark-mode .notion-search-button svg {
+  fill: var(--fg-color) !important;
+  color: var(--fg-color) !important;
 }
 
-.light-mode .notion-h1:not(.notion-title):hover, 
-.light-mode .notion-h2:hover, 
-.light-mode .notion-h3:hover {
-  color: #cc0000 !important;
-  text-shadow: 0 0 10px rgba(204, 0, 0, 0.4) !important;
-}
-
-/* --- AYDINLIK MOD MENÜ VE LOGO GÖRÜNÜRLÜĞÜ --- */
-.light-mode .notion-nav-header,
-.light-mode .notion-nav-header-lhs,
-.light-mode .notion-nav-header-rhs,
-.light-mode .notion-nav-header a,
-.light-mode .notion-nav-header span,
-.light-mode .notion-nav-header .title,
-.light-mode .notion-nav-header .breadcrumbs,
-.light-mode .notion-nav-header .notion-nav-header-item,
-.light-mode .notion-header a {
-  color: #1a1a1a !important;
-}
-
-.light-mode .notion-nav-header a:hover,
-.light-mode .notion-nav-header .notion-nav-header-item:hover,
-.light-mode .notion-header a:hover {
-  color: #cc0000 !important;
-}
-
-/* Parlak mod callout düzeltmeleri */
-.light-mode .notion-callout {
-  background-color: #f5f5f5 !important;
-  border: 1px solid #d1d1d1 !important;
+.dark-mode .notion-callout {
+  background-color: #111111 !important;
+  border: 1px solid #2a2a2a !important;
   border-left: 4px solid #cc0000 !important;
 }
 
-.light-mode .notion-callout, 
-.light-mode .notion-callout-text, 
-.light-mode .notion-callout span, 
-.light-mode .notion-callout a {
-  color: #1a1a1a !important;
+.dark-mode .notion-callout, 
+.dark-mode .notion-callout-text, 
+.dark-mode .notion-callout span, 
+.dark-mode .notion-callout a {
+  color: #f5f5f5 !important; 
 }
 
-.light-mode .notion-callout:hover {
-  background-color: #ffffff !important;
-  border: 1px solid #cc0000 !important;
-  border-left: 4px solid #ff0000 !important;
-  box-shadow: 0 0 15px rgba(204, 0, 0, 0.15) !important;
+.dark-mode .notion-nav-header a:hover,
+.dark-mode .notion-nav-header .notion-nav-header-item:hover,
+.dark-mode .notion-dark-mode-button:hover svg,
+.dark-mode .notion-search-button:hover svg {
+  color: #cc0000 !important;
+  fill: #cc0000 !important;
+  text-shadow: 0 0 20px rgba(204, 0, 0, 0.9) !important;
 }
 
-.light-mode .notion-callout:hover, 
-.light-mode .notion-callout:hover .notion-callout-text, 
-.light-mode .notion-callout:hover span, 
-.light-mode .notion-callout:hover a {
-  color: #000000 !important; 
-  text-shadow: none !important; 
+/* =========================================================
+   ORTAK EFEKTLER VE DÜZENLEMELER (İKİ MOD İÇİN DE GEÇERLİ)
+   ========================================================= */
+
+/* Butonları her zaman görünür kılma */
+.notion-dark-mode-button, 
+.notion-search-button {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  opacity: 1 !important;
+  visibility: visible !important;
 }
 
-/* --- NOTION VERİTABANI ETİKETLERİNİ GİZLEME --- */
+.notion-dark-mode-button svg,
+.notion-search-button svg {
+  display: block !important;
+  transition: transform 0.4s ease, fill 0.4s ease !important;
+}
+
+/* Veritabanı Etiketlerini Gizleme */
 .notion-collection-page-properties {
   display: none !important;
 }
 
-/* --- MENÜ VE HEADER --- */
+/* Menü Arkaplanı */
 .notion-header {
   background: transparent !important;
 }
@@ -99,23 +142,15 @@ body {
   backdrop-filter: blur(10px);
 }
 
+/* Ortak Geçiş (Transition) Efektleri */
 .notion-nav-header a,
 .notion-nav-header .notion-nav-header-item,
 .notion-header a {
-  color: var(--fg-color) !important;
   transition: all 0.9s cubic-bezier(0.4, 0, 0.2, 1) !important;
   transform: translateZ(0) !important;
 }
 
-.notion-nav-header a:hover,
-.notion-nav-header .notion-nav-header-item:hover,
-.notion-header a:hover {
-  color: #cc0000 !important;
-  transform: scale(1.1) translateY(-3px) !important;
-  text-shadow: 0 0 20px rgba(204, 0, 0, 0.9) !important;
-}
-
-/* --- GÖRSEL HOVER --- */
+/* Görsel Hover Efektleri */
 .notion-asset-wrapper img, 
 .notion-collection-card,
 .notion-page img {
@@ -131,7 +166,7 @@ body {
   transform: scale(1.05) !important;
 }
 
-/* --- ANA SAYFA BAŞLIKLARINI KESİN GİZLEME --- */
+/* Ana Sayfa Başlıklarını Gizleme */
 h1.notion-title,
 .notion-page-block > h1.notion-title,
 .notion-title {
@@ -226,38 +261,6 @@ h1.notion-title,
   transform: scale(1.2) !important;
 }
 
-/* =========================================================
-   İKON VE DÜĞME DÜZENLEMELERİ (GÜNEŞ/AY ORİJİNALE DÖNDÜ)
-   ========================================================= */
-.notion-dark-mode-button, 
-.notion-search-button {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  opacity: 1 !important;
-  visibility: visible !important;
-}
-
-.notion-dark-mode-button svg,
-.notion-search-button svg {
-  display: block !important;
-  fill: var(--fg-color) !important;
-  transition: transform 0.4s ease, fill 0.4s ease !important;
-}
-
-/* Aydınlık Modda İkonlar Siyah Olur */
-.light-mode .notion-dark-mode-button svg,
-.light-mode .notion-search-button svg {
-  fill: #1a1a1a !important;
-}
-
-/* Üzerine Gelince Kırmızı Parlama */
-.notion-dark-mode-button:hover svg,
-.notion-search-button:hover svg {
-  fill: #cc0000 !important;
-  transform: scale(1.1) !important;
-}
-
 /* --- ATMOSFERİK DETAYLAR --- */
 body::before {
   content: '';
@@ -290,7 +293,7 @@ body::after {
   100% { transform: translate(-33%, -33%); }
 }
 
-/* --- BÖLÜM BAŞLIKLARI --- */
+/* --- BÖLÜM BAŞLIKLARI ORTAK --- */
 .notion-h1:not(.notion-title), 
 .notion-h2, 
 .notion-h3,
@@ -304,7 +307,6 @@ body::after {
 .notion-h2, 
 .notion-h3 {
   text-align: center !important; 
-  color: var(--fg-color) !important;
   letter-spacing: 4px !important; 
   padding-bottom: 12px !important;
   margin-top: 60px !important;
@@ -324,39 +326,19 @@ body::after {
   transform: scale(1.04) translateY(-3px) !important; 
 }
 
-/* --- CALLOUT BLOKLARI --- */
+/* --- CALLOUT BLOKLARI ORTAK HOVER --- */
 .notion-callout {
-  border-left: 4px solid #cc0000 !important;
-  background-color: #111111 !important;
   border-radius: 6px !important;
-  border: 1px solid #2a2a2a !important;
   transition: all 0.9s cubic-bezier(0.4, 0, 0.2, 1) !important;
   will-change: transform, box-shadow, border-color, background-color;
-}
-
-.notion-callout, 
-.notion-callout-text, 
-.notion-callout span, 
-.notion-callout a {
-  color: #f5f5f5 !important; 
-  transition: all 0.9s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
 .notion-callout:hover {
   border: 1px solid #cc0000 !important; 
   border-left: 4px solid #ff0000 !important; 
-  background-color: #1a0505 !important; 
   box-shadow: 0 0 25px rgba(204, 0, 0, 0.6) !important; 
   transform: scale(1.03) translateY(-3px) !important; 
   cursor: pointer !important;
-}
-
-.notion-callout:hover, 
-.notion-callout:hover .notion-callout-text, 
-.notion-callout:hover span, 
-.notion-callout:hover a {
-  color: #ffffff !important; 
-  text-shadow: 0 0 12px rgba(204, 0, 0, 0.9) !important; 
 }
 
 /* --- SAYFA ARŞİVİ (TOGGLE) BLOKLARINI KESİN GİZLEME --- */
@@ -370,27 +352,23 @@ body::after {
   pointer-events: none !important;
 }
 
-/* --- KAN KIRMIZISI KAYDIRMA ÇUBUĞU (SCROLLBAR) --- */
+/* --- KAN KIRMIZISI KAYDIRMA ÇUBUĞU --- */
 ::-webkit-scrollbar {
   width: 12px !important;
   background-color: #050505 !important; 
 }
-
 ::-webkit-scrollbar-track {
   background-color: #050505 !important;
   border-left: 1px solid rgba(138, 3, 3, 0.2) !important; 
 }
-
 ::-webkit-scrollbar-thumb {
   background-color: #660000 !important; 
   border-radius: 6px !important;
   border: 2px solid #050505 !important; 
 }
-
 ::-webkit-scrollbar-thumb:hover {
   background-color: #cc0000 !important; 
 }
-
 * {
   scrollbar-width: thin !important;
   scrollbar-color: #660000 #050505 !important;
@@ -421,36 +399,28 @@ body::after {
   animation: slowPulse 6s ease-in-out infinite;
 }
 
-@keyframes slowPulse {
-  0%, 100% { opacity: 0.2; text-shadow: none; }
-  50% { opacity: 0.6; text-shadow: 0 0 20px rgba(204, 0, 0, 0.8); }
-}
-
 @media (max-width: 1200px) {
   .notion-app::before {
     display: none !important;
   }
 }
 
-/* --- BLOG VİTRİNİ: DİKEY (KİTAP / ÇİZGİROMAN) KAPAĞI FORMATI --- */
+/* --- BLOG VİTRİNİ: KİTAP/ÇİZGİROMAN FORMATI --- */
 .notion-gallery-grid {
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)) !important; 
   gap: 25px !important;
 }
-
 .notion-collection-card {
   border-radius: 6px !important;
   border: 1px solid rgba(138, 3, 3, 0.2) !important; 
   background-color: #080808 !important; 
 }
-
 .notion-collection-card-cover {
   height: 400px !important; 
   max-height: 400px !important;
   border-bottom: 1px solid rgba(138, 3, 3, 0.4) !important;
   background-color: #000000 !important;
 }
-
 .notion-collection-card-cover img {
   object-fit: contain !important; 
   object-position: center !important;
@@ -460,17 +430,15 @@ body::after {
 }
 
 /* =========================================================
-   SADECE MEDYA (VİDEO/GÖRSEL) TAŞMALARINI ENGELLEYEN GÜVENLİ ÇÖZÜM
+   MEDYA TAŞMALARINI ENGELLEYEN ÇÖZÜM
    ========================================================= */
 .notion-page-content {
   overflow-x: hidden !important;
   max-width: 100vw !important;
 }
-
 .notion-asset-wrapper {
   max-width: 100% !important;
 }
-
 .notion-asset-wrapper iframe,
 .notion-asset-wrapper video {
   max-width: 100% !important;
@@ -478,14 +446,13 @@ body::after {
 }
 
 /* =========================================================
-   MOBİL EKRAN İÇİN GÜVENLİ DÜZEN
+   MOBİL EKRAN GÜVENLİ DÜZEN (AÇIKLIKLAR KAPALI)
    ========================================================= */
 @media (max-width: 768px) {
   .notion-collection-card-cover {
     height: 350px !important; 
     max-height: 350px !important;
   }
-
   .notion-header,
   .notion-nav-header {
     position: relative !important;
@@ -498,6 +465,16 @@ body::after {
     overflow: hidden !important;
     z-index: 999 !important;
   }
+  
+  /* Mobilde menü her zaman aydınlık kalsa bile arkaplan siyah olduğu için yazıları beyaz zorlarız */
+  .notion-nav-header a, 
+  .notion-nav-header span, 
+  .notion-header a, 
+  .notion-dark-mode-button svg, 
+  .notion-search-button svg {
+    color: #d1d1d1 !important;
+    fill: #d1d1d1 !important;
+  }
 
   .notion-nav-header > div:first-child {
     display: flex !important;
@@ -506,7 +483,6 @@ body::after {
     margin-bottom: 5px !important; 
     position: static !important;
   }
-
   .notion-nav-header-rhs,
   .nav-header-rhs {
     display: flex !important;
@@ -522,7 +498,6 @@ body::after {
     margin: 0 !important;
     padding: 0 !important;
   }
-
   .notion-nav-header-rhs a,
   .nav-header-rhs a,
   .notion-nav-header-rhs .notion-nav-header-item {
@@ -534,7 +509,6 @@ body::after {
     padding: 2px !important; 
     line-height: 1.2 !important;
   }
-
   .notion-page-icon-hero,
   .notion-page-icon-wrapper {
     display: block !important;
@@ -547,51 +521,43 @@ body::after {
     transform: none !important; 
     z-index: 10 !important;
   }
-  
   .notion-page-icon-hero img,
   .notion-page-icon-wrapper img {
     width: 100% !important;
     height: 100% !important;
     object-fit: cover !important;
   }
-
   .notion-page-cover-wrapper {
     height: 120px !important; 
     min-height: 120px !important;
     max-height: 120px !important;
     width: 100% !important;
   }
-  
   .notion-page-cover {
     object-fit: cover !important; 
     object-position: center !important; 
   }
-
   .notion-page {
     padding-top: 10px !important; 
   }
-
   .notion-h1:not(.notion-title), 
   .notion-h2, 
   .notion-h3 {
     margin-top: 25px !important; 
     margin-bottom: 15px !important;
   }
-
   .notion-row {
     display: flex !important;
     flex-direction: column !important;
     width: 100% !important;
     margin: 0 !important;
   }
-  
   .notion-column {
     width: 100% !important;
     max-width: 100% !important; 
     margin: 0 0 20px 0 !important; 
     padding: 0 !important;
   }
-
   .notion-callout {
     width: 100% !important;
     max-width: 100% !important;
