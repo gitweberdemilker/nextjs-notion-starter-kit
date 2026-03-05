@@ -3,9 +3,7 @@ import Head from 'next/head'
 import type * as types from '@/lib/types'
 import * as config from '@/lib/config'
 import { getSocialImageUrl } from '@/lib/get-social-image-url'
-
-// Hata veren import satırı düzeltildi ve doğru yoldan (../) çağrıldı
-import siteConfig from '../site.config' 
+import siteConfig from '../site.config'
 
 export function PageHead({
   site,
@@ -32,24 +30,32 @@ export function PageHead({
   const socialImageUrl = getSocialImageUrl(pageId) || image
 
   // ==========================================
-  // CANONICAL URL KESİN ÇÖZÜMÜ
+  // CANONICAL URL KESİN ÇÖZÜMÜ (MANTIK DÜZELTİLDİ)
   // ==========================================
   let canonicalUrl = url;
-  if (canonicalUrl && pageId && siteConfig?.pageUrlOverrides) {
+  if (pageId && siteConfig?.pageUrlOverrides) {
+    // 1. O anki sayfanın Notion ID'sini tirelerden temizle
     const cleanId = pageId.replace(/-/g, '').toLowerCase();
-    const overrideKeys = Object.keys(siteConfig.pageUrlOverrides);
     
-    for (const key of overrideKeys) {
-      if (key.replace(/-/g, '').toLowerCase() === cleanId) {
-        // Notion ID'si yerine kendi belirlediğimiz temiz URL'yi zorla basıyoruz
-        canonicalUrl = `https://www.erdemilker.com.tr${siteConfig.pageUrlOverrides[key]}`;
+    // 2. Config dosyanızdaki "URL: ID" sözlüğünü çek
+    const overrides = siteConfig.pageUrlOverrides;
+    
+    for (const slug in overrides) {
+      // Sağ taraftaki değeri (ID'yi) temizle
+      const mappedId = overrides[slug].replace(/-/g, '').toLowerCase();
+      
+      // Eğer sayfa ID'miz sözlüktekiyle uyuşuyorsa...
+      if (mappedId === cleanId) {
+        // URL kısmını (sol tarafı) al ve canonical olarak ata!
+        const cleanSlug = slug.startsWith('/') ? slug : `/${slug}`;
+        canonicalUrl = `https://www.erdemilker.com.tr${cleanSlug}`;
         break;
       }
     }
   }
 
   // ==========================================
-  // ZENGİN SEO (JSON-LD) SAYFA TESPİTİ
+  // ZENGİN SEO SAYFA TESPİTİ (JSON-LD)
   // ==========================================
   const isBookPage = canonicalUrl?.includes('son-yil') || canonicalUrl?.includes('kitaplar') || canonicalUrl?.includes('tamamlanan-kitaplar');
   const isVideoPage = canonicalUrl?.includes('animasyon');
@@ -83,18 +89,20 @@ export function PageHead({
       <meta property='og:type' content='website' />
 
       {/* ==========================================
-          VARSAYILAN KARANLIK MOD ZORLAMASI
-          Site ilk açıldığında beyaz parlamayı önler ve karanlık modu kilitler
+          AGRESİF KARANLIK MOD ZORLAYICISI
+          Sistem ayarı aydınlık bile olsa, sitenizi zifiri karanlık açar
           ========================================== */}
       <script
         dangerouslySetInnerHTML={{
           __html: `
-            try {
-              if (!localStorage.getItem('theme')) {
-                localStorage.setItem('theme', 'dark');
+            (function() {
+              try {
+                window.localStorage.setItem('theme', 'dark');
                 document.documentElement.classList.add('dark-mode');
-              }
-            } catch (e) {}
+                document.documentElement.setAttribute('data-theme', 'dark');
+                document.body.classList.add('dark-mode');
+              } catch (e) {}
+            })();
           `
         }}
       />
@@ -130,7 +138,7 @@ export function PageHead({
         <meta name='twitter:card' content='summary' />
       )}
 
-      {/* DÜZELTİLMİŞ TEMİZ CANONICAL URL BURAYA BASILIYOR */}
+      {/* TERTEMİZ URL BURADA GOOGLE'A SUNULUYOR */}
       {canonicalUrl && (
         <>
           <link rel='canonical' href={canonicalUrl} />
@@ -150,7 +158,6 @@ export function PageHead({
       <meta name='twitter:title' content={title} />
       <title>{title}</title>
 
-      {/* BlogPosting Schema */}
       {isBlogPost && canonicalUrl && (
         <script type='application/ld+json'>
           {JSON.stringify({
@@ -171,7 +178,6 @@ export function PageHead({
         </script>
       )}
 
-      {/* Zengin SEO: Kitap (Book) Şeması (Son Yıl ve Kitaplar için) */}
       {isBookPage && canonicalUrl && (
         <script type='application/ld+json'>
           {JSON.stringify({
@@ -193,7 +199,6 @@ export function PageHead({
         </script>
       )}
 
-      {/* Zengin SEO: Animasyon (VideoObject) Şeması */}
       {isVideoPage && canonicalUrl && (
         <script type='application/ld+json'>
           {JSON.stringify({
@@ -211,7 +216,6 @@ export function PageHead({
         </script>
       )}
 
-      {/* Person Schema */}
       <script type='application/ld+json'>
         {JSON.stringify({
           '@context': 'https://schema.org',
@@ -229,7 +233,6 @@ export function PageHead({
         })}
       </script>
 
-      {/* Organization Schema */}
       <script type='application/ld+json'>
         {JSON.stringify({
           '@context': 'https://schema.org',
@@ -240,7 +243,6 @@ export function PageHead({
         })}
       </script>
 
-      {/* WebSite Schema */}
       <script type='application/ld+json'>
         {JSON.stringify({
           '@context': 'https://schema.org',
