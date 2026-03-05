@@ -17,20 +17,56 @@ body {
   color: #d1d1d1 !important;
 }
 
-/* --- MENÜ VE HEADER --- */
+/* --- MENÜ VE HEADER (DAHA YAVAŞ VE DERİN KANLI ZOOM) --- */
 .notion-header {
   background: transparent !important;
 }
+
+/* Header genel: taşma engeli + rahat sarmalama */
 .notion-nav-header {
   backdrop-filter: blur(10px);
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  flex-wrap: wrap !important;
+  gap: 10px !important;
+  padding: 12px 14px !important;
+  min-height: 56px !important;
+  overflow: visible !important;
 }
 
+/* Sol blok (logo + site adı) ve sağ blok (menü) çarpışmasın */
+.notion-nav-header-lhs {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  min-width: 0 !important;
+  flex: 1 1 auto !important;
+}
+.notion-nav-header-lhs * {
+  min-width: 0 !important;
+}
+
+/* Sağ menü alanı */
+.notion-nav-header-rhs {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  flex: 0 1 auto !important;
+  gap: 14px !important;
+  flex-wrap: wrap !important; /* mobilde linkler satır kırabilsin */
+  min-width: 0 !important;
+}
+
+/* Menü item’ları: taşmayı engelle */
 .notion-nav-header a,
 .notion-nav-header .notion-nav-header-item,
 .notion-header a {
   color: var(--fg-color) !important;
   transition: all 0.9s cubic-bezier(0.4, 0, 0.2, 1) !important;
   transform: translateZ(0) !important;
+  white-space: nowrap !important;
+  line-height: 1.2 !important;
 }
 
 .notion-nav-header a:hover,
@@ -41,7 +77,7 @@ body {
   text-shadow: 0 0 20px rgba(204, 0, 0, 0.9) !important;
 }
 
-/* --- GÖRSEL HOVER --- */
+/* --- GÖRSEL HOVER: ÇOK DAHA YAVAŞ VE DERİN KARARMA --- */
 .notion-asset-wrapper img, 
 .notion-collection-card,
 .notion-page img {
@@ -57,7 +93,39 @@ body {
   transform: scale(1.05) !important;
 }
 
-/* --- ANA SAYFA BAŞLIKLARINI GİZLEME --- */
+/* --- GÖRSELLER: merkezleme + taşma önleme (genel) --- */
+.notion-asset-wrapper {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  max-width: 100% !important;
+}
+.notion-asset-wrapper img {
+  max-width: 100% !important;
+  height: auto !important;
+}
+
+/* --- SAYFA KAPAK/HEADER GÖRSELİ: mobilde merkez odaklı kırpma --- */
+/* Notion export/host temasına göre isimler değişebiliyor; bu yüzden çoklu selector */
+.notion-page-cover-wrapper,
+.notion-page-cover,
+.notion-page-cover-wrapper img,
+.notion-page-cover img {
+  max-width: 100% !important;
+}
+
+.notion-page-cover-wrapper img,
+.notion-page-cover img {
+  width: 100% !important;
+  height: 34vh !important;              /* mobilde aşırı uzamasın */
+  min-height: 220px !important;
+  max-height: 420px !important;
+  object-fit: cover !important;         /* PC’deki gibi odaklı görünüm */
+  object-position: center center !important;
+  border-radius: 0 !important;
+}
+
+/* --- ANA SAYFA BAŞLIKLARINI KESİN GİZLEME VE BOŞLUKLARI SİLME --- */
 h1.notion-title,
 .notion-page-block > h1.notion-title,
 .notion-title {
@@ -69,16 +137,18 @@ h1.notion-title,
   overflow: hidden !important;
 }
 
-/* --- FOOTER --- */
+/* --- FOOTER (TEK SİSTEM - ÇAKIŞMASIZ) --- */
 .notion-footer {
   border-top: 1px solid rgba(138, 3, 3, 0.2) !important;
   padding: 80px 0 !important;
   margin-top: 100px !important;
+
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
   justify-content: center !important;
   gap: 16px !important;
+
   min-height: 220px !important;
   height: auto !important;
   overflow: visible !important;
@@ -200,7 +270,7 @@ body::after {
   100% { transform: translate(-33%, -33%); }
 }
 
-/* --- BÖLÜM BAŞLIKLARI --- */
+/* --- BÖLÜM BAŞLIKLARI: SİNEMATİK VE KANLI HOVER EFEKTİ --- */
 .notion-h1:not(.notion-title), 
 .notion-h2, 
 .notion-h3,
@@ -234,7 +304,7 @@ body::after {
   transform: scale(1.04) translateY(-3px) !important; 
 }
 
-/* --- CALLOUT BLOKLARI --- */
+/* --- CALLOUT BLOKLARI: KANLI ZOOM VE PARLAMA --- */
 .notion-callout {
   border-left: 4px solid #cc0000 !important;
   background-color: #111111 !important;
@@ -269,7 +339,13 @@ body::after {
   text-shadow: 0 0 12px rgba(204, 0, 0, 0.9) !important; 
 }
 
-/* --- TOGGLE BLOKLARINI GİZLEME --- */
+/* Callout görselin altına daha “oturmuş” dursun */
+.notion-image + .notion-callout,
+.notion-asset-wrapper + .notion-callout {
+  margin-top: 12px !important;
+}
+
+/* --- SAYFA ARŞİVİ (TOGGLE) BLOKLARINI KESİN GİZLEME --- */
 .notion-toggle {
   display: none !important;
   visibility: hidden !important;
@@ -280,7 +356,7 @@ body::after {
   pointer-events: none !important;
 }
 
-/* --- SCROLLBAR --- */
+/* --- KAN KIRMIZISI KAYDIRMA ÇUBUĞU (SCROLLBAR) --- */
 ::-webkit-scrollbar {
   width: 12px !important;
   background-color: #050505 !important; 
@@ -306,7 +382,7 @@ body::after {
   scrollbar-color: #660000 #050505 !important;
 }
 
-/* --- SOL DAMGA (SADECE GENİŞ EKRAN) --- */
+/* --- SOL TARAFA SİNEMATİK DİKEY DAMGA (KESİN ORTALAMA) --- */
 .notion-app::before {
   content: 'KARANLIK HİKAYELER';
   position: fixed;
@@ -342,216 +418,76 @@ body::after {
   }
 }
 
-/* =====================================================
-   MOBİL DÜZELTMELER (768px ve altı)
-   ===================================================== */
+/* --- MOBİL / TABLET DÜZENİ --- */
 @media (max-width: 768px) {
 
-  /* --- 1. MENÜ ÇAKIŞMA DÜZELTMESİ --- */
-  /* Header sarmalayıcıyı dikey düzene al */
-  .notion-nav-header,
-  header.notion-header {
-    display: flex !important;
-    flex-direction: column !important;
-    height: auto !important;
-    min-height: unset !important;
-    padding: 12px 16px !important;
-    align-items: center !important;
+  /* Menü çakışmasını kesin bitir: iki satır düzeni */
+  .notion-nav-header {
     justify-content: center !important;
+    padding: 12px 10px !important;
+  }
+  .notion-nav-header-lhs {
+    justify-content: center !important;
+    flex: 1 1 100% !important;
+  }
+  .notion-nav-header-rhs {
+    justify-content: center !important;
+    flex: 1 1 100% !important;
     gap: 10px !important;
   }
 
-  /* Logo / site adı - kendi satırında, tam genişlik ortada */
-  .notion-nav-header-title,
-  .notion-nav-header > a:first-child,
-  .notion-header .notion-nav-header-title {
-    display: flex !important;
-    justify-content: center !important;
-    width: 100% !important;
-    text-align: center !important;
-    white-space: nowrap !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
-    font-size: 0.9rem !important;
-    letter-spacing: 2px !important;
-    margin-bottom: 4px !important;
+  /* Mobilde menü yazıları biraz küçülsün */
+  .notion-nav-header a,
+  .notion-nav-header .notion-nav-header-item {
+    font-size: 0.92rem !important;
+    letter-spacing: 0.5px !important;
   }
 
-  /* Menü linkleri - logo'nun altında, yatay dizili ve sarmalayan */
-  .notion-nav-header-rhs {
-    display: flex !important;
-    flex-wrap: wrap !important;
-    flex-direction: row !important;
-    justify-content: center !important;
-    align-items: center !important;
-    width: 100% !important;
-    margin-top: 0 !important;
-    gap: 10px 18px !important;
-    position: static !important;
-  }
-
-  /* Her menü linkini biraz küçült ki sığsın */
-  .notion-nav-header-rhs a,
-  .notion-nav-header-rhs .notion-nav-header-item {
-    font-size: 0.78rem !important;
-    letter-spacing: 1.5px !important;
-    white-space: nowrap !important;
-  }
-
-  /* --- 2. HEADER GÖRSELİ / COVER DÜZELTMESİ --- */
-  /* Sayfa kapak görseli mobilde orantılı, tam taşmadan görünsün */
-  .notion-page-cover,
-  .notion-page-cover-wrapper,
-  .notion-page-cover img {
-    width: 100% !important;
-    max-width: 100% !important;
-    height: auto !important;
-    max-height: 280px !important;
-    object-fit: cover !important;
-    object-position: center center !important;
-    overflow: hidden !important;
-  }
-
-  /* Hero / ilk büyük görsel bloğu (asset wrapper) */
-  .notion-asset-wrapper {
-    width: 100% !important;
-    max-width: 100% !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-  }
-
-  .notion-asset-wrapper img {
-    width: 100% !important;
-    height: auto !important;
-    max-height: 300px !important;
-    object-fit: cover !important;
-    object-position: center top !important;
-  }
-
-  /* --- 3. CALLOUT HİZALAMA DÜZELTMESİ --- */
-  /*
-     Sorun: Görseller ve callout'lar aynı notion-row içindeyken
-     farklı sütunlara düşüyor, mobilde hizalar kayıyor.
-     Çözüm: Tüm satır ve sütunları dikey sıraya al,
-     her callout tam genişlikte ve kendi satırında olsun.
-  */
-
-  /* Tüm yatay satırları dikey yap */
+  /* KRİTİK: Calloutların “yanlış görsel altına kayıyor” hissini azaltmak için
+     kolonları 2’li düzenle koru (eşleşme bozulmasın). */
   .notion-row {
     display: flex !important;
-    flex-direction: column !important;
+    flex-wrap: wrap !important;
+    gap: 14px !important;
     width: 100% !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
+    margin: 0 !important;
     padding: 0 !important;
-    gap: 0 !important;
   }
 
-  /* Her sütunu tam genişliğe getir */
-  .notion-row > .notion-column,
-  .notion-column_list > .notion-column {
-    width: 100% !important;
-    max-width: 100% !important;
-    min-width: unset !important;
-    flex: none !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
+  .notion-row > .notion-column {
+    width: calc(50% - 7px) !important;
+    max-width: calc(50% - 7px) !important;
+    margin: 0 !important;
   }
 
-  /* Callout tam genişlik, görsel hemen altında */
+  /* Callout (Kutu) */
   .notion-callout {
     width: 100% !important;
     max-width: 100% !important;
     margin-left: 0 !important;
     margin-right: 0 !important;
-    margin-top: 12px !important;
-    margin-bottom: 12px !important;
-    box-sizing: border-box !important;
   }
 
-  /* Callout hover efektini mobilde devre dışı bırak
-     (dokunmatik ekranlarda takılı kalabilir) */
-  .notion-callout:hover {
-    transform: none !important;
-  }
-
-  /* Görseller ile callout'lar arasındaki boşluk */
-  .notion-asset-wrapper + .notion-callout,
-  .notion-image-block + .notion-callout {
-    margin-top: 8px !important;
-  }
-
-  /* Sütun divider'larını gizle */
-  .notion-column-separator {
-    display: none !important;
-  }
-
-  /* --- GENEL MOBİL DÜZENLEMELER --- */
-
-  /* Sayfa kenar boşluklarını azalt */
-  .notion-page-content {
-    padding-left: 12px !important;
-    padding-right: 12px !important;
-  }
-
-  /* Başlıkları mobilde biraz küçült */
-  .notion-h1:not(.notion-title) {
-    font-size: 1.4rem !important;
-    letter-spacing: 2px !important;
-    margin-top: 40px !important;
-  }
-
-  .notion-h2 {
-    font-size: 1.2rem !important;
-    letter-spacing: 2px !important;
-  }
-
-  .notion-h3 {
-    font-size: 1.05rem !important;
-    letter-spacing: 1.5px !important;
-  }
-
-  /* Hover transform'u başlıklarda da kapat (dokunmatik sorun) */
-  .notion-h1:not(.notion-title):hover,
-  .notion-h2:hover,
-  .notion-h3:hover {
-    transform: none !important;
+  /* Kapak görseli mobilde daha kontrollü */
+  .notion-page-cover-wrapper img,
+  .notion-page-cover img {
+    height: 30vh !important;
+    min-height: 200px !important;
+    max-height: 360px !important;
+    object-fit: cover !important;
+    object-position: center center !important;
   }
 }
 
-/* --- TABLET ARA KISIM (769px - 1024px) --- */
-@media (min-width: 769px) and (max-width: 1024px) {
-
-  .notion-nav-header,
-  header.notion-header {
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: wrap !important;
-    height: auto !important;
-    padding: 10px 20px !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    gap: 8px !important;
+/* Çok dar telefonlarda tek kolona düş */
+@media (max-width: 480px) {
+  .notion-row > .notion-column {
+    width: 100% !important;
+    max-width: 100% !important;
   }
 
-  .notion-nav-header-rhs {
-    display: flex !important;
-    flex-wrap: wrap !important;
-    flex-direction: row !important;
-    justify-content: flex-end !important;
-    align-items: center !important;
-    gap: 8px 16px !important;
-  }
-
-  .notion-row > .notion-column,
-  .notion-column_list > .notion-column {
-    min-width: 0 !important;
-  }
-
-  .notion-callout {
-    margin-top: 10px !important;
-    margin-bottom: 10px !important;
+  .notion-nav-header a,
+  .notion-nav-header .notion-nav-header-item {
+    font-size: 0.88rem !important;
   }
 }
