@@ -38,7 +38,7 @@ body {
   text-shadow: 0 0 10px rgba(204, 0, 0, 0.4) !important;
 }
 
-/* Aydınlık Mod Menü Görünürlüğü (Bozulan kısım onarıldı) */
+/* Aydınlık Mod Menü Görünürlüğü (Düzeltildi) */
 .light-mode .notion-nav-header a,
 .light-mode .notion-nav-header .notion-nav-header-item,
 .light-mode .notion-header a,
@@ -458,7 +458,7 @@ body::after {
 }
 
 /* =========================================================
-   MOBİL EKRAN İÇİN GÜVENLİ DÜZEN (Sütunlar alt alta)
+   MOBİL EKRAN İÇİN GÜVENLİ DÜZEN (BOŞLUKLAR DÜZELTİLDİ)
    ========================================================= */
 @media (max-width: 768px) {
   .notion-collection-card-cover {
@@ -517,14 +517,15 @@ body::after {
     line-height: 1.2 !important;
   }
 
-  /* 3. İKON VE KAPAK GÖRSELİ */
+  /* 3. İKON VE KAPAK GÖRSELİ (AÇIKLIK BURADA KAPATILDI) */
   .notion-page-icon-hero,
   .notion-page-icon-wrapper {
     display: block !important;
     position: relative !important;
     width: 80px !important;
     height: 80px !important;
-    margin: -40px auto 20px auto !important; 
+    /* Alttaki boşluk 20px'den 5px'e düşürüldü */
+    margin: -40px auto 5px auto !important; 
     left: 0 !important;
     right: 0 !important;
     transform: none !important; 
@@ -548,6 +549,19 @@ body::after {
   .notion-page-cover {
     object-fit: cover !important; 
     object-position: center !important; 
+  }
+
+  /* --- YENİ: SAYFA VE BAŞLIK BOŞLUKLARINI MOBİLDE SIFIRLAMA --- */
+  .notion-page {
+    padding-top: 10px !important; 
+  }
+
+  /* Mobilde masaüstünün devasa başlık boşluğunu daraltıyoruz */
+  .notion-h1:not(.notion-title), 
+  .notion-h2, 
+  .notion-h3 {
+    margin-top: 25px !important; /* Masaüstündeki 60px burada 25px'e iniyor */
+    margin-bottom: 15px !important;
   }
 
   /* 4. SÜTUNLARI MOBİLDE ALT ALTA DİZ VE HİZALA */
