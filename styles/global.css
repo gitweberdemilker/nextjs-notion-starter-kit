@@ -426,11 +426,64 @@ body::after {
   padding: 5px !important; 
 }
 
-@media (max-width: 768px) {
-  .notion-collection-card-cover {
-    height: 350px !important; 
-    max-height: 350px !important;
-  }
+/* =========================================================
+   KAPSAMLI TAŞMA (OVERFLOW) VE HİZALAMA ÇÖZÜMÜ
+   (Videoları, Afişleri ve Kutuları Hizaya Sokar)
+   ========================================================= */
+
+/* 1. Sayfa ve Blok sınırlarını garanti altına al */
+.notion-page, 
+.notion-block,
+.notion-page-content {
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  overflow-x: hidden !important; 
+}
+
+/* 2. Sütunların ve yan yana afişlerin sağa taşmasını engeller */
+.notion-row {
+  max-width: 100% !important;
+  width: 100% !important;
+  display: flex !important;
+  box-sizing: border-box !important;
+  overflow-x: hidden !important;
+}
+
+.notion-column {
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* 3. Video, YouTube ve Resim sınırlandırmaları */
+.notion-asset-wrapper {
+  max-width: 100% !important;
+  width: 100% !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+}
+
+.notion-asset-wrapper img, 
+.notion-asset-wrapper video, 
+.notion-asset-wrapper iframe {
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  border-radius: 8px;
+}
+
+.notion-asset-wrapper iframe {
+  width: 100% !important; 
+}
+
+/* 4. Callout kutularının sağdan taşmasını önleme */
+.notion-callout, 
+.notion-quote, 
+.notion-code {
+  max-width: 100% !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
 }
 
 /* =========================================================
@@ -438,6 +491,11 @@ body::after {
    ========================================================= */
 @media (max-width: 768px) {
   
+  .notion-collection-card-cover {
+    height: 350px !important; 
+    max-height: 350px !important;
+  }
+
   /* 1. ÜST MENÜYÜ DARALT VE TOPARLA */
   .notion-header,
   .notion-nav-header {
@@ -489,7 +547,7 @@ body::after {
     line-height: 1.2 !important;
   }
 
-  /* 3. İKON VE KAPAK GÖRSELİ (AYNEN KORUNDU) */
+  /* 3. İKON VE KAPAK GÖRSELİ */
   .notion-page-icon-hero,
   .notion-page-icon-wrapper {
     display: block !important;
@@ -522,18 +580,20 @@ body::after {
     object-position: center !important; 
   }
 
-  /* 4. SÜTUNLARI VE KUTULARI ALT ALTA DİZME */
+  /* 4. SÜTUNLARI (AFİŞLERİ VE KUTULARI) MOBİLDE ALT ALTA DİZ VE HİZALA */
   .notion-row {
     display: flex !important;
     flex-direction: column !important;
     width: 100% !important;
     margin: 0 !important;
+    padding: 0 !important;
   }
   
   .notion-row > .notion-column {
     width: 100% !important;
     max-width: 100% !important; 
     margin: 0 0 20px 0 !important; 
+    padding: 0 !important;
   }
 
   .notion-callout {
