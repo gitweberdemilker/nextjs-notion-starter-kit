@@ -339,32 +339,72 @@ body::after {
   }
 }
 /* =========================================================
-   FIX PACK: Dark default sonrası "beyaz kutu / kayma" + mobil sıra
-   (Dosyanın EN ALTINA ekle)
+   FIX PACK v2 (TOGGLE BOZMADAN)
+   - Dark modda beyaz kutu/kayma gider
+   - Light mod her zaman çalışır
    ========================================================= */
 
-/* 1) Dark default: Notion'un bazı wrapper'ları beyaz basabiliyor.
-      Light-mode dışındayken içerik alanını da koyulaştır. */
-html:not(.light-mode) .notion-app,
-html:not(.light-mode) .notion-page,
-html:not(.light-mode) .notion-page-content,
-html:not(.light-mode) .notion-page-content-inner,
-html:not(.light-mode) .notion-scroller,
-html:not(.light-mode) .notion-frame,
-html:not(.light-mode) .notion-page-header-wrapper {
+/* Temel renk değişkenleri: varsayılanı zorlamıyoruz (theme provider yönetecek) */
+.dark-mode {
+  --fg-color: #d1d1d1;
+  --bg-color: #000000;
+}
+.light-mode {
+  --fg-color: #1a1a1a;
+  --bg-color: #fcfcfc;
+}
+
+/* Dark modda Notion wrapper'ları koyulaştır (SADECE dark-mode varken) */
+.dark-mode .notion-app,
+.dark-mode .notion-page,
+.dark-mode .notion-page-content,
+.dark-mode .notion-page-content-inner,
+.dark-mode .notion-scroller,
+.dark-mode .notion-frame,
+.dark-mode .notion-page-header-wrapper {
   background-color: #000000 !important;
   color: #d1d1d1 !important;
 }
 
-/* Bazı bloklar beyaz zemin taşıyorsa (özellikle text container), onu da koyulaştır */
-html:not(.light-mode) .notion-text,
-html:not(.light-mode) .notion-page-block,
-html:not(.light-mode) .notion-page-block > div {
-  background: transparent !important;
+/* Light modda wrapper'ları açık tut (SADECE light-mode varken) */
+.light-mode .notion-app,
+.light-mode .notion-page,
+.light-mode .notion-page-content,
+.light-mode .notion-page-content-inner,
+.light-mode .notion-scroller,
+.light-mode .notion-frame,
+.light-mode .notion-page-header-wrapper {
+  background-color: #fcfcfc !important;
+  color: #1a1a1a !important;
 }
 
-/* 2) Mobilde hiyerarşi bozulması: Notion bazen order veriyor.
-      Tüm kolon sırasını DOM sırasına kilitle. */
+/* Başlıklar: her iki modda da okunur olsun */
+.dark-mode .notion-h1:not(.notion-title),
+.dark-mode .notion-h2,
+.dark-mode .notion-h3 {
+  color: #d1d1d1 !important;
+}
+.light-mode .notion-h1:not(.notion-title),
+.light-mode .notion-h2,
+.light-mode .notion-h3 {
+  color: #1a1a1a !important;
+}
+
+/* Caption: iki modda da okunur olsun */
+.dark-mode .notion-asset-caption,
+.dark-mode .notion-caption,
+.dark-mode figcaption {
+  color: #d1d1d1 !important;
+  opacity: 0.85 !important;
+}
+.light-mode .notion-asset-caption,
+.light-mode .notion-caption,
+.light-mode figcaption {
+  color: #1a1a1a !important;
+  opacity: 0.85 !important;
+}
+
+/* Mobil hiyerarşi: sadece "stack" davranışı, order kilidi yok (order bozmuyoruz) */
 @media (max-width: 768px) {
   .notion-row {
     display: flex !important;
@@ -373,35 +413,17 @@ html:not(.light-mode) .notion-page-block > div {
     align-items: stretch !important;
   }
 
-  .notion-row > .notion-column {
-    order: 0 !important;         /* en kritik satır */
+  .notion-column {
     width: 100% !important;
     max-width: 100% !important;
+    margin: 0 0 20px 0 !important;
+    padding: 0 !important;
   }
 
-  /* İçerik bloklarının taşmasını engelle (kayma/yan boşluk) */
   .notion-page-content,
   .notion-page-content-inner,
   .notion-page {
     overflow-x: hidden !important;
     max-width: 100vw !important;
-  }
-
-  /* Görsel/video blokları tam otursun */
-  .notion-asset-wrapper,
-  .notion-asset-wrapper iframe,
-  .notion-asset-wrapper video,
-  .notion-asset-wrapper img {
-    max-width: 100% !important;
-    width: 100% !important;
-  }
-
-  /* Caption/başlık blokları sağa sola kaymasın */
-  .notion-asset-caption,
-  .notion-caption,
-  figcaption {
-    padding-left: 12px !important;
-    padding-right: 12px !important;
-    text-align: center !important;
   }
 }
