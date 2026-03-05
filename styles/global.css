@@ -18,18 +18,16 @@ body {
 }
 
 /* --- MENÜ VE HEADER (DAHA YAVAŞ VE DERİN KANLI ZOOM) --- */
-.notion-header,
-.nav-header {
+.notion-header {
   background: transparent !important;
 }
-.notion-nav-header,
-.nav-header {
+.notion-nav-header {
   backdrop-filter: blur(10px);
 }
 
 .notion-nav-header a,
 .notion-nav-header .notion-nav-header-item,
-.nav-header a {
+.notion-header a {
   color: var(--fg-color) !important;
   transition: all 0.9s cubic-bezier(0.4, 0, 0.2, 1) !important;
   transform: translateZ(0) !important;
@@ -37,7 +35,7 @@ body {
 
 .notion-nav-header a:hover,
 .notion-nav-header .notion-nav-header-item:hover,
-.nav-header a:hover {
+.notion-header a:hover {
   color: #cc0000 !important;
   transform: scale(1.1) translateY(-3px) !important;
   text-shadow: 0 0 20px rgba(204, 0, 0, 0.9) !important;
@@ -347,70 +345,86 @@ body::after {
 }
 
 /* =========================================================
-   MOBİL EKRAN (TELEFON) KUSURSUZLAŞTIRMA VE KESİN ÇÖZÜM
+   MOBİL EKRAN (TELEFON) KESİN ÇÖZÜM: İNATÇI SİSTEMİ EZME
    ========================================================= */
 @media (max-width: 768px) {
   
-  /* 1. ÜST MENÜYÜ ZORLA GÖSTER VE ALT ALTA DİZ */
-  header.nav-header {
+  /* 1. ÜST MENÜYÜ TEMİZ BİR ŞERİT YAP (LOGO ÜSTTE, MENÜ ALTTA) */
+  .notion-header,
+  .notion-nav-header {
+    position: relative !important;
     display: flex !important;
     flex-direction: column !important;
     height: auto !important;
-    padding: 10px 5px !important;
-    overflow: visible !important;
+    min-height: auto !important;
+    padding: 15px 10px 15px 10px !important;
+    background-color: #050505 !important; /* Karışmayı önleyen zifiri siyah zemin */
+    overflow: hidden !important;
+    z-index: 999 !important;
   }
 
-  header.nav-header > div:first-child {
-    justify-content: center !important;
+  /* Logonun Olduğu Üst Kısım */
+  .notion-nav-header > div:first-child {
+    display: flex !important;
     width: 100% !important;
+    justify-content: center !important;
+    margin-bottom: 15px !important; /* Menü ile logoyu ayırır */
+    position: static !important;
   }
 
-  /* Sistemi ezip menü linklerini ekran dışından geri getiren alan */
+  /* 2. MENÜYÜ İKİ SATIRA DAĞIT VE MERKEZLE */
+  .notion-nav-header-rhs,
   .nav-header-rhs {
     display: flex !important;
-    flex-wrap: wrap !important;
-    justify-content: center !important;
-    align-items: center !important;
+    flex-wrap: wrap !important; /* Linkleri alt satıra nazikçe atar */
     width: 100% !important;
-    margin-top: 10px !important;
-    gap: 8px 12px !important;
+    justify-content: center !important;
+    gap: 12px 18px !important; /* Dikey ve yatay boşluk */
+    position: static !important; /* Saçma sapan fırlamasını engeller */
+    transform: none !important;
     visibility: visible !important;
     opacity: 1 !important;
-    position: relative !important;
-    transform: none !important; /* Eğer Vercel menüyü ekran dışına fırlattıysa bunu iptal eder */
-    right: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
-  /* Menü yazıları */
+  /* Menü Yazıları */
+  .notion-nav-header-rhs a,
   .nav-header-rhs a {
-    display: inline-block !important;
+    display: block !important;
     font-size: 0.85rem !important; 
     white-space: nowrap !important; 
-    visibility: visible !important;
+    text-align: center !important;
+    margin: 0 !important;
   }
 
-  /* 2. DEVASA İKONU KÜÇÜLT VE ORTALA (Doğru Class Name ile) */
-  .notion-page-icon-hero {
+  /* 3. SERSERİ GİBİ KAYAN İKONU ZORLA KAPAĞIN ORTASINA KİLİTLE */
+  .notion-page-icon-hero,
+  .notion-page-icon-wrapper {
+    display: block !important;
+    position: relative !important;
     width: 80px !important;
     height: 80px !important;
-    margin-top: -40px !important; /* İkonun tam yarısı kadar yukarı kaydırıp şeride kesiştirir */
-    margin-left: auto !important;
-    margin-right: auto !important;
+    margin: -40px auto 20px auto !important; /* Yukarı çekip sağdan soldan tam merkeze oturtur */
+    left: 0 !important;
+    right: 0 !important;
+    transform: none !important; /* Sistem kaydırmalarını iptal eder */
+    z-index: 10 !important;
   }
-
-  .notion-page-icon-hero img {
+  
+  .notion-page-icon-hero img,
+  .notion-page-icon-wrapper img {
     width: 100% !important;
     height: 100% !important;
     object-fit: cover !important;
   }
 
-  /* 3. MOBİLDE HEADER (KAPAK) GÖRSELİNİ ŞERİT YAPMA */
-  .notion-page-cover-wrapper,
-  .notion-page-cover {
-    height: 15vh !important; 
+  /* 4. MOBİLDE KAPAK GÖRSELİ (ŞERİT) */
+  .notion-page-cover-wrapper {
+    height: 120px !important; 
     min-height: 120px !important;
-    max-height: 150px !important;
-    overflow: hidden !important; 
+    max-height: 120px !important;
+    width: 100% !important;
   }
   
   .notion-page-cover {
@@ -418,27 +432,23 @@ body::after {
     object-position: center !important; 
   }
 
-  /* 4. SÜTUNLARI VE KUTULARI ZORUNLU ALT ALTA DİZME */
+  /* 5. SÜTUNLARI VE KUTULARI ZORUNLU ALT ALTA DİZME */
   .notion-row {
     display: flex !important;
     flex-direction: column !important;
     width: 100% !important;
     margin: 0 !important;
-    padding: 0 !important;
   }
   
   .notion-row > .notion-column {
     width: 100% !important;
     max-width: 100% !important; 
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-    margin-bottom: 20px !important; 
+    margin: 0 0 20px 0 !important; 
   }
 
   .notion-callout {
     width: 100% !important;
     max-width: 100% !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
+    margin: 0 !important;
   }
 }
