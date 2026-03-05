@@ -285,3 +285,31 @@ body::after { content: ''; position: fixed; top: 0; left: 0; width: 300%; height
   .notion-asset-caption, .notion-caption, figcaption { max-width: 100% !important; word-break: break-word !important; }
   .notion-callout { width: 100% !important; max-width: 100% !important; margin: 0 !important; }
 }
+
+/* =========================================================
+   PC EKRANI İÇİN KESİN BOYUT VE HİZA ÇÖZÜMÜ
+   (Yan yana duran görsellerin ve altyazıların bozulmasını engeller)
+   ========================================================= */
+@media (min-width: 769px) {
+  /* 1. Sütunların (kolonların) birbirinin boyunu uzatıp kısaltmasını engeller */
+  .notion-row {
+    align-items: flex-start !important; 
+  }
+  
+  /* 2. Görsellerin en-boy oranını sündürmeden sütuna tam oturtur */
+  .notion-column .notion-asset-wrapper img {
+    width: 100% !important;
+    height: auto !important; 
+    object-fit: contain !important;
+    display: block !important;
+  }
+  
+  /* 3. Altyazıların (caption) resmi ezmesini engeller, altına şıkça ortalar */
+  .notion-column .notion-asset-caption,
+  .notion-column figcaption {
+    width: 100% !important;
+    text-align: center !important;
+    margin-top: 12px !important;
+    display: block !important;
+  }
+}
