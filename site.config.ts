@@ -15,9 +15,6 @@ export default siteConfig({
 
   twitter: 'BOykuler',
 
-  // ✅ Default tema: site ilk açılışta karanlık modda başlasın
-  defaultTheme: 'dark',
-
   defaultPageIcon: null,
   defaultPageCover: null,
   defaultPageCoverPosition: 0.5,
