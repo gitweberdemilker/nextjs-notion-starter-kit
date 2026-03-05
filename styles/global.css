@@ -345,59 +345,79 @@ body::after {
 }
 
 /* =========================================================
-   MOBİL EKRAN (TELEFON) KUSURSUZLAŞTIRMA (GÜÇLENDİRİLMİŞ)
+   MOBİL EKRAN (TELEFON) KUSURSUZLAŞTIRMA VE KESİN ÇÖZÜM
    ========================================================= */
 @media (max-width: 768px) {
   
-  /* 1. HEADER KONTEYNERİ (LOGO ÜSTTE, MENÜ ALTTA) */
-  .notion-header,
+  /* 1. ÜST MENÜYÜ ZORLA GÖSTER VE ALT ALTA DİZ */
   .notion-nav-header {
     display: flex !important;
-    flex-direction: column !important; 
+    flex-direction: column !important;
     height: auto !important;
-    width: 100% !important;
-    padding: 10px 0 0 0 !important; 
-    gap: 10px !important;
-    align-items: center !important;
+    padding: 10px 5px !important;
   }
-  
-  /* Logonun olduğu sol kısım (Merkezde) */
+
   .notion-nav-header > div:first-child {
-    display: flex !important;
     justify-content: center !important;
     width: 100% !important;
-    margin: 0 !important;
-    padding: 0 10px !important;
   }
-  
-  /* 2. MENÜ LİNKLERİ (TÜMÜNÜ GÖSTEREN ALT ALTA KAYAN ŞERİT) */
-  .notion-nav-header-rhs,
-  .nav-header-rhs {
-    display: flex !important; 
-    flex-wrap: wrap !important; /* SIĞMAYANLARI BİR ALT SATIRA ATAR */
-    flex-direction: row !important;
-    justify-content: center !important; /* Tüm satırları ortalar */
+
+  /* Sistemi ezip menü linklerini zorla görünür yapan alan */
+  .notion-nav-header-rhs {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
     align-items: center !important;
     width: 100% !important;
-    margin: 0 !important;
-    padding: 5px 15px 15px 15px !important; 
-    gap: 12px 15px !important; /* Öğeler arasına dikey ve yatay boşluk bırakır */
-    white-space: normal !important; /* Kaydırmayı iptal edip kırılmaya izin verir */
-    overflow: visible !important; 
-    position: relative !important;
-    visibility: visible !important; 
+    margin-top: 10px !important;
+    gap: 8px 12px !important;
+    visibility: visible !important;
     opacity: 1 !important;
   }
-  
-  /* Menü içindeki linklerin kelime kelime parçalanmasını engelle */
-  .notion-nav-header-rhs a,
-  .nav-header-rhs a {
+
+  /* Menü yazılarının mobilde taşmaması için boyutunu ufaltıyoruz */
+  .notion-nav-header-rhs a {
     display: inline-block !important;
-    white-space: nowrap !important; /* "Karanlık Hikayeler" yazısının yarısı üstte yarısı altta kalmaz, bütün olarak alta iner */
+    font-size: 0.85rem !important; 
+    white-space: normal !important; 
+    text-align: center !important;
     visibility: visible !important;
   }
 
-  /* 3. SÜTUNLARI VE KUTULARI ZORUNLU ALT ALTA DİZME */
+  /* 2. DEVASA İKONU KÜÇÜLT VE ORTALA */
+  .notion-page-icon-wrapper {
+    width: 70px !important;
+    height: 70px !important;
+    margin-top: -35px !important; /* Şeridin tam ortasına kesişecek şekilde oturtur */
+    margin-left: auto !important;
+    margin-right: auto !important;
+    position: relative !important;
+  }
+
+  /* İkonun içindeki resmi tam çerçeveye sığdırır */
+  .notion-page-icon-wrapper img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+
+  /* 3. MOBİLDE HEADER (KAPAK) GÖRSELİNİ ŞERİT YAPMA */
+  .notion-page-cover-wrapper {
+    height: 120px !important; 
+    min-height: 120px !important;
+    max-height: 120px !important;
+    overflow: hidden !important; 
+    width: 100% !important;
+  }
+  
+  .notion-page-cover {
+    height: 100% !important;
+    width: 100% !important;
+    object-fit: cover !important; 
+    object-position: center !important; 
+  }
+
+  /* 4. SÜTUNLARI VE KUTULARI ZORUNLU ALT ALTA DİZME */
   .notion-row {
     display: flex !important;
     flex-direction: column !important;
@@ -419,21 +439,5 @@ body::after {
     max-width: 100% !important;
     margin-left: 0 !important;
     margin-right: 0 !important;
-  }
-
-  /* 4. MOBİLDE HEADER (KAPAK) GÖRSELİNİ SİNEMATİK ŞERİT YAPMA */
-  .notion-page-cover-wrapper {
-    height: 120px !important; 
-    min-height: 100px !important;
-    max-height: 15vh !important;
-    overflow: hidden !important; 
-    width: 100% !important;
-  }
-  
-  .notion-page-cover {
-    height: 100% !important;
-    width: 100% !important;
-    object-fit: cover !important; 
-    object-position: center !important; 
   }
 }
