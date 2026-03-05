@@ -5,11 +5,13 @@ export default siteConfig({
   rootNotionPageId: '318ddc548f4180a3ac2fe2dea9adc63f',
   rootNotionSpaceId: null,
 
-  name: 'Erdem İlker',
+  // SEO için optimize edilmiş isim (Meta Title)
+  name: 'Erdem İlker | Karanlık Hikayeler ve Absürt Korku',
   domain: 'www.erdemilker.com.tr',
   author: 'Erdem İlker',
 
-  description: 'Karanlık Hikayeler',
+  // SEO için optimize edilmiş açıklama (Meta Description)
+  description: "Erdem İlker'in kaleminden çıkan Kimsesizler Mezarlığı animasyon serisi, noir çizgi romanlar ve fantastik korku hikayelerinin merkezine hoş geldiniz.",
 
   twitter: 'BOykuler',
 
