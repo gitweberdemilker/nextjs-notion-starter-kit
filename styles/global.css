@@ -38,6 +38,21 @@ body {
   text-shadow: 0 0 10px rgba(204, 0, 0, 0.4) !important;
 }
 
+/* Aydınlık Mod Menü Görünürlüğü (Bozulan kısım onarıldı) */
+.light-mode .notion-nav-header a,
+.light-mode .notion-nav-header .notion-nav-header-item,
+.light-mode .notion-header a,
+.light-mode .notion-search-button::before,
+.light-mode .notion-dark-mode-button::before {
+  color: #1a1a1a !important;
+}
+
+.light-mode .notion-nav-header a:hover,
+.light-mode .notion-nav-header .notion-nav-header-item:hover,
+.light-mode .notion-header a:hover {
+  color: #cc0000 !important;
+}
+
 /* Parlak mod callout düzeltmeleri */
 .light-mode .notion-callout {
   background-color: #f5f5f5 !important;
@@ -67,12 +82,12 @@ body {
   text-shadow: none !important; 
 }
 
-/* --- NOTION VERİTABANI ETİKETLERİNİ (CREATED, TAGS VB.) GİZLEME --- */
+/* --- NOTION VERİTABANI ETİKETLERİNİ GİZLEME --- */
 .notion-collection-page-properties {
   display: none !important;
 }
 
-/* --- MENÜ VE HEADER (DAHA YAVAŞ VE DERİN KANLI ZOOM) --- */
+/* --- MENÜ VE HEADER --- */
 .notion-header {
   background: transparent !important;
 }
@@ -96,7 +111,7 @@ body {
   text-shadow: 0 0 20px rgba(204, 0, 0, 0.9) !important;
 }
 
-/* --- GÖRSEL HOVER: ÇOK DAHA YAVAŞ VE DERİN KARARMA --- */
+/* --- GÖRSEL HOVER --- */
 .notion-asset-wrapper img, 
 .notion-collection-card,
 .notion-page img {
@@ -112,7 +127,7 @@ body {
   transform: scale(1.05) !important;
 }
 
-/* --- ANA SAYFA BAŞLIKLARINI KESİN GİZLEME VE BOŞLUKLARI SİLME --- */
+/* --- ANA SAYFA BAŞLIKLARINI KESİN GİZLEME --- */
 h1.notion-title,
 .notion-page-block > h1.notion-title,
 .notion-title {
@@ -124,18 +139,16 @@ h1.notion-title,
   overflow: hidden !important;
 }
 
-/* --- FOOTER (TEK SİSTEM - ÇAKIŞMASIZ) --- */
+/* --- FOOTER --- */
 .notion-footer {
   border-top: 1px solid rgba(138, 3, 3, 0.2) !important;
   padding: 80px 0 !important;
   margin-top: 100px !important;
-
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
   justify-content: center !important;
   gap: 16px !important;
-
   min-height: 220px !important;
   height: auto !important;
   overflow: visible !important;
@@ -257,7 +270,7 @@ body::after {
   100% { transform: translate(-33%, -33%); }
 }
 
-/* --- BÖLÜM BAŞLIKLARI: SİNEMATİK VE KANLI HOVER EFEKTİ --- */
+/* --- BÖLÜM BAŞLIKLARI --- */
 .notion-h1:not(.notion-title), 
 .notion-h2, 
 .notion-h3,
@@ -291,7 +304,7 @@ body::after {
   transform: scale(1.04) translateY(-3px) !important; 
 }
 
-/* --- CALLOUT BLOKLARI: KANLI ZOOM VE PARLAMA --- */
+/* --- CALLOUT BLOKLARI --- */
 .notion-callout {
   border-left: 4px solid #cc0000 !important;
   background-color: #111111 !important;
@@ -363,7 +376,7 @@ body::after {
   scrollbar-color: #660000 #050505 !important;
 }
 
-/* --- SOL TARAFA SİNEMATİK DİKEY DAMGA (KESİN ORTALAMA) --- */
+/* --- SOL TARAFA SİNEMATİK DİKEY DAMGA --- */
 .notion-app::before {
   content: 'KARANLIK HİKAYELER';
   position: fixed;
@@ -427,70 +440,27 @@ body::after {
 }
 
 /* =========================================================
-   KAPSAMLI TAŞMA (OVERFLOW) VE HİZALAMA ÇÖZÜMÜ
-   (Videoları, Afişleri ve Kutuları Hizaya Sokar)
+   SADECE MEDYA (VİDEO/GÖRSEL) TAŞMALARINI ENGELLEYEN GÜVENLİ ÇÖZÜM
    ========================================================= */
-
-/* 1. Sayfa ve Blok sınırlarını garanti altına al */
-.notion-page, 
-.notion-block,
 .notion-page-content {
-  max-width: 100% !important;
-  box-sizing: border-box !important;
-  overflow-x: hidden !important; 
-}
-
-/* 2. Sütunların ve yan yana afişlerin sağa taşmasını engeller */
-.notion-row {
-  max-width: 100% !important;
-  width: 100% !important;
-  display: flex !important;
-  box-sizing: border-box !important;
   overflow-x: hidden !important;
+  max-width: 100vw !important;
 }
 
-.notion-column {
-  max-width: 100% !important;
-  box-sizing: border-box !important;
-}
-
-/* 3. Video, YouTube ve Resim sınırlandırmaları */
 .notion-asset-wrapper {
   max-width: 100% !important;
-  width: 100% !important;
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-  box-sizing: border-box !important;
-  overflow: hidden !important;
 }
 
-.notion-asset-wrapper img, 
-.notion-asset-wrapper video, 
-.notion-asset-wrapper iframe {
+.notion-asset-wrapper iframe,
+.notion-asset-wrapper video {
   max-width: 100% !important;
-  box-sizing: border-box !important;
   border-radius: 8px;
 }
 
-.notion-asset-wrapper iframe {
-  width: 100% !important; 
-}
-
-/* 4. Callout kutularının sağdan taşmasını önleme */
-.notion-callout, 
-.notion-quote, 
-.notion-code {
-  max-width: 100% !important;
-  width: 100% !important;
-  box-sizing: border-box !important;
-}
-
 /* =========================================================
-   MOBİL EKRAN (TELEFON) KESİN ÇÖZÜM: İNATÇI SİSTEMİ EZME
+   MOBİL EKRAN İÇİN GÜVENLİ DÜZEN (Sütunlar alt alta)
    ========================================================= */
 @media (max-width: 768px) {
-  
   .notion-collection-card-cover {
     height: 350px !important; 
     max-height: 350px !important;
@@ -580,16 +550,15 @@ body::after {
     object-position: center !important; 
   }
 
-  /* 4. SÜTUNLARI (AFİŞLERİ VE KUTULARI) MOBİLDE ALT ALTA DİZ VE HİZALA */
+  /* 4. SÜTUNLARI MOBİLDE ALT ALTA DİZ VE HİZALA */
   .notion-row {
     display: flex !important;
     flex-direction: column !important;
     width: 100% !important;
     margin: 0 !important;
-    padding: 0 !important;
   }
   
-  .notion-row > .notion-column {
+  .notion-column {
     width: 100% !important;
     max-width: 100% !important; 
     margin: 0 0 20px 0 !important; 
