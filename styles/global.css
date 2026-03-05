@@ -338,3 +338,70 @@ body::after {
     word-break: break-word !important;
   }
 }
+/* =========================================================
+   FIX PACK: Dark default sonrası "beyaz kutu / kayma" + mobil sıra
+   (Dosyanın EN ALTINA ekle)
+   ========================================================= */
+
+/* 1) Dark default: Notion'un bazı wrapper'ları beyaz basabiliyor.
+      Light-mode dışındayken içerik alanını da koyulaştır. */
+html:not(.light-mode) .notion-app,
+html:not(.light-mode) .notion-page,
+html:not(.light-mode) .notion-page-content,
+html:not(.light-mode) .notion-page-content-inner,
+html:not(.light-mode) .notion-scroller,
+html:not(.light-mode) .notion-frame,
+html:not(.light-mode) .notion-page-header-wrapper {
+  background-color: #000000 !important;
+  color: #d1d1d1 !important;
+}
+
+/* Bazı bloklar beyaz zemin taşıyorsa (özellikle text container), onu da koyulaştır */
+html:not(.light-mode) .notion-text,
+html:not(.light-mode) .notion-page-block,
+html:not(.light-mode) .notion-page-block > div {
+  background: transparent !important;
+}
+
+/* 2) Mobilde hiyerarşi bozulması: Notion bazen order veriyor.
+      Tüm kolon sırasını DOM sırasına kilitle. */
+@media (max-width: 768px) {
+  .notion-row {
+    display: flex !important;
+    flex-direction: column !important;
+    flex-wrap: nowrap !important;
+    align-items: stretch !important;
+  }
+
+  .notion-row > .notion-column {
+    order: 0 !important;         /* en kritik satır */
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* İçerik bloklarının taşmasını engelle (kayma/yan boşluk) */
+  .notion-page-content,
+  .notion-page-content-inner,
+  .notion-page {
+    overflow-x: hidden !important;
+    max-width: 100vw !important;
+  }
+
+  /* Görsel/video blokları tam otursun */
+  .notion-asset-wrapper,
+  .notion-asset-wrapper iframe,
+  .notion-asset-wrapper video,
+  .notion-asset-wrapper img {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  /* Caption/başlık blokları sağa sola kaymasın */
+  .notion-asset-caption,
+  .notion-caption,
+  figcaption {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+    text-align: center !important;
+  }
+}
