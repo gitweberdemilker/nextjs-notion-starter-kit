@@ -205,7 +205,7 @@ body::after {
 .notion-asset-wrapper iframe, .notion-asset-wrapper video { max-width: 100% !important; border-radius: 8px; }
 
 /* =========================================================
-   MOBİL EKRAN GÜVENLİ DÜZEN (BOŞLUKLAR SIFIRLANDI)
+   MOBİL EKRAN GÜVENLİ DÜZEN VE H1/H2 BOYUT ONARIMI
    ========================================================= */
 @media (max-width: 768px) {
   .notion-collection-card-cover { height: 350px !important; max-height: 350px !important; }
@@ -220,20 +220,39 @@ body::after {
     font-size: 0.8rem !important; margin: 0 !important; padding: 2px !important;
   }
   
-  /* KAPAK VE İKON ARASINDAKİ DEVASA BOŞLUK TAMAMEN YOK EDİLDİ */
   .notion-page-icon-hero, .notion-page-icon-wrapper {
     display: block !important; position: relative !important; width: 80px !important; height: 80px !important;
-    margin: -40px auto 0px auto !important; /* Alt boşluk 0 yapıldı */
+    margin: -40px auto 0px auto !important; 
   }
   .notion-page-icon-hero img, .notion-page-icon-wrapper img { width: 100% !important; height: 100% !important; object-fit: cover !important; }
   .notion-page-cover-wrapper { height: 120px !important; max-height: 120px !important; width: 100% !important; }
   .notion-page-cover { object-fit: cover !important; object-position: center !important; }
   
-  /* BAŞLIK VE İÇERİK BOŞLUKLARI SIKIŞTIRILDI */
+  /* MOBİLDE BAŞLIK (H1, H2) BOYUTLANDIRMA VE SIKIŞTIRMA */
   .notion-page { padding-top: 0px !important; margin-top: 0px !important; }
+  
   .notion-h1:not(.notion-title), .notion-h2, .notion-h3 {
-    margin-top: 15px !important; /* Devasa 60px boşluk 15px'e indirildi */
+    margin-top: 15px !important; 
     margin-bottom: 10px !important;
+  }
+
+  /* H1 Küçültüldü ve aralıkları daraltıldı */
+  .notion-h1:not(.notion-title) {
+    font-size: 1.6rem !important; 
+    letter-spacing: 1px !important; 
+    line-height: 1.3 !important; 
+  }
+
+  /* H2 Küçültüldü */
+  .notion-h2 {
+    font-size: 1.3rem !important;
+    letter-spacing: 1px !important;
+  }
+
+  /* H3 Küçültüldü */
+  .notion-h3 {
+    font-size: 1.1rem !important;
+    letter-spacing: 1px !important;
   }
   
   /* Sütun hizalamaları */
