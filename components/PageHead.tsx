@@ -30,26 +30,23 @@ export function PageHead({
   const socialImageUrl = getSocialImageUrl(pageId) || image
 
   // ==========================================
-  // CANONICAL URL KESİN ÇÖZÜMÜ (MANTIK DÜZELTİLDİ)
+  // CANONICAL URL KESİN ÇÖZÜMÜ (TS HATASI GİDERİLDİ)
   // ==========================================
   let canonicalUrl = url;
   if (pageId && siteConfig?.pageUrlOverrides) {
-    // 1. O anki sayfanın Notion ID'sini tirelerden temizle
     const cleanId = pageId.replace(/-/g, '').toLowerCase();
-    
-    // 2. Config dosyanızdaki "URL: ID" sözlüğünü çek
     const overrides = siteConfig.pageUrlOverrides;
     
     for (const slug in overrides) {
-      // Sağ taraftaki değeri (ID'yi) temizle
-      const mappedId = overrides[slug].replace(/-/g, '').toLowerCase();
-      
-      // Eğer sayfa ID'miz sözlüktekiyle uyuşuyorsa...
-      if (mappedId === cleanId) {
-        // URL kısmını (sol tarafı) al ve canonical olarak ata!
-        const cleanSlug = slug.startsWith('/') ? slug : `/${slug}`;
-        canonicalUrl = `https://www.erdemilker.com.tr${cleanSlug}`;
-        break;
+      const overrideValue = overrides[slug];
+      // TYPESCRIPT GÜVENLİK KONTROLÜ: Değer gerçekten varsa işlemi yap
+      if (overrideValue) {
+        const mappedId = overrideValue.replace(/-/g, '').toLowerCase();
+        if (mappedId === cleanId) {
+          const cleanSlug = slug.startsWith('/') ? slug : `/${slug}`;
+          canonicalUrl = `https://www.erdemilker.com.tr${cleanSlug}`;
+          break;
+        }
       }
     }
   }
