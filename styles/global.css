@@ -344,6 +344,41 @@ body::after {
   }
 }
 
+/* --- BLOG VİTRİNİ: DİKEY (KİTAP / ÇİZGİROMAN) KAPAĞI FORMATI --- */
+.notion-gallery-grid {
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)) !important; /* Kartları estetik bir genişliğe çeker */
+  gap: 25px !important;
+}
+
+.notion-collection-card {
+  border-radius: 6px !important;
+  border: 1px solid rgba(138, 3, 3, 0.2) !important; /* Kartların etrafına hafif kanlı bir aura */
+  background-color: #080808 !important; /* İçeriği zifiri karanlık yapar */
+}
+
+.notion-collection-card-cover {
+  height: 400px !important; /* Kutuyu yataydan DİKEYE (afiş boyutuna) uzatır */
+  max-height: 400px !important;
+  border-bottom: 1px solid rgba(138, 3, 3, 0.4) !important;
+  background-color: #000000 !important;
+}
+
+.notion-collection-card-cover img {
+  object-fit: contain !important; /* SİHİRLİ DOKUNUŞ: Görseli ASLA kırpmaz, tamamını içine oturtur */
+  object-position: center !important;
+  width: 100% !important;
+  height: 100% !important;
+  padding: 5px !important; /* Resmin kenarlara yapışmasını engeller */
+}
+
+/* Mobilde afişlerin devasa olmasını engellemek için küçük bir dokunuş */
+@media (max-width: 768px) {
+  .notion-collection-card-cover {
+    height: 350px !important; 
+    max-height: 350px !important;
+  }
+}
+
 /* =========================================================
    MOBİL EKRAN (TELEFON) KESİN ÇÖZÜM: İNATÇI SİSTEMİ EZME
    ========================================================= */
