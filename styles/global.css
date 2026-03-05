@@ -38,9 +38,7 @@ body {
   text-shadow: 0 0 10px rgba(204, 0, 0, 0.4) !important;
 }
 
-/* =========================================================
-   AYDINLIK MOD MENÜ VE LOGO GÖRÜNÜRLÜĞÜ (KAPSAMLI ÇÖZÜM)
-   ========================================================= */
+/* --- AYDINLIK MOD MENÜ VE LOGO GÖRÜNÜRLÜĞÜ --- */
 .light-mode .notion-nav-header,
 .light-mode .notion-nav-header-lhs,
 .light-mode .notion-nav-header-rhs,
@@ -49,11 +47,7 @@ body {
 .light-mode .notion-nav-header .title,
 .light-mode .notion-nav-header .breadcrumbs,
 .light-mode .notion-nav-header .notion-nav-header-item,
-.light-mode .notion-header a,
-.light-mode .notion-search-button,
-.light-mode .notion-dark-mode-button,
-.light-mode .notion-search-button::before,
-.light-mode .notion-dark-mode-button::before {
+.light-mode .notion-header a {
   color: #1a1a1a !important;
 }
 
@@ -232,7 +226,9 @@ h1.notion-title,
   transform: scale(1.2) !important;
 }
 
-/* --- İKON VE DÜĞME DÜZENLEMELERİ --- */
+/* =========================================================
+   İKON VE DÜĞME DÜZENLEMELERİ (GÜNEŞ/AY ORİJİNALE DÖNDÜ)
+   ========================================================= */
 .notion-dark-mode-button, 
 .notion-search-button {
   display: flex !important;
@@ -244,18 +240,22 @@ h1.notion-title,
 
 .notion-dark-mode-button svg,
 .notion-search-button svg {
-  display: none !important;
+  display: block !important;
+  fill: var(--fg-color) !important;
+  transition: transform 0.4s ease, fill 0.4s ease !important;
 }
 
-.notion-search-button::before {
-  content: '👁️';
-  font-size: 1.1rem;
-  color: inherit !important;
+/* Aydınlık Modda İkonlar Siyah Olur */
+.light-mode .notion-dark-mode-button svg,
+.light-mode .notion-search-button svg {
+  fill: #1a1a1a !important;
 }
-.notion-dark-mode-button::before {
-  content: '💀';
-  font-size: 1.1rem;
-  color: inherit !important;
+
+/* Üzerine Gelince Kırmızı Parlama */
+.notion-dark-mode-button:hover svg,
+.notion-search-button:hover svg {
+  fill: #cc0000 !important;
+  transform: scale(1.1) !important;
 }
 
 /* --- ATMOSFERİK DETAYLAR --- */
