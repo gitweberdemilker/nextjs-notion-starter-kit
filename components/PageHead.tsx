@@ -3,6 +3,7 @@ import Head from 'next/head'
 import type * as types from '@/lib/types'
 import * as config from '@/lib/config'
 import { getSocialImageUrl } from '@/lib/get-social-image-url'
+import { siteConfig } from '@/site.config' // Temiz sözlüğü çekiyoruz
 
 export function PageHead({
   site,
@@ -28,6 +29,29 @@ export function PageHead({
 
   const socialImageUrl = getSocialImageUrl(pageId) || image
 
+  // ==========================================
+  // CANONICAL URL KESİN ÇÖZÜMÜ
+  // ==========================================
+  let canonicalUrl = url;
+  if (canonicalUrl && pageId) {
+    const cleanId = pageId.replace(/-/g, '').toLowerCase();
+    const overrideKeys = Object.keys(siteConfig.pageUrlOverrides || {});
+    
+    for (const key of overrideKeys) {
+      if (key.replace(/-/g, '').toLowerCase() === cleanId) {
+        // Notion ID'si yerine kendi belirlediğimiz temiz URL'yi zorla basıyoruz
+        canonicalUrl = `https://www.erdemilker.com.tr${siteConfig.pageUrlOverrides[key]}`;
+        break;
+      }
+    }
+  }
+
+  // ==========================================
+  // ZENGİN SEO (JSON-LD) SAYFA TESPİTİ
+  // ==========================================
+  const isBookPage = canonicalUrl?.includes('son-yil') || canonicalUrl?.includes('kitaplar') || canonicalUrl?.includes('tamamlanan-kitaplar');
+  const isVideoPage = canonicalUrl?.includes('animasyon');
+
   return (
     <Head>
       <meta charSet='utf-8' />
@@ -49,7 +73,7 @@ export function PageHead({
       <meta
         name='theme-color'
         media='(prefers-color-scheme: dark)'
-        content='#2d3439'
+        content='#000000' 
         key='theme-color-dark'
       />
 
@@ -87,11 +111,12 @@ export function PageHead({
         <meta name='twitter:card' content='summary' />
       )}
 
-      {url && (
+      {/* DÜZELTİLMİŞ TEMİZ CANONICAL URL BURAYA BASILIYOR */}
+      {canonicalUrl && (
         <>
-          <link rel='canonical' href={url} />
-          <meta property='og:url' content={url} />
-          <meta property='twitter:url' content={url} />
+          <link rel='canonical' href={canonicalUrl} />
+          <meta property='og:url' content={canonicalUrl} />
+          <meta property='twitter:url' content={canonicalUrl} />
         </>
       )}
 
@@ -107,14 +132,14 @@ export function PageHead({
       <title>{title}</title>
 
       {/* BlogPosting Schema */}
-      {isBlogPost && url && (
+      {isBlogPost && canonicalUrl && (
         <script type='application/ld+json'>
           {JSON.stringify({
             '@context': 'https://schema.org',
             '@type': 'BlogPosting',
-            '@id': `${url}#BlogPosting`,
-            mainEntityOfPage: url,
-            url,
+            '@id': `${canonicalUrl}#BlogPosting`,
+            mainEntityOfPage: canonicalUrl,
+            url: canonicalUrl,
             headline: title,
             name: title,
             description,
@@ -123,6 +148,46 @@ export function PageHead({
               name: config.author
             },
             image: socialImageUrl
+          })}
+        </script>
+      )}
+
+      {/* Zengin SEO: Kitap (Book) Şeması (Son Yıl ve Kitaplar için) */}
+      {isBookPage && canonicalUrl && (
+        <script type='application/ld+json'>
+          {JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'Book',
+            name: title,
+            author: {
+              '@type': 'Person',
+              name: 'Erdem İlker'
+            },
+            url: canonicalUrl,
+            genre: ['Fantastik Gerilim', 'Korku'],
+            inLanguage: 'tr',
+            publisher: {
+              '@type': 'Organization',
+              name: 'Karanlık Hikayeler'
+            }
+          })}
+        </script>
+      )}
+
+      {/* Zengin SEO: Animasyon (VideoObject) Şeması */}
+      {isVideoPage && canonicalUrl && (
+        <script type='application/ld+json'>
+          {JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'VideoObject',
+            name: title,
+            description: description || 'Kimsesizler Mezarlığı Animasyon Serisi',
+            thumbnailUrl: socialImageUrl || `${config.host}/og/default.jpg`,
+            uploadDate: '2026-01-01T08:00:00+08:00', // Varsayılan bir tarih
+            author: {
+              '@type': 'Person',
+              name: 'Erdem İlker'
+            }
           })}
         </script>
       )}
