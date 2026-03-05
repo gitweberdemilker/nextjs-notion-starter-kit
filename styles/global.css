@@ -427,3 +427,100 @@ body::after {
     max-width: 100vw !important;
   }
 }
+
+/* =========================================================
+   MOBİL STABİLİZASYON PAKETİ (anasayfa birbirine girme fix)
+   EN ALTA EKLE
+   ========================================================= */
+@media (max-width: 768px) {
+
+  /* 0) Genel taşma/kayma engeli */
+  html, body,
+  .notion-app,
+  .notion-page,
+  .notion-page-content,
+  .notion-page-content-inner {
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+  }
+
+  /* 1) Row/Column kesin stack: üst üste binmeyi engeller */
+  .notion-row {
+    display: flex !important;
+    flex-direction: column !important;
+    flex-wrap: nowrap !important;
+    align-items: stretch !important;
+    gap: 18px !important;
+  }
+  .notion-column {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* 2) Görsel / video / iframe FULL WIDTH + block (mutlak çözüm) */
+  .notion-asset-wrapper,
+  .notion-asset-wrapper > div,
+  .notion-asset-wrapper img,
+  .notion-asset-wrapper iframe,
+  .notion-asset-wrapper video {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+  }
+
+  /* YouTube embed vb. taşmasın */
+  .notion-asset-wrapper iframe {
+    aspect-ratio: 16 / 9 !important;
+    height: auto !important;
+  }
+
+  /* 3) Gallery / Collection grid mobilde tek kolon olsun */
+  .notion-gallery-grid,
+  .notion-collection-gallery {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 18px !important;
+  }
+
+  /* 4) Card/cover içeriği taşmasın */
+  .notion-collection-card,
+  .notion-collection-card-cover,
+  .notion-collection-card-cover img {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* Cover görselleri mobilde "contain" yerine cover daha stabil */
+  .notion-collection-card-cover img {
+    object-fit: cover !important;
+    object-position: center !important;
+    padding: 0 !important;
+  }
+
+  /* 5) Hover/transform mobilde layout zıplatmasın (üst üste binmeyi keser) */
+  .notion-asset-wrapper img:hover,
+  .notion-collection-card:hover,
+  .notion-page img:hover {
+    transform: none !important;
+    filter: none !important;
+  }
+
+  /* 6) Başlık/metin blokları taşmasın */
+  .notion-text,
+  .notion-callout,
+  .notion-page-block {
+    max-width: 100% !important;
+    min-width: 0 !important;
+    word-break: break-word !important;
+  }
+
+  /* 7) Büyük üst boşluklar/negatif margin kaynaklı çakışma varsa dengeler */
+  .notion-page-header-wrapper,
+  .notion-page-cover-wrapper {
+    margin: 0 !important;
+  }
+}
