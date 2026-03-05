@@ -20,7 +20,6 @@ export default siteConfig({
   isPreviewImageSupportEnabled: true,
   isRedisEnabled: false,
 
-  // ESKİ VE ÇALIŞAN HALİNE GERİ DÖNDÜRÜYORUZ
   pageUrlOverrides: {
     '/karanlik-hikayeler': '318ddc548f4180a3ac2fe2dea9adc63f',
     '/kimsesizler-mezarligi-animasyon': '318ddc548f4180d1b110e67d584dc8f3',
@@ -50,7 +49,11 @@ export default siteConfig({
     '/cizgiroman': '318ddc548f4180a2b91ee80a374edce8',
     '/kitaplar': '318ddc548f4180358a6fd72ac0e8b557',
     '/hikayeler': '318ddc548f41808f9deffcbf9d8292cc',
-    '/seyahatname': '318ddc548f418083b264c9dfd0215b5b'
+    '/seyahatname': '318ddc548f418083b264c9dfd0215b5b',
+    // === EKSİK OLAN 3 SAYFA BURAYA EKLENDİ ===
+    '/yeni-site-hakknda': '31addc548f41801582fbffab10ec3453',
+    '/karanlk-seyahatname': '31addc548f4180fbab4be8692f5f22ce',
+    '/cinayet-rota-oluturuldu-tantm': '31addc548f41802b84b9f52064e8a30a'
   },
 
   navigationStyle: 'custom',
