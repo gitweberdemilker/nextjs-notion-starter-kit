@@ -4,88 +4,94 @@
   box-sizing: border-box;
 }
 
-/* =========================================================
-   1. VARSAYILAN AYARLAR (BAŞLANGIÇ HER ZAMAN KARANLIK)
-   ========================================================= */
 body {
   --notion-font: 'Crimson Text', serif;
   font-family: var(--notion-font);
-  background-color: #000000 !important; /* İlk açılış siyah */
-  color: #d1d1d1 !important;
 }
 
 /* =========================================================
-   2. AYDINLIK MOD (LIGHT MODE) AKTİF OLUNCA
+   1. AYDINLIK MOD OKUNURLUK VE İKON DÜZELTMESİ
    ========================================================= */
-.light-mode,
-[data-theme='light'],
-body:not(.dark-mode):not([data-theme='dark']) {
-  background-color: #fcfcfc !important;
+
+/* Varsayılan olarak (veya aydınlık modda) tüm yazıları ve ikonları SİYAH yapıyoruz */
+.notion-nav-header a,
+.notion-nav-header span,
+.notion-nav-header .title,
+.notion-nav-header .breadcrumbs,
+.notion-nav-header .notion-nav-header-item,
+.notion-header a,
+.notion-search-button,
+.notion-dark-mode-button {
   color: #1a1a1a !important;
 }
 
-/* Aydınlık modda yazı ve menü renkleri */
-.light-mode .notion-nav-header a,
-.light-mode .notion-nav-header span,
-.light-mode .notion-nav-header .title,
-.light-mode .notion-nav-header .notion-nav-header-item,
-.light-mode .notion-header a,
-[data-theme='light'] .notion-nav-header a,
-[data-theme='light'] .notion-nav-header .title {
-  color: #1a1a1a !important;
-}
-
-/* Aydınlık modda Güneş/Ay ve Arama ikonları SİYAH */
-.light-mode .notion-dark-mode-button svg,
-.light-mode .notion-search-button svg,
-[data-theme='light'] .notion-dark-mode-button svg {
+/* SVG ikonların (Güneş/Ay/Arama) aydınlık modda görünmesi için */
+.notion-dark-mode-button svg,
+.notion-search-button svg {
   fill: #1a1a1a !important;
-  color: #1a1a1a !important;
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
 }
 
 /* =========================================================
-   3. KARANLIK MOD (DARK MODE) AKTİF OLUNCA
+   2. GECE (DARK) MODU KURALLARI
+   (Sistem dark-mode sınıfını bulduğunda renkleri beyaz yapar)
    ========================================================= */
-.dark-mode,
-[data-theme='dark'] {
-  background-color: #000000 !important;
-  color: #d1d1d1 !important;
-}
-
 .dark-mode .notion-nav-header a,
+.dark-mode .notion-nav-header span,
 .dark-mode .notion-nav-header .title,
+.dark-mode .notion-nav-header .notion-nav-header-item,
 .dark-mode .notion-header a,
-[data-theme='dark'] .notion-nav-header a {
+.dark-mode .notion-search-button,
+.dark-mode .notion-dark-mode-button,
+[data-theme='dark'] .notion-nav-header a,
+[data-theme='dark'] .notion-nav-header span,
+[data-theme='dark'] .notion-nav-header .title {
   color: #d1d1d1 !important;
 }
 
 .dark-mode .notion-dark-mode-button svg,
-.dark-mode .notion-search-button svg {
+.dark-mode .notion-search-button svg,
+[data-theme='dark'] .notion-dark-mode-button svg {
   fill: #d1d1d1 !important;
 }
 
+/* Genel Arka Plan Ayarları */
+.dark-mode, .dark-mode .notion-app, .dark-mode .notion-page {
+  background-color: #000000 !important;
+  color: #d1d1d1 !important;
+}
+
 /* =========================================================
-   4. GÖRSEL HOVER (Yumuşatılmış ve Detay Kaybetmeyen)
+   3. GÖRSEL HOVER (Yumuşatılmış Efekt)
    ========================================================= */
 .notion-asset-wrapper img, 
 .notion-collection-card,
 .notion-page img {
   filter: brightness(1) contrast(1) !important;
-  transition: all 1s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
 .notion-asset-wrapper img:hover, 
 .notion-collection-card:hover,
 .notion-page img:hover {
-  filter: brightness(0.85) contrast(1.1) !important; /* Hafif ve şık kararma */
+  filter: brightness(0.85) contrast(1.1) !important; /* Çok hafif karartma */
   transform: scale(1.03) !important;
 }
 
 /* =========================================================
-   5. MOBİL ONARIM VE İKON ORTALAMA
+   4. MOBİL DÜZEN VE İKON ONARIMI
    ========================================================= */
 @media (max-width: 768px) {
-  /* İkonu kesin ortala ve boşluğu kapat */
+  /* Başlıkları küçült */
+  .notion-h1:not(.notion-title) {
+    font-size: 1.5rem !important;
+    letter-spacing: 1px !important;
+    text-align: center !important;
+  }
+  
+  /* İkonun sapıtmasını engelleyen ortalama */
   .notion-page-header-wrapper {
     display: flex !important;
     justify-content: center !important;
@@ -94,35 +100,26 @@ body:not(.dark-mode):not([data-theme='dark']) {
 
   .notion-page-icon-hero,
   .notion-page-icon-wrapper {
-    margin: -45px auto 5px auto !important;
+    margin: -45px auto 10px auto !important;
     position: relative !important;
-    display: block !important;
     left: 0 !important;
+    right: 0 !important;
+    display: block !important;
   }
 
-  .notion-page { padding-top: 0px !important; }
-
-  /* Mobilde H1 ve H2 boyutlarını dengele */
-  .notion-h1:not(.notion-title) {
-    font-size: 1.6rem !important;
-    letter-spacing: 1px !important;
-    line-height: 1.2 !important;
-    margin-top: 20px !important;
-  }
-
-  .notion-h2 {
-    font-size: 1.3rem !important;
-    margin-top: 15px !important;
-  }
-
-  /* Menüyü mobilde toparla */
+  /* Devasa boşlukları kapat */
+  .notion-page { padding-top: 5px !important; }
+  .notion-header, .notion-nav-header { height: auto !important; padding: 10px !important; }
+  
+  /* Menü öğelerini mobilde alt alta/ortalı yap */
   .notion-nav-header-rhs {
+    flex-wrap: wrap !important;
     justify-content: center !important;
-    gap: 10px !important;
+    gap: 8px !important;
   }
 }
 
-/* --- DİĞER STANDART GİZLEMELER --- */
+/* --- DİĞER STANDART DÜZELTMELER --- */
 h1.notion-title, .notion-title { display: none !important; }
 .notion-collection-page-properties { display: none !important; }
 .notion-header { background: transparent !important; }
