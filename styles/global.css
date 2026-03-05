@@ -21,16 +21,52 @@ body {
 .notion-header {
   background: transparent !important;
 }
+
+/* Header genel: taşma engeli + rahat sarmalama */
 .notion-nav-header {
   backdrop-filter: blur(10px);
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  flex-wrap: wrap !important;
+  gap: 10px !important;
+  padding: 12px 14px !important;
+  min-height: 56px !important;
+  overflow: visible !important;
 }
 
+/* Sol blok (logo + site adı) ve sağ blok (menü) çarpışmasın */
+.notion-nav-header-lhs {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  min-width: 0 !important;
+  flex: 1 1 auto !important;
+}
+.notion-nav-header-lhs * {
+  min-width: 0 !important;
+}
+
+/* Sağ menü alanı */
+.notion-nav-header-rhs {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  flex: 0 1 auto !important;
+  gap: 14px !important;
+  flex-wrap: wrap !important; /* mobilde linkler satır kırabilsin */
+  min-width: 0 !important;
+}
+
+/* Menü item’ları: taşmayı engelle */
 .notion-nav-header a,
 .notion-nav-header .notion-nav-header-item,
 .notion-header a {
   color: var(--fg-color) !important;
   transition: all 0.9s cubic-bezier(0.4, 0, 0.2, 1) !important;
   transform: translateZ(0) !important;
+  white-space: nowrap !important;
+  line-height: 1.2 !important;
 }
 
 .notion-nav-header a:hover,
@@ -55,6 +91,38 @@ body {
 .notion-page img:hover {
   filter: brightness(0.5) contrast(1.3) sepia(30%) !important;
   transform: scale(1.05) !important;
+}
+
+/* --- GÖRSELLER: merkezleme + taşma önleme (genel) --- */
+.notion-asset-wrapper {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  max-width: 100% !important;
+}
+.notion-asset-wrapper img {
+  max-width: 100% !important;
+  height: auto !important;
+}
+
+/* --- SAYFA KAPAK/HEADER GÖRSELİ: mobilde merkez odaklı kırpma --- */
+/* Notion export/host temasına göre isimler değişebiliyor; bu yüzden çoklu selector */
+.notion-page-cover-wrapper,
+.notion-page-cover,
+.notion-page-cover-wrapper img,
+.notion-page-cover img {
+  max-width: 100% !important;
+}
+
+.notion-page-cover-wrapper img,
+.notion-page-cover img {
+  width: 100% !important;
+  height: 34vh !important;              /* mobilde aşırı uzamasın */
+  min-height: 220px !important;
+  max-height: 420px !important;
+  object-fit: cover !important;         /* PC’deki gibi odaklı görünüm */
+  object-position: center center !important;
+  border-radius: 0 !important;
 }
 
 /* --- ANA SAYFA BAŞLIKLARINI KESİN GİZLEME VE BOŞLUKLARI SİLME --- */
@@ -271,6 +339,12 @@ body::after {
   text-shadow: 0 0 12px rgba(204, 0, 0, 0.9) !important; 
 }
 
+/* Callout görselin altına daha “oturmuş” dursun */
+.notion-image + .notion-callout,
+.notion-asset-wrapper + .notion-callout {
+  margin-top: 12px !important;
+}
+
 /* --- SAYFA ARŞİVİ (TOGGLE) BLOKLARINI KESİN GİZLEME --- */
 .notion-toggle {
   display: none !important;
@@ -344,56 +418,76 @@ body::after {
   }
 }
 
-/* --- MOBİL EKRAN (TELEFON) KUSURSUZLAŞTIRMA (AĞIR MÜDAHALE) --- */
+/* --- MOBİL / TABLET DÜZENİ --- */
 @media (max-width: 768px) {
-  
-  /* 1. ÜST MENÜ VE LOGO ZORUNLU ALT ALTA GEÇİŞ */
-  .notion-nav-header,
-  header.notion-header {
-    display: flex !important;
-    flex-direction: column !important;
-    height: auto !important;
-    padding: 15px 10px !important;
-    align-items: center !important;
+
+  /* Menü çakışmasını kesin bitir: iki satır düzeni */
+  .notion-nav-header {
     justify-content: center !important;
+    padding: 12px 10px !important;
   }
-  
-  /* Menü Linklerini Tutan Alan */
-  .notion-nav-header-rhs {
-    display: flex !important;
-    flex-wrap: wrap !important;
-    flex-direction: row !important;
+  .notion-nav-header-lhs {
     justify-content: center !important;
-    align-items: center !important;
-    width: 100% !important;
-    margin-top: 15px !important;
-    gap: 12px !important;
-    position: static !important; /* Gizlenmeyi engeller */
+    flex: 1 1 100% !important;
+  }
+  .notion-nav-header-rhs {
+    justify-content: center !important;
+    flex: 1 1 100% !important;
+    gap: 10px !important;
   }
 
-  /* 2. SÜTUNLARI VE KUTULARI ZORUNLU ALT ALTA DİZME */
+  /* Mobilde menü yazıları biraz küçülsün */
+  .notion-nav-header a,
+  .notion-nav-header .notion-nav-header-item {
+    font-size: 0.92rem !important;
+    letter-spacing: 0.5px !important;
+  }
+
+  /* KRİTİK: Calloutların “yanlış görsel altına kayıyor” hissini azaltmak için
+     kolonları 2’li düzenle koru (eşleşme bozulmasın). */
   .notion-row {
     display: flex !important;
-    flex-direction: column !important;
+    flex-wrap: wrap !important;
+    gap: 14px !important;
     width: 100% !important;
     margin: 0 !important;
     padding: 0 !important;
   }
-  
-  /* Sütunların içindeki inatçı genişlikleri kesin ezer */
+
   .notion-row > .notion-column {
-    width: 100% !important;
-    max-width: 100% !important; /* Ekran dışına taşmayı engeller */
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-    margin-bottom: 20px !important; /* Alt alta bindiklerinde aralarına boşluk koyar */
+    width: calc(50% - 7px) !important;
+    max-width: calc(50% - 7px) !important;
+    margin: 0 !important;
   }
 
-  /* Callout (Kutu) Özel Genişlik Müdahalesi */
+  /* Callout (Kutu) */
   .notion-callout {
     width: 100% !important;
     max-width: 100% !important;
     margin-left: 0 !important;
     margin-right: 0 !important;
+  }
+
+  /* Kapak görseli mobilde daha kontrollü */
+  .notion-page-cover-wrapper img,
+  .notion-page-cover img {
+    height: 30vh !important;
+    min-height: 200px !important;
+    max-height: 360px !important;
+    object-fit: cover !important;
+    object-position: center center !important;
+  }
+}
+
+/* Çok dar telefonlarda tek kolona düş */
+@media (max-width: 480px) {
+  .notion-row > .notion-column {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .notion-nav-header a,
+  .notion-nav-header .notion-nav-header-item {
+    font-size: 0.88rem !important;
   }
 }
