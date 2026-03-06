@@ -167,6 +167,65 @@ h1.notion-title,
   transform: scale(1.05) !important;
 }
 
+/* =========================================================
+   SOSYAL MEDYA İKONLARI - LIGHT/DARK MODE FIX
+   ========================================================= */
+.notion-nav-header .nav-header-item,
+.notion-nav-header-rhs .nav-header-item,
+.nav-header-rhs .nav-header-item {
+  color: var(--fg-color) !important;
+  border-color: currentColor !important;
+}
+
+.notion-nav-header .nav-header-item svg,
+.notion-nav-header-rhs .nav-header-item svg,
+.nav-header-rhs .nav-header-item svg {
+  fill: currentColor !important;
+  stroke: currentColor !important;
+}
+
+.light-mode .notion-nav-header .nav-header-item,
+.light-mode .notion-nav-header-rhs .nav-header-item,
+.light-mode .nav-header-rhs .nav-header-item {
+  color: #1a1a1a !important;
+  border-color: #1a1a1a !important;
+}
+
+.light-mode .notion-nav-header .nav-header-item svg,
+.light-mode .notion-nav-header-rhs .nav-header-item svg,
+.light-mode .nav-header-rhs .nav-header-item svg {
+  fill: #1a1a1a !important;
+  stroke: #1a1a1a !important;
+}
+
+.dark-mode .notion-nav-header .nav-header-item,
+.dark-mode .notion-nav-header-rhs .nav-header-item,
+.dark-mode .nav-header-rhs .nav-header-item {
+  color: #ffffff !important;
+  border-color: #ffffff !important;
+}
+
+.dark-mode .notion-nav-header .nav-header-item svg,
+.dark-mode .notion-nav-header-rhs .nav-header-item svg,
+.dark-mode .nav-header-rhs .nav-header-item svg {
+  fill: #ffffff !important;
+  stroke: #ffffff !important;
+}
+
+.notion-nav-header .nav-header-item:hover,
+.notion-nav-header-rhs .nav-header-item:hover,
+.nav-header-rhs .nav-header-item:hover {
+  color: #cc0000 !important;
+  border-color: #cc0000 !important;
+}
+
+.notion-nav-header .nav-header-item:hover svg,
+.notion-nav-header-rhs .nav-header-item:hover svg,
+.nav-header-rhs .nav-header-item:hover svg {
+  fill: #cc0000 !important;
+  stroke: #cc0000 !important;
+}
+
 /* --- FOOTER --- */
 .notion-footer {
   border-top: 1px solid rgba(138, 3, 3, 0.2) !important;
@@ -212,10 +271,19 @@ h1.notion-title,
 .notion-app::before {
   content: 'KARANLIK HİKAYELER'; position: fixed; left: 20px; top: 0; bottom: 0; margin: auto; display: flex; align-items: center; justify-content: center; writing-mode: vertical-rl; transform: rotate(180deg); color: #cc0000; font-family: 'Crimson Text', serif; font-size: 1.15rem; letter-spacing: 14px; opacity: 0.4; pointer-events: none; z-index: 100; animation: slowPulse 6s ease-in-out infinite;
 }
+@keyframes slowPulse {
+  0%, 100% { opacity: 0.2; text-shadow: none; }
+  50% { opacity: 0.6; text-shadow: 0 0 20px rgba(204, 0, 0, 0.8); }
+}
 @media (max-width: 1200px) { .notion-app::before { display: none !important; } }
 
 body::before { content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1000; background: radial-gradient(circle, rgba(0, 0, 0, 0) 65%, rgba(0, 0, 0, 0.5) 100%); }
 body::after { content: ''; position: fixed; top: 0; left: 0; width: 300%; height: 300%; background-image: url('https://www.transparenttextures.com/patterns/stardust.png'); opacity: 0.05; animation: slowFog 60s linear infinite; pointer-events: none; z-index: -1; }
+
+@keyframes slowFog {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(-33%, -33%); }
+}
 
 /* --- BÖLÜM BAŞLIKLARI VE CALLOUT --- */
 .notion-h1:not(.notion-title), .notion-h2, .notion-h3 {
