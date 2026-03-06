@@ -13,7 +13,13 @@ export default siteConfig({
   twitter: 'BOykuler',
 
   defaultPageIcon: null,
-  defaultPageCover: null,
+  
+  // ==========================================
+  // YEDEK SOSYAL MEDYA AFİŞİ (ÇOK ÖNEMLİ!)
+  // Sitede kapak yoksa WhatsApp ve Twitter bu resmi çeker.
+  // LÜTFEN AŞAĞIDAKİ LİNKİ GERÇEK BİR GÖRSEL LİNKİYLE DEĞİŞTİR!
+  // ==========================================
+  defaultPageCover: 'https://www.erdemilker.com.tr/yedek-karanlik-afis.jpg',
   defaultPageCoverPosition: 0.5,
 
   isPreviewImageSupportEnabled: true,
