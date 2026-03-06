@@ -28,7 +28,9 @@ export function PageHead({
   // ==========================================
   let socialImageUrl = 'https://www.erdemilker.com.tr/kapak.png';
 
-  if (image && !image.includes('ikon.jpg')) {
+  // ---> KRİTİK NOKTA: Eğer sistem bize gizlice 'default.jpg' yollamaya kalkarsa 
+  // onu reddediyoruz ve doğrudan 'kapak.png'yi kullanmaya devam ediyoruz.
+  if (image && !image.includes('ikon.jpg') && !image.includes('default.jpg')) {
     if (image.includes('_next/image?url=')) {
       try {
         const urlPart = image.split('url=')[1];
