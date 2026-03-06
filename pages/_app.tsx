@@ -1,60 +1,58 @@
-import 'katex/dist/katex.min.css'
-import 'prismjs/themes/prism-coy.css'
-import 'react-notion-x/src/styles.css'
-import 'styles/global.css'
-import 'styles/notion.css'
-import 'styles/prism-theme.css'
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap');
 
-import type { AppProps } from 'next/app'
-import * as Fathom from 'fathom-client'
-import { useRouter } from 'next/router'
-import { posthog } from 'posthog-js'
-import * as React from 'react'
-import { useState, useEffect } from 'react'
+* { box-sizing: border-box; }
 
-import { bootstrap } from '@/lib/bootstrap-client'
-import { fathomConfig, fathomId, isServer, posthogConfig, posthogId } from '@/lib/config'
-
-if (!isServer) { bootstrap() }
-
-export default function App({ Component, pageProps }: AppProps) {
-  const router = useRouter()
-  const [isTransitioning, setIsTransitioning] = useState(false)
-
-  useEffect(() => {
-    // VARSAYILAN TEMAYI AYARLA (BOZMADAN)
-    if (typeof window !== 'undefined') {
-      const savedTheme = localStorage.getItem('darkMode')
-      if (savedTheme === null) {
-        localStorage.setItem('darkMode', 'true')
-        document.body.classList.add('dark-mode')
-      }
-    }
-
-    const handleStart = () => setIsTransitioning(true)
-    const handleComplete = () => {
-      setIsTransitioning(false)
-      if (fathomId) Fathom.trackPageview()
-      if (posthogId) posthog.capture('$pageview')
-    }
-
-    router.events.on('routeChangeStart', handleStart)
-    router.events.on('routeChangeComplete', handleComplete)
-    router.events.on('routeChangeError', handleComplete)
-
-    return () => {
-      router.events.off('routeChangeStart', handleStart)
-      router.events.off('routeChangeComplete', handleComplete)
-      router.events.off('routeChangeError', handleComplete)
-    }
-  }, [router])
-
-  return (
-    <>
-      <div className={`cinematic-overlay ${isTransitioning ? 'active' : ''}`} />
-      <div className={`page-content ${isTransitioning ? 'shrinking' : ''}`}>
-        <Component {...pageProps} />
-      </div>
-    </>
-  )
+/* =========================================================
+   SİNEMATİK GEÇİŞ KATMANLARI
+   ========================================================= */
+.cinematic-overlay {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background-color: #000;
+  z-index: 999999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease-in-out;
 }
+.cinematic-overlay.active { opacity: 1; pointer-events: all; }
+
+.page-content {
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), filter 0.6s ease, opacity 0.6s ease;
+  transform-origin: center center;
+}
+.page-content.shrinking {
+  transform: scale(1.1);
+  filter: blur(10px) brightness(0);
+  opacity: 0;
+}
+
+/* =========================================================
+   TEMA RENKLERİ (ÇAKIŞMAYI ÖNLEYEN YAPI)
+   ========================================================= */
+body {
+  --notion-font: 'Crimson Text', serif;
+  font-family: var(--notion-font);
+  transition: background-color 0.3s ease; /* Modlar arası yumuşak geçiş */
+}
+
+/* KARANLIK MOD (Default ve Aktif) */
+body.dark-mode, body:not(.light-mode) {
+  background-color: #000 !important;
+  color: #d1d1d1 !important;
+}
+
+/* AYDINLIK MOD (Butona basınca burası devreye girer) */
+body.light-mode {
+  background-color: #fcfcfc !important;
+  color: #1a1a1a !important;
+}
+
+/* Kan Kırmızısı Linkler - Hem global hem notion üzerinden garantiye alalım */
+.notion-link {
+  background-image: linear-gradient(to right, #900, #900) !important;
+}
+.notion-link:hover {
+  background-image: linear-gradient(to right, #f00, #c00) !important;
+}
+
+/* Orijinal global.css kodunun geri kalan tüm mobil/footer ayarlarını buraya ekle... */
