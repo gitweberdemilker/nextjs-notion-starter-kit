@@ -2,8 +2,6 @@ import Head from 'next/head'
 
 import type * as types from '@/lib/types'
 import * as config from '@/lib/config'
-// BEYAZ KUTUYU ÜRETEN DOSYAYI İPTAL ETTİK (Yorum satırına alındı)
-// import { getSocialImageUrl } from '@/lib/get-social-image-url'
 import siteConfig from '../site.config'
 
 export function PageHead({
@@ -29,11 +27,26 @@ export function PageHead({
   description = description ?? site?.description
 
   // ==========================================
-  // SOSYAL MEDYA GÖRSELİ KESİN ÇÖZÜMÜ
-  // Önce otomatik motoru sildik. Artık doğrudan senin yüklediğin "image" (kapak) kullanılacak.
-  // Kapak yoksa, site.config içindeki defaultPageCover devreye girecek.
+  // SOSYAL MEDYA GÖRSELİ KESİN ÇÖZÜMÜ (ŞİFRE KIRICI)
   // ==========================================
-  const socialImageUrl = image || siteConfig.defaultPageCover
+  let rawImageUrl = image || siteConfig.defaultPageCover;
+
+  // Eğer resim şifreli bir Next.js linkiyle geliyorsa, WhatsApp okuyamaz.
+  // İçindeki GERÇEK Notion linkini cımbızla alıp şifresini çözüyoruz:
+  if (rawImageUrl && rawImageUrl.includes('_next/image?url=')) {
+    try {
+      const extractedUrl = rawImageUrl.split('url=')[1].split('&')[0];
+      rawImageUrl = decodeURIComponent(extractedUrl);
+    } catch (e) {
+      rawImageUrl = siteConfig.defaultPageCover;
+    }
+  } 
+  // Eğer link '/' ile başlıyorsa sitenin tam adını ekliyoruz
+  else if (rawImageUrl && rawImageUrl.startsWith('/')) {
+    rawImageUrl = `https://www.erdemilker.com.tr${rawImageUrl}`;
+  }
+
+  const socialImageUrl = rawImageUrl;
 
   // ==========================================
   // CANONICAL URL KESİN ÇÖZÜMÜ & ANA SAYFA KORUMASI
@@ -105,7 +118,6 @@ export function PageHead({
 
       {/* ==========================================
           AGRESİF KARANLIK MOD ZORLAYICISI
-          Sistem ayarı aydınlık bile olsa, sitenizi zifiri karanlık açar
           ========================================= */}
       <script
         dangerouslySetInnerHTML={{
