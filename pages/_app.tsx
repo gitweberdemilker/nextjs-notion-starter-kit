@@ -18,7 +18,7 @@ import * as Fathom from 'fathom-client'
 import { useRouter } from 'next/router'
 import { posthog } from 'posthog-js'
 import * as React from 'react'
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react' 
 
 import { bootstrap } from '@/lib/bootstrap-client'
 import {
@@ -35,20 +35,27 @@ if (!isServer) {
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter()
+  
+  // === SİNEMATİK GEÇİŞ İÇİN TETİKLEYİCİ ===
   const [isTransitioning, setIsTransitioning] = useState(false)
 
   useEffect(() => {
-    // SADECE İLK ZİYARETTE GECE MODUNU VARSAYILAN YAP
-    // (Gündüz modu butonunu ve işlevini bozmaz)
-    if (typeof window !== 'undefined') {
-      if (localStorage.getItem('darkMode') === null) {
-        localStorage.setItem('darkMode', 'true');
-        document.body.classList.add('dark-mode');
-        document.body.classList.remove('light-mode');
-      }
+    // ========================================================
+    // 1. ZORUNLU İLK GECE MODU (Gündüz Modunu Bozmaz)
+    // ========================================================
+    // Sadece ilk defa giren ziyaretçilere Karanlık Modu sunar.
+    const hasVisited = localStorage.getItem('theme_initialized');
+    if (!hasVisited && typeof document !== 'undefined') {
+      localStorage.setItem('darkMode', 'true');
+      localStorage.setItem('theme_initialized', 'true');
+      document.body.classList.add('dark-mode');
+      document.body.classList.remove('light-mode');
+      window.dispatchEvent(new Event('storage'));
     }
 
-    // SİNEMATİK GEÇİŞ TETİKLEYİCİSİ
+    // ========================================================
+    // 2. SİNEMATİK GEÇİŞ VE ANALİTİK
+    // ========================================================
     const handleStart = () => setIsTransitioning(true)
     const handleComplete = () => {
       setIsTransitioning(false)
@@ -69,11 +76,14 @@ export default function App({ Component, pageProps }: AppProps) {
       router.events.off('routeChangeComplete', handleComplete)
       router.events.off('routeChangeError', handleComplete)
     }
-  }, [router])
+  }, [router.events])
 
   return (
     <>
+      {/* SİNEMATİK KARANLIK PERDE */}
       <div className={`cinematic-overlay ${isTransitioning ? 'active' : ''}`}></div>
+      
+      {/* EKRANA YAKLAŞAN VE KAYBOLAN SAYFA İÇERİĞİ */}
       <div className={`page-content ${isTransitioning ? 'shrinking' : ''}`}>
         <Component {...pageProps} />
       </div>
