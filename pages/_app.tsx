@@ -18,6 +18,7 @@ import * as Fathom from 'fathom-client'
 import { useRouter } from 'next/router'
 import { posthog } from 'posthog-js'
 import * as React from 'react'
+import { useState, useEffect } from 'react' // Eklenen kancalar
 
 import { bootstrap } from '@/lib/bootstrap-client'
 import {
@@ -34,34 +35,56 @@ if (!isServer) {
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter()
+  // SİNEMATİK GEÇİŞ İÇİN TETİKLEYİCİ
+  const [isTransitioning, setIsTransitioning] = useState(false)
 
-  React.useEffect(() => {
-    // === 1. SİNEMATİK GEÇİŞ TETİKLEYİCİSİ ===
-    const handleStart = () => document.body.classList.add('page-transitioning');
-    const handleComplete = () => document.body.classList.remove('page-transitioning');
+  useEffect(() => {
+    // ========================================================
+    // 1. ZORUNLU GECE MODU KİLİDİ (BEYAZA İZİN YOK)
+    // ========================================================
+    if (typeof document !== 'undefined') {
+      document.body.classList.remove('light-mode')
+      document.body.classList.add('dark-mode')
+      localStorage.setItem('darkMode', 'true')
+    }
 
-    router.events.on('routeChangeStart', handleStart);
-    router.events.on('routeChangeComplete', handleComplete);
-    router.events.on('routeChangeError', handleComplete);
-
-    // === 2. ANALİTİK KODLARIN (ORİJİNAL) ===
-    function onRouteChangeCompleteAnalytics() {
+    // ========================================================
+    // 2. SİNEMATİK GEÇİŞ (PERDEYİ İNDİR / KALDIR)
+    // ========================================================
+    const handleStart = () => setIsTransitioning(true)
+    const handleComplete = () => {
+      setIsTransitioning(false)
+      
+      // Analitik Kodları (Orijinal)
       if (fathomId) Fathom.trackPageview()
       if (posthogId) posthog.capture('$pageview')
     }
 
+    // Analitik Başlatma
     if (fathomId) Fathom.load(fathomId, fathomConfig)
     if (posthogId) posthog.init(posthogId, posthogConfig)
 
-    router.events.on('routeChangeComplete', onRouteChangeCompleteAnalytics)
+    // Olay Dinleyicileri
+    router.events.on('routeChangeStart', handleStart)
+    router.events.on('routeChangeComplete', handleComplete)
+    router.events.on('routeChangeError', handleComplete)
 
     return () => {
-      router.events.off('routeChangeStart', handleStart);
-      router.events.off('routeChangeComplete', handleComplete);
-      router.events.off('routeChangeError', handleComplete);
-      router.events.off('routeChangeComplete', onRouteChangeCompleteAnalytics);
+      router.events.off('routeChangeStart', handleStart)
+      router.events.off('routeChangeComplete', handleComplete)
+      router.events.off('routeChangeError', handleComplete)
     }
-  }, [router.events])
+  }, [router])
 
-  return <Component {...pageProps} />
+  return (
+    <>
+      {/* SİNEMATİK KARANLIK PERDE */}
+      <div className={`cinematic-overlay ${isTransitioning ? 'active' : ''}`}></div>
+      
+      {/* EKRANA YAKLAŞAN VE KAYBOLAN SAYFA İÇERİĞİ */}
+      <div className={`page-content ${isTransitioning ? 'shrinking' : ''}`}>
+        <Component {...pageProps} />
+      </div>
+    </>
+  )
 }
