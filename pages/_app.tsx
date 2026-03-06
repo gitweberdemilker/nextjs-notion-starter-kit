@@ -1,16 +1,8 @@
-// used for rendering equations (optional)
 import 'katex/dist/katex.min.css'
-// used for code syntax highlighting (optional)
 import 'prismjs/themes/prism-coy.css'
-// core styles shared by all of react-notion-x (required)
 import 'react-notion-x/src/styles.css'
-// global styles shared across the entire site
 import 'styles/global.css'
-// this might be better for dark mode
-// import 'prismjs/themes/prism-okaidia.css'
-// global style overrides for notion
 import 'styles/notion.css'
-// global style overrides for prism theme (optional)
 import 'styles/prism-theme.css'
 
 import type { AppProps } from 'next/app'
@@ -18,54 +10,32 @@ import * as Fathom from 'fathom-client'
 import { useRouter } from 'next/router'
 import { posthog } from 'posthog-js'
 import * as React from 'react'
-import { useState, useEffect } from 'react' 
+import { useState, useEffect } from 'react'
 
 import { bootstrap } from '@/lib/bootstrap-client'
-import {
-  fathomConfig,
-  fathomId,
-  isServer,
-  posthogConfig,
-  posthogId
-} from '@/lib/config'
+import { fathomConfig, fathomId, isServer, posthogConfig, posthogId } from '@/lib/config'
 
-if (!isServer) {
-  bootstrap()
-}
+if (!isServer) { bootstrap() }
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter()
-  
-  // === SİNEMATİK GEÇİŞ İÇİN TETİKLEYİCİ ===
   const [isTransitioning, setIsTransitioning] = useState(false)
 
   useEffect(() => {
-    // ========================================================
-    // 1. ZORUNLU İLK GECE MODU (Gündüz Modunu Bozmaz)
-    // ========================================================
-    // Sadece ilk defa giren ziyaretçilere Karanlık Modu sunar.
-    const hasVisited = localStorage.getItem('theme_initialized');
-    if (!hasVisited && typeof document !== 'undefined') {
-      localStorage.setItem('darkMode', 'true');
-      localStorage.setItem('theme_initialized', 'true');
-      document.body.classList.add('dark-mode');
-      document.body.classList.remove('light-mode');
-      window.dispatchEvent(new Event('storage'));
+    // GECE MODUNU SİSTEME KAZI
+    const forceDark = () => {
+      localStorage.setItem('darkMode', 'true')
+      document.body.classList.add('dark-mode')
+      document.body.classList.remove('light-mode')
     }
+    forceDark()
 
-    // ========================================================
-    // 2. SİNEMATİK GEÇİŞ VE ANALİTİK
-    // ========================================================
     const handleStart = () => setIsTransitioning(true)
     const handleComplete = () => {
       setIsTransitioning(false)
-      
       if (fathomId) Fathom.trackPageview()
       if (posthogId) posthog.capture('$pageview')
     }
-
-    if (fathomId) Fathom.load(fathomId, fathomConfig)
-    if (posthogId) posthog.init(posthogId, posthogConfig)
 
     router.events.on('routeChangeStart', handleStart)
     router.events.on('routeChangeComplete', handleComplete)
@@ -76,14 +46,11 @@ export default function App({ Component, pageProps }: AppProps) {
       router.events.off('routeChangeComplete', handleComplete)
       router.events.off('routeChangeError', handleComplete)
     }
-  }, [router.events])
+  }, [router])
 
   return (
     <>
-      {/* SİNEMATİK KARANLIK PERDE */}
-      <div className={`cinematic-overlay ${isTransitioning ? 'active' : ''}`}></div>
-      
-      {/* EKRANA YAKLAŞAN VE KAYBOLAN SAYFA İÇERİĞİ */}
+      <div className={`cinematic-overlay ${isTransitioning ? 'active' : ''}`} />
       <div className={`page-content ${isTransitioning ? 'shrinking' : ''}`}>
         <Component {...pageProps} />
       </div>
