@@ -1,5 +1,4 @@
 import Head from 'next/head'
-
 import type * as types from '@/lib/types'
 import * as config from '@/lib/config'
 import siteConfig from '../site.config'
@@ -11,41 +10,30 @@ export function PageHead({
   pageId,
   image,
   url,
-  isBlogPost,
   keywords
 }: types.PageProps & {
   title?: string
   description?: string
   image?: string
   url?: string
-  isBlogPost?: boolean
   keywords?: string
 }) {
-  const rssFeedUrl = `${config.host}/feed`
-
   title = title ?? site?.name
   description = description ?? site?.description
 
   // ==========================================
-  // SOSYAL MEDYA GÖRSELİ (PNG VE TAM YOL)
+  // SOSYAL MEDYA GÖRSELİ (ZORLAYICI YÖNTEM)
   // ==========================================
-  
-  // Önce sitenin yeni ana afişini (kapak.png) varsayılan yapalım
+  // Varsayılan görselimiz public/kapak.png olsun
   let socialImageUrl = 'https://www.erdemilker.com.tr/kapak.png';
 
-  // Eğer sayfaya özel (Notion'dan gelen) bir resim varsa onu işlemeye çalışalım
-  if (image) {
+  // Eğer Notion'dan özel bir kapak (ikon değil) geliyorsa onu temizleyip kullanalım
+  if (image && !image.includes('ikon.jpg')) {
     if (image.includes('_next/image?url=')) {
-      try {
-        const urlPart = image.split('url=')[1];
-        if (urlPart) {
-          const extractedUrl = urlPart.split('&')[0];
-          if (extractedUrl) {
-            socialImageUrl = decodeURIComponent(extractedUrl);
-          }
-        }
-      } catch (e) {
-        // Hata durumunda kapak.png varsayılan kalır
+      const urlPart = image.split('url=')[1];
+      if (urlPart) {
+        const extracted = urlPart.split('&')[0];
+        if (extracted) socialImageUrl = decodeURIComponent(extracted);
       }
     } else if (image.startsWith('/')) {
       socialImageUrl = `https://www.erdemilker.com.tr${image}`;
@@ -54,51 +42,22 @@ export function PageHead({
     }
   }
 
-  // ==========================================
-  // CANONICAL URL & ANA SAYFA KORUMASI
-  // ==========================================
-  let canonicalUrl = url;
-  if (pageId && siteConfig) {
-    const cleanId = pageId.replace(/-/g, '').toLowerCase();
-    let rootId = siteConfig.rootNotionPageId?.replace(/-/g, '').toLowerCase() || '';
-    
-    if (cleanId === rootId) {
-      canonicalUrl = 'https://www.erdemilker.com.tr/';
-    } else if (siteConfig.pageUrlOverrides) {
-      const overrides = siteConfig.pageUrlOverrides;
-      for (const slug in overrides) {
-        const overrideValue = overrides[slug];
-        if (overrideValue && overrideValue.replace(/-/g, '').toLowerCase() === cleanId) {
-          const cleanSlug = slug.startsWith('/') ? slug : `/${slug}`;
-          canonicalUrl = `https://www.erdemilker.com.tr${cleanSlug}`;
-          break;
-        }
-      }
-    }
-  }
-
-  const isBookPage = canonicalUrl?.includes('son-yil') || canonicalUrl?.includes('kitaplar');
-  const isVideoPage = canonicalUrl?.includes('animasyon');
-
   return (
     <Head>
       <meta charSet='utf-8' />
       <meta httpEquiv='Content-Type' content='text/html; charset=utf-8' />
       <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover' />
-
       <meta name='robots' content='index,follow' />
       <meta property='og:type' content='website' />
 
-      {/* KARANLIK MOD ZORLAYICISI */}
-      <script dangerouslySetInnerHTML={{ __html: `(function(){try{window.localStorage.setItem('theme','dark');document.documentElement.classList.add('dark-mode');}catch(e){}})();` }} />
+      {/* KRİTİK GÖRSEL ETİKETLERİ */}
+      <meta property='og:image' content={socialImageUrl} />
+      <meta name='twitter:image' content={socialImageUrl} />
+      <meta name='twitter:card' content='summary_large_image' />
+      <meta property='og:image:width' content='1200' />
+      <meta property='og:image:height' content='630' />
 
-      {site && (
-        <>
-          <meta property='og:site_name' content={site.name} />
-          <meta property='twitter:domain' content={site.domain} />
-        </>
-      )}
-
+      {site && <meta property='og:site_name' content={site.name} />}
       {description && (
         <>
           <meta name='description' content={description} />
@@ -107,29 +66,14 @@ export function PageHead({
         </>
       )}
 
-      {keywords && <meta name='keywords' content={keywords} />}
-
-      {/* GÖRSEL ETİKETLERİ - PNG GÜNCELLEMESİ */}
-      <meta name='twitter:card' content='summary_large_image' />
-      <meta name='twitter:image' content={socialImageUrl} />
-      <meta property='og:image' content={socialImageUrl} />
-      <meta property='og:image:width' content='1200' />
-      <meta property='og:image:height' content='630' />
-      <meta property='og:image:type' content='image/png' />
-
-      {canonicalUrl && (
-        <>
-          <link rel='canonical' href={canonicalUrl} />
-          <meta property='og:url' content={canonicalUrl} />
-          <meta property='twitter:url' content={canonicalUrl} />
-        </>
-      )}
-
+      <title>{title}</title>
       <meta property='og:title' content={title} />
       <meta name='twitter:title' content={title} />
-      <title>{title}</title>
+      
+      {url && <link rel='canonical' href={url} />}
+      <meta property='og:url' content={url || 'https://www.erdemilker.com.tr/'} />
 
-      {/* JSON-LD Logosu PNG olarak güncellendi */}
+      {/* JSON-LD LOGO GÜNCELLEMESİ */}
       <script type='application/ld+json' dangerouslySetInnerHTML={{ __html: JSON.stringify({
         '@context': 'https://schema.org',
         '@type': 'Organization',
