@@ -27,21 +27,20 @@ export function PageHead({
   description = description ?? site?.description
 
   // ==========================================
-  // SOSYAL MEDYA GÖRSELİ KESİN ÇÖZÜMÜ (GÜVENLİ)
+  // SOSYAL MEDYA GÖRSELİ KESİN ÇÖZÜMÜ (ULTRA GÜVENLİ)
   // ==========================================
   
-  // Sona '/afis.jpg' eklendi. Sayfada veya config'de resim yoksa direkt public klasöründeki afişi çekecek.
   let rawImageUrl: string = image || siteConfig.defaultPageCover || '/afis.jpg';
 
-  // Eğer resim şifreli bir Next.js linkiyle geliyorsa, WhatsApp okuyamaz.
-  // TypeScript hatasını engellemek için güvenli parçalama işlemi yapıyoruz:
+  // TypeScript hatasını (Object is possibly 'undefined') aşmak için
+  // parçalama işlemini garantili bir yöntemle yapıyoruz:
   if (rawImageUrl && rawImageUrl.includes('_next/image?url=')) {
     try {
-      const parts = rawImageUrl.split('url=');
-      if (parts.length > 1) {
-        const extractedUrl = parts[1].split('&')[0];
-        if (extractedUrl) {
-          rawImageUrl = decodeURIComponent(extractedUrl);
+      const urlPart = rawImageUrl.split('url=')[1]; 
+      if (urlPart) {
+        const cleanUrl = urlPart.split('&')[0];
+        if (cleanUrl) {
+          rawImageUrl = decodeURIComponent(cleanUrl);
         }
       }
     } catch (e) {
@@ -62,7 +61,6 @@ export function PageHead({
   if (pageId && siteConfig) {
     const cleanId = pageId.replace(/-/g, '').toLowerCase();
     
-    // 1. ANA SAYFA KORUMASI: Eğer bu sayfa sitenin kök (root) ID'si ise URL'yi koru
     let rootId = '';
     if (siteConfig.rootNotionPageId) {
       rootId = siteConfig.rootNotionPageId.replace(/-/g, '').toLowerCase();
@@ -71,12 +69,10 @@ export function PageHead({
     if (cleanId === rootId) {
       canonicalUrl = 'https://www.erdemilker.com.tr/';
     } 
-    // 2. DİĞER SAYFALAR İÇİN SÖZLÜK KONTROLÜ
     else if (siteConfig.pageUrlOverrides) {
       const overrides = siteConfig.pageUrlOverrides;
       for (const slug in overrides) {
         const overrideValue = overrides[slug];
-        // TYPESCRIPT GÜVENLİK KONTROLÜ
         if (overrideValue) {
           const mappedId = overrideValue.replace(/-/g, '').toLowerCase();
           if (mappedId === cleanId) {
@@ -89,9 +85,6 @@ export function PageHead({
     }
   }
 
-  // ==========================================
-  // ZENGİN SEO SAYFA TESPİTİ (JSON-LD)
-  // ==========================================
   const isBookPage = canonicalUrl?.includes('son-yil') || canonicalUrl?.includes('kitaplar') || canonicalUrl?.includes('tamamlanan-kitaplar');
   const isVideoPage = canonicalUrl?.includes('animasyon');
 
@@ -123,9 +116,6 @@ export function PageHead({
       <meta name='robots' content='index,follow' />
       <meta property='og:type' content='website' />
 
-      {/* ==========================================
-          AGRESİF KARANLIK MOD ZORLAYICISI
-          ========================================= */}
       <script
         dangerouslySetInnerHTML={{
           __html: `
@@ -172,7 +162,6 @@ export function PageHead({
         <meta name='twitter:card' content='summary' />
       )}
 
-      {/* TERTEMİZ URL BURADA GOOGLE'A SUNULUYOR */}
       {canonicalUrl && (
         <>
           <link rel='canonical' href={canonicalUrl} />
@@ -240,7 +229,6 @@ export function PageHead({
             '@type': 'VideoObject',
             name: title,
             description: description || 'Kimsesizler Mezarlığı Animasyon Serisi',
-            // Olmayan og/default.jpg kaldırıldı, tam yol afis.jpg atandı.
             thumbnailUrl: socialImageUrl || 'https://www.erdemilker.com.tr/afis.jpg',
             uploadDate: '2026-01-01T08:00:00+08:00', 
             author: {
@@ -274,7 +262,6 @@ export function PageHead({
           '@type': 'Organization',
           name: 'Karanlık Hikayeler',
           url: 'https://www.erdemilker.com.tr',
-          // Olmayan og/default.jpg kaldırıldı, tam yol afis.jpg atandı.
           logo: 'https://www.erdemilker.com.tr/afis.jpg'
         })}
       </script>
