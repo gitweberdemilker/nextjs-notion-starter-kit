@@ -1,7 +1,11 @@
 import useDarkModeImpl from '@fisch0920/use-dark-mode'
 
 export function useDarkMode() {
-  const darkMode = useDarkModeImpl(false, { classNameDark: 'dark-mode' })
+  const darkMode = useDarkModeImpl(true, {
+    classNameDark: 'dark-mode',
+    classNameLight: 'light-mode',
+    storageKey: 'site-theme'
+  })
 
   return {
     isDarkMode: darkMode.value,
