@@ -27,119 +27,76 @@ export function PageHead({
   description = description ?? site?.description
 
   // ==========================================
-  // SOSYAL MEDYA GÖRSELİ KESİN ÇÖZÜMÜ (ULTRA GÜVENLİ)
+  // SOSYAL MEDYA GÖRSELİ (PLATFORM UYUMLU)
   // ==========================================
   
-  let rawImageUrl: string = image || siteConfig.defaultPageCover || '/afis.jpg';
+  // Önce sitenin ana afişini baz alalım
+  let socialImageUrl = 'https://www.erdemilker.com.tr/afis.jpg';
 
-  // TypeScript hatasını (Object is possibly 'undefined') aşmak için
-  // parçalama işlemini garantili bir yöntemle yapıyoruz:
-  if (rawImageUrl && rawImageUrl.includes('_next/image?url=')) {
-    try {
-      const urlPart = rawImageUrl.split('url=')[1]; 
-      if (urlPart) {
-        const cleanUrl = urlPart.split('&')[0];
-        if (cleanUrl) {
-          rawImageUrl = decodeURIComponent(cleanUrl);
+  // Eğer sayfaya özel (Notion'dan gelen) bir resim varsa onu kullanmaya çalışalım
+  if (image) {
+    if (image.includes('_next/image?url=')) {
+      try {
+        const urlPart = image.split('url=')[1];
+        if (urlPart) {
+          const extractedUrl = urlPart.split('&')[0];
+          if (extractedUrl) {
+            socialImageUrl = decodeURIComponent(extractedUrl);
+          }
         }
+      } catch (e) {
+        // Hata olursa varsayılana (afis.jpg) sadık kal
       }
-    } catch (e) {
-      rawImageUrl = siteConfig.defaultPageCover || '/afis.jpg';
+    } else if (image.startsWith('/')) {
+      socialImageUrl = `https://www.erdemilker.com.tr${image}`;
+    } else {
+      socialImageUrl = image;
     }
-  } 
-  // Eğer link '/' ile başlıyorsa sitenin tam adını ekliyoruz
-  else if (rawImageUrl && rawImageUrl.startsWith('/')) {
-    rawImageUrl = `https://www.erdemilker.com.tr${rawImageUrl}`;
   }
 
-  const socialImageUrl = rawImageUrl;
-
   // ==========================================
-  // CANONICAL URL KESİN ÇÖZÜMÜ & ANA SAYFA KORUMASI
+  // CANONICAL URL & ANA SAYFA KORUMASI
   // ==========================================
   let canonicalUrl = url;
   if (pageId && siteConfig) {
     const cleanId = pageId.replace(/-/g, '').toLowerCase();
-    
-    let rootId = '';
-    if (siteConfig.rootNotionPageId) {
-      rootId = siteConfig.rootNotionPageId.replace(/-/g, '').toLowerCase();
-    }
+    let rootId = siteConfig.rootNotionPageId?.replace(/-/g, '').toLowerCase() || '';
     
     if (cleanId === rootId) {
       canonicalUrl = 'https://www.erdemilker.com.tr/';
-    } 
-    else if (siteConfig.pageUrlOverrides) {
+    } else if (siteConfig.pageUrlOverrides) {
       const overrides = siteConfig.pageUrlOverrides;
       for (const slug in overrides) {
         const overrideValue = overrides[slug];
-        if (overrideValue) {
-          const mappedId = overrideValue.replace(/-/g, '').toLowerCase();
-          if (mappedId === cleanId) {
-            const cleanSlug = slug.startsWith('/') ? slug : `/${slug}`;
-            canonicalUrl = `https://www.erdemilker.com.tr${cleanSlug}`;
-            break;
-          }
+        if (overrideValue && overrideValue.replace(/-/g, '').toLowerCase() === cleanId) {
+          const cleanSlug = slug.startsWith('/') ? slug : `/${slug}`;
+          canonicalUrl = `https://www.erdemilker.com.tr${cleanSlug}`;
+          break;
         }
       }
     }
   }
 
-  const isBookPage = canonicalUrl?.includes('son-yil') || canonicalUrl?.includes('kitaplar') || canonicalUrl?.includes('tamamlanan-kitaplar');
+  const isBookPage = canonicalUrl?.includes('son-yil') || canonicalUrl?.includes('kitaplar');
   const isVideoPage = canonicalUrl?.includes('animasyon');
 
   return (
     <Head>
       <meta charSet='utf-8' />
       <meta httpEquiv='Content-Type' content='text/html; charset=utf-8' />
-      <meta
-        name='viewport'
-        content='width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover'
-      />
-
-      <meta name='mobile-web-app-capable' content='yes' />
-      <meta name='apple-mobile-web-app-status-bar-style' content='black' />
-
-      <meta
-        name='theme-color'
-        media='(prefers-color-scheme: light)'
-        content='#fefffe'
-        key='theme-color-light'
-      />
-      <meta
-        name='theme-color'
-        media='(prefers-color-scheme: dark)'
-        content='#000000' 
-        key='theme-color-dark'
-      />
+      <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover' />
 
       <meta name='robots' content='index,follow' />
       <meta property='og:type' content='website' />
 
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `
-            (function() {
-              try {
-                window.localStorage.setItem('theme', 'dark');
-                document.documentElement.classList.add('dark-mode');
-                document.documentElement.setAttribute('data-theme', 'dark');
-                document.body.classList.add('dark-mode');
-              } catch (e) {}
-            })();
-          `
-        }}
-      />
+      {/* KARANLIK MOD ZORLAYICISI */}
+      <script dangerouslySetInnerHTML={{ __html: `(function(){try{window.localStorage.setItem('theme','dark');document.documentElement.classList.add('dark-mode');}catch(e){}})();` }} />
 
       {site && (
         <>
           <meta property='og:site_name' content={site.name} />
           <meta property='twitter:domain' content={site.domain} />
         </>
-      )}
-
-      {config.twitter && (
-        <meta name='twitter:creator' content={`@${config.twitter}`} />
       )}
 
       {description && (
@@ -152,15 +109,12 @@ export function PageHead({
 
       {keywords && <meta name='keywords' content={keywords} />}
 
-      {socialImageUrl ? (
-        <>
-          <meta name='twitter:card' content='summary_large_image' />
-          <meta name='twitter:image' content={socialImageUrl} />
-          <meta property='og:image' content={socialImageUrl} />
-        </>
-      ) : (
-        <meta name='twitter:card' content='summary' />
-      )}
+      {/* GÖRSEL ETİKETLERİ - BURASI KRİTİK */}
+      <meta name='twitter:card' content='summary_large_image' />
+      <meta name='twitter:image' content={socialImageUrl} />
+      <meta property='og:image' content={socialImageUrl} />
+      <meta property='og:image:width' content='1200' />
+      <meta property='og:image:height' content='630' />
 
       {canonicalUrl && (
         <>
@@ -170,116 +124,18 @@ export function PageHead({
         </>
       )}
 
-      <link
-        rel='alternate'
-        type='application/rss+xml'
-        href={rssFeedUrl}
-        title={site?.name}
-      />
-
       <meta property='og:title' content={title} />
       <meta name='twitter:title' content={title} />
       <title>{title}</title>
 
-      {isBlogPost && canonicalUrl && (
-        <script type='application/ld+json'>
-          {JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'BlogPosting',
-            '@id': `${canonicalUrl}#BlogPosting`,
-            mainEntityOfPage: canonicalUrl,
-            url: canonicalUrl,
-            headline: title,
-            name: title,
-            description,
-            author: {
-              '@type': 'Person',
-              name: config.author
-            },
-            image: socialImageUrl
-          })}
-        </script>
-      )}
-
-      {isBookPage && canonicalUrl && (
-        <script type='application/ld+json'>
-          {JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'Book',
-            name: title,
-            author: {
-              '@type': 'Person',
-              name: 'Erdem İlker'
-            },
-            url: canonicalUrl,
-            genre: ['Fantastik Gerilim', 'Korku'],
-            inLanguage: 'tr',
-            publisher: {
-              '@type': 'Organization',
-              name: 'Karanlık Hikayeler'
-            }
-          })}
-        </script>
-      )}
-
-      {isVideoPage && canonicalUrl && (
-        <script type='application/ld+json'>
-          {JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'VideoObject',
-            name: title,
-            description: description || 'Kimsesizler Mezarlığı Animasyon Serisi',
-            thumbnailUrl: socialImageUrl || 'https://www.erdemilker.com.tr/afis.jpg',
-            uploadDate: '2026-01-01T08:00:00+08:00', 
-            author: {
-              '@type': 'Person',
-              name: 'Erdem İlker'
-            }
-          })}
-        </script>
-      )}
-
-      <script type='application/ld+json'>
-        {JSON.stringify({
-          '@context': 'https://schema.org',
-          '@type': 'Person',
-          name: 'Erdem İlker',
-          url: 'https://www.erdemilker.com.tr',
-          sameAs: config.twitter
-            ? [`https://twitter.com/${config.twitter}`]
-            : [],
-          jobTitle: 'Yazar',
-          worksFor: {
-            '@type': 'Organization',
-            name: 'Karanlık Hikayeler'
-          }
-        })}
-      </script>
-
-      <script type='application/ld+json'>
-        {JSON.stringify({
-          '@context': 'https://schema.org',
-          '@type': 'Organization',
-          name: 'Karanlık Hikayeler',
-          url: 'https://www.erdemilker.com.tr',
-          logo: 'https://www.erdemilker.com.tr/afis.jpg'
-        })}
-      </script>
-
-      <script type='application/ld+json'>
-        {JSON.stringify({
-          '@context': 'https://schema.org',
-          '@type': 'WebSite',
-          name: 'Karanlık Hikayeler',
-          url: 'https://www.erdemilker.com.tr',
-          potentialAction: {
-            '@type': 'SearchAction',
-            target:
-              'https://www.erdemilker.com.tr/?q={search_term_string}',
-            'query-input': 'required name=search_term_string'
-          }
-        })}
-      </script>
+      {/* JSON-LD Logoları */}
+      <script type='application/ld+json' dangerouslySetInnerHTML={{ __html: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'Organization',
+        'name': 'Karanlık Hikayeler',
+        'url': 'https://www.erdemilker.com.tr',
+        'logo': 'https://www.erdemilker.com.tr/afis.jpg'
+      })}} />
     </Head>
   )
 }
