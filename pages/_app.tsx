@@ -38,21 +38,22 @@ export default function App({ Component, pageProps }: AppProps) {
 
   useEffect(() => {
     // ========================================================
-    // 1. ZORUNLU GECE MODU KİLİDİ
+    // 1. ZORUNLU GECE MODU KİLİDİ (BEYAZA İZİN YOK)
     // ========================================================
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('darkMode', 'true');
-      document.body.classList.remove('light-mode');
-      document.body.classList.add('dark-mode');
+    if (typeof document !== 'undefined') {
+      document.body.classList.remove('light-mode')
+      document.body.classList.add('dark-mode')
+      localStorage.setItem('darkMode', 'true')
     }
 
     // ========================================================
-    // 2. SİNEMATİK GEÇİŞ VE ANALİTİKLER
+    // 2. SİNEMATİK GEÇİŞ (PERDEYİ İNDİR / KALDIR)
     // ========================================================
     const handleStart = () => setIsTransitioning(true)
     const handleComplete = () => {
       setIsTransitioning(false)
       
+      // Analitik Kodları
       if (fathomId) Fathom.trackPageview()
       if (posthogId) posthog.capture('$pageview')
     }
@@ -69,11 +70,14 @@ export default function App({ Component, pageProps }: AppProps) {
       router.events.off('routeChangeComplete', handleComplete)
       router.events.off('routeChangeError', handleComplete)
     }
-  }, [router.events])
+  }, [router])
 
   return (
     <>
+      {/* SİNEMATİK KARANLIK PERDE */}
       <div className={`cinematic-overlay ${isTransitioning ? 'active' : ''}`}></div>
+      
+      {/* EKRANA YAKLAŞAN VE KAYBOLAN SAYFA İÇERİĞİ */}
       <div className={`page-content ${isTransitioning ? 'shrinking' : ''}`}>
         <Component {...pageProps} />
       </div>
