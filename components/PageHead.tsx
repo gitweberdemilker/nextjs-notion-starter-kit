@@ -52,14 +52,9 @@ export function PageHead({
     <Head>
       <meta charSet='utf-8' />
 
-      {/* SİTEYİ BOZMAYAN VARSAYILAN GECE MODU KODU */}
-      <script dangerouslySetInnerHTML={{ __html: `
-        try {
-          if (window.localStorage.getItem('darkMode') === null) {
-            window.localStorage.setItem('darkMode', 'true');
-          }
-        } catch (e) {}
-      ` }} />
+      {/* SİSTEMİ GECE MODUNA ZORLAYAN KESİN KOD */}
+      {/* Bu kod sayfa yüklenmeden önce tarayıcıya "Gece Modu Açık" emrini verir */}
+      <script dangerouslySetInnerHTML={{ __html: `window.localStorage.setItem('darkMode', 'true');` }} />
 
       <meta httpEquiv='Content-Type' content='text/html; charset=utf-8' />
       <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover' />
