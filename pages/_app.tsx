@@ -6,8 +6,6 @@ import 'prismjs/themes/prism-coy.css'
 import 'react-notion-x/src/styles.css'
 // global styles shared across the entire site
 import 'styles/global.css'
-// this might be better for dark mode
-// import 'prismjs/themes/prism-okaidia.css'
 // global style overrides for notion
 import 'styles/notion.css'
 // global style overrides for prism theme (optional)
@@ -18,7 +16,7 @@ import * as Fathom from 'fathom-client'
 import { useRouter } from 'next/router'
 import { posthog } from 'posthog-js'
 import * as React from 'react'
-import { useState, useEffect } from 'react' // Eklenen kancalar
+import { useState, useEffect } from 'react'
 
 import { bootstrap } from '@/lib/bootstrap-client'
 import {
@@ -40,31 +38,28 @@ export default function App({ Component, pageProps }: AppProps) {
 
   useEffect(() => {
     // ========================================================
-    // 1. ZORUNLU GECE MODU KİLİDİ (BEYAZA İZİN YOK)
+    // 1. ZORUNLU GECE MODU KİLİDİ
     // ========================================================
-    if (typeof document !== 'undefined') {
-      document.body.classList.remove('light-mode')
-      document.body.classList.add('dark-mode')
-      localStorage.setItem('darkMode', 'true')
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('darkMode', 'true');
+      document.body.classList.remove('light-mode');
+      document.body.classList.add('dark-mode');
     }
 
     // ========================================================
-    // 2. SİNEMATİK GEÇİŞ (PERDEYİ İNDİR / KALDIR)
+    // 2. SİNEMATİK GEÇİŞ VE ANALİTİKLER
     // ========================================================
     const handleStart = () => setIsTransitioning(true)
     const handleComplete = () => {
       setIsTransitioning(false)
       
-      // Analitik Kodları (Orijinal)
       if (fathomId) Fathom.trackPageview()
       if (posthogId) posthog.capture('$pageview')
     }
 
-    // Analitik Başlatma
     if (fathomId) Fathom.load(fathomId, fathomConfig)
     if (posthogId) posthog.init(posthogId, posthogConfig)
 
-    // Olay Dinleyicileri
     router.events.on('routeChangeStart', handleStart)
     router.events.on('routeChangeComplete', handleComplete)
     router.events.on('routeChangeError', handleComplete)
@@ -74,14 +69,11 @@ export default function App({ Component, pageProps }: AppProps) {
       router.events.off('routeChangeComplete', handleComplete)
       router.events.off('routeChangeError', handleComplete)
     }
-  }, [router])
+  }, [router.events])
 
   return (
     <>
-      {/* SİNEMATİK KARANLIK PERDE */}
       <div className={`cinematic-overlay ${isTransitioning ? 'active' : ''}`}></div>
-      
-      {/* EKRANA YAKLAŞAN VE KAYBOLAN SAYFA İÇERİĞİ */}
       <div className={`page-content ${isTransitioning ? 'shrinking' : ''}`}>
         <Component {...pageProps} />
       </div>
