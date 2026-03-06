@@ -27,13 +27,13 @@ export function PageHead({
   description = description ?? site?.description
 
   // ==========================================
-  // SOSYAL MEDYA GÖRSELİ (PLATFORM UYUMLU)
+  // SOSYAL MEDYA GÖRSELİ (PNG VE TAM YOL)
   // ==========================================
   
-  // Önce sitenin ana afişini baz alalım
-  let socialImageUrl = 'https://www.erdemilker.com.tr/afis.jpg';
+  // Önce sitenin yeni ana afişini (kapak.png) varsayılan yapalım
+  let socialImageUrl = 'https://www.erdemilker.com.tr/kapak.png';
 
-  // Eğer sayfaya özel (Notion'dan gelen) bir resim varsa onu kullanmaya çalışalım
+  // Eğer sayfaya özel (Notion'dan gelen) bir resim varsa onu işlemeye çalışalım
   if (image) {
     if (image.includes('_next/image?url=')) {
       try {
@@ -45,7 +45,7 @@ export function PageHead({
           }
         }
       } catch (e) {
-        // Hata olursa varsayılana (afis.jpg) sadık kal
+        // Hata durumunda kapak.png varsayılan kalır
       }
     } else if (image.startsWith('/')) {
       socialImageUrl = `https://www.erdemilker.com.tr${image}`;
@@ -109,12 +109,13 @@ export function PageHead({
 
       {keywords && <meta name='keywords' content={keywords} />}
 
-      {/* GÖRSEL ETİKETLERİ - BURASI KRİTİK */}
+      {/* GÖRSEL ETİKETLERİ - PNG GÜNCELLEMESİ */}
       <meta name='twitter:card' content='summary_large_image' />
       <meta name='twitter:image' content={socialImageUrl} />
       <meta property='og:image' content={socialImageUrl} />
       <meta property='og:image:width' content='1200' />
       <meta property='og:image:height' content='630' />
+      <meta property='og:image:type' content='image/png' />
 
       {canonicalUrl && (
         <>
@@ -128,13 +129,13 @@ export function PageHead({
       <meta name='twitter:title' content={title} />
       <title>{title}</title>
 
-      {/* JSON-LD Logoları */}
+      {/* JSON-LD Logosu PNG olarak güncellendi */}
       <script type='application/ld+json' dangerouslySetInnerHTML={{ __html: JSON.stringify({
         '@context': 'https://schema.org',
         '@type': 'Organization',
         'name': 'Karanlık Hikayeler',
         'url': 'https://www.erdemilker.com.tr',
-        'logo': 'https://www.erdemilker.com.tr/afis.jpg'
+        'logo': 'https://www.erdemilker.com.tr/kapak.png'
       })}} />
     </Head>
   )
