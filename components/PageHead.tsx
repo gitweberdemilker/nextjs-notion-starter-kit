@@ -27,18 +27,23 @@ export function PageHead({
   description = description ?? site?.description
 
   // ==========================================
-  // SOSYAL MEDYA GÖRSELİ KESİN ÇÖZÜMÜ (ŞİFRE KIRICI)
+  // SOSYAL MEDYA GÖRSELİ KESİN ÇÖZÜMÜ (GÜVENLİ)
   // ==========================================
   
-  // ---> GÜNCELLENDİ: Sona '/afis.jpg' eklendi. Sayfada veya config'de resim yoksa direkt public klasöründeki afişi çekecek.
-  let rawImageUrl = image || siteConfig.defaultPageCover || '/afis.jpg';
+  // Sona '/afis.jpg' eklendi. Sayfada veya config'de resim yoksa direkt public klasöründeki afişi çekecek.
+  let rawImageUrl: string = image || siteConfig.defaultPageCover || '/afis.jpg';
 
   // Eğer resim şifreli bir Next.js linkiyle geliyorsa, WhatsApp okuyamaz.
-  // İçindeki GERÇEK Notion linkini cımbızla alıp şifresini çözüyoruz:
+  // TypeScript hatasını engellemek için güvenli parçalama işlemi yapıyoruz:
   if (rawImageUrl && rawImageUrl.includes('_next/image?url=')) {
     try {
-      const extractedUrl = rawImageUrl.split('url=')[1].split('&')[0];
-      rawImageUrl = decodeURIComponent(extractedUrl);
+      const parts = rawImageUrl.split('url=');
+      if (parts.length > 1) {
+        const extractedUrl = parts[1].split('&')[0];
+        if (extractedUrl) {
+          rawImageUrl = decodeURIComponent(extractedUrl);
+        }
+      }
     } catch (e) {
       rawImageUrl = siteConfig.defaultPageCover || '/afis.jpg';
     }
@@ -235,7 +240,7 @@ export function PageHead({
             '@type': 'VideoObject',
             name: title,
             description: description || 'Kimsesizler Mezarlığı Animasyon Serisi',
-            // ---> GÜNCELLENDİ: Olmayan og/default.jpg kaldırıldı, tam yol afis.jpg atandı.
+            // Olmayan og/default.jpg kaldırıldı, tam yol afis.jpg atandı.
             thumbnailUrl: socialImageUrl || 'https://www.erdemilker.com.tr/afis.jpg',
             uploadDate: '2026-01-01T08:00:00+08:00', 
             author: {
@@ -269,7 +274,7 @@ export function PageHead({
           '@type': 'Organization',
           name: 'Karanlık Hikayeler',
           url: 'https://www.erdemilker.com.tr',
-          // ---> GÜNCELLENDİ: Olmayan og/default.jpg kaldırıldı, tam yol afis.jpg atandı.
+          // Olmayan og/default.jpg kaldırıldı, tam yol afis.jpg atandı.
           logo: 'https://www.erdemilker.com.tr/afis.jpg'
         })}
       </script>
