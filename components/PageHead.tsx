@@ -2,7 +2,8 @@ import Head from 'next/head'
 
 import type * as types from '@/lib/types'
 import * as config from '@/lib/config'
-import { getSocialImageUrl } from '@/lib/get-social-image-url'
+// BEYAZ KUTUYU ÜRETEN DOSYAYI İPTAL ETTİK (Yorum satırına alındı)
+// import { getSocialImageUrl } from '@/lib/get-social-image-url'
 import siteConfig from '../site.config'
 
 export function PageHead({
@@ -27,7 +28,12 @@ export function PageHead({
   title = title ?? site?.name
   description = description ?? site?.description
 
-  const socialImageUrl = getSocialImageUrl(pageId) || image
+  // ==========================================
+  // SOSYAL MEDYA GÖRSELİ KESİN ÇÖZÜMÜ
+  // Önce otomatik motoru sildik. Artık doğrudan senin yüklediğin "image" (kapak) kullanılacak.
+  // Kapak yoksa, site.config içindeki defaultPageCover devreye girecek.
+  // ==========================================
+  const socialImageUrl = image || siteConfig.defaultPageCover
 
   // ==========================================
   // CANONICAL URL KESİN ÇÖZÜMÜ & ANA SAYFA KORUMASI
@@ -100,7 +106,7 @@ export function PageHead({
       {/* ==========================================
           AGRESİF KARANLIK MOD ZORLAYICISI
           Sistem ayarı aydınlık bile olsa, sitenizi zifiri karanlık açar
-          ========================================== */}
+          ========================================= */}
       <script
         dangerouslySetInnerHTML={{
           __html: `
