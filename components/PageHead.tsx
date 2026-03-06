@@ -51,6 +51,16 @@ export function PageHead({
   return (
     <Head>
       <meta charSet='utf-8' />
+
+      {/* SİTEYİ BOZMAYAN VARSAYILAN GECE MODU KODU */}
+      <script dangerouslySetInnerHTML={{ __html: `
+        try {
+          if (window.localStorage.getItem('darkMode') === null) {
+            window.localStorage.setItem('darkMode', 'true');
+          }
+        } catch (e) {}
+      ` }} />
+
       <meta httpEquiv='Content-Type' content='text/html; charset=utf-8' />
       <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover' />
       <meta name='robots' content='index,follow' />
