@@ -114,3 +114,37 @@ body, html, #__next {
   0%, 100% { opacity: 0.5; }
   50% { opacity: 1; text-shadow: 0 0 10px #ff0000; }
 }
+/* ==========================================================================
+   SİNEMATİK GEÇİŞ VE BEYAZ PATLAMA ENGELLEYİCİ
+   ========================================================================== */
+
+/* Sayfa değişirken arkada beyazlık görünmemesi için temel katmanı kilitleyelim */
+body.dark-mode {
+  background-color: #000 !important;
+}
+
+.cinematic-overlay {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background-color: #000; /* Daima siyah */
+  z-index: 999999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.cinematic-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.page-content {
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), filter 0.6s ease, opacity 0.6s ease;
+  transform-origin: center center;
+}
+
+.page-content.shrinking {
+  transform: scale(1.1); /* Hafif büyüme */
+  filter: blur(10px) brightness(0); /* Kararma ve bulanıklık */
+  opacity: 0;
+}
