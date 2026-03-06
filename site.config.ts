@@ -5,7 +5,7 @@ export default siteConfig({
   rootNotionPageId: '318ddc548f4180a3ac2fe2dea9adc63f',
   rootNotionSpaceId: null,
 
-  // SEO için güncellediğimiz başlık ve açıklama (Burası kalsın)
+  // SEO için güncellediğimiz başlık ve açıklama
   name: 'Erdem İlker | Karanlık Hikayeler ve Absürt Korku',
   domain: 'www.erdemilker.com.tr',
   author: 'Erdem İlker',
@@ -15,11 +15,10 @@ export default siteConfig({
   defaultPageIcon: null,
   
   // ==========================================
-  // YEDEK SOSYAL MEDYA AFİŞİ (ÇOK ÖNEMLİ!)
-  // Sitede kapak yoksa WhatsApp ve Twitter bu resmi çeker.
-  // LÜTFEN AŞAĞIDAKİ LİNKİ GERÇEK BİR GÖRSEL LİNKİYLE DEĞİŞTİR!
+  // YEDEK SOSYAL MEDYA AFİŞİ (KESİN ÇÖZÜM)
+  // Public klasöründeki afis.jpg dosyasını çeker.
   // ==========================================
-  defaultPageCover: 'https://www.erdemilker.com.tr/yedek-karanlik-afis.jpg',
+  defaultPageCover: 'https://www.erdemilker.com.tr/afis.jpg',
   defaultPageCoverPosition: 0.5,
 
   isPreviewImageSupportEnabled: true,
