@@ -29,7 +29,9 @@ export function PageHead({
   // ==========================================
   // SOSYAL MEDYA GÖRSELİ KESİN ÇÖZÜMÜ (ŞİFRE KIRICI)
   // ==========================================
-  let rawImageUrl = image || siteConfig.defaultPageCover;
+  
+  // ---> GÜNCELLENDİ: Sona '/afis.jpg' eklendi. Sayfada veya config'de resim yoksa direkt public klasöründeki afişi çekecek.
+  let rawImageUrl = image || siteConfig.defaultPageCover || '/afis.jpg';
 
   // Eğer resim şifreli bir Next.js linkiyle geliyorsa, WhatsApp okuyamaz.
   // İçindeki GERÇEK Notion linkini cımbızla alıp şifresini çözüyoruz:
@@ -38,7 +40,7 @@ export function PageHead({
       const extractedUrl = rawImageUrl.split('url=')[1].split('&')[0];
       rawImageUrl = decodeURIComponent(extractedUrl);
     } catch (e) {
-      rawImageUrl = siteConfig.defaultPageCover;
+      rawImageUrl = siteConfig.defaultPageCover || '/afis.jpg';
     }
   } 
   // Eğer link '/' ile başlıyorsa sitenin tam adını ekliyoruz
@@ -233,7 +235,8 @@ export function PageHead({
             '@type': 'VideoObject',
             name: title,
             description: description || 'Kimsesizler Mezarlığı Animasyon Serisi',
-            thumbnailUrl: socialImageUrl || `${config.host}/og/default.jpg`,
+            // ---> GÜNCELLENDİ: Olmayan og/default.jpg kaldırıldı, tam yol afis.jpg atandı.
+            thumbnailUrl: socialImageUrl || 'https://www.erdemilker.com.tr/afis.jpg',
             uploadDate: '2026-01-01T08:00:00+08:00', 
             author: {
               '@type': 'Person',
@@ -266,7 +269,8 @@ export function PageHead({
           '@type': 'Organization',
           name: 'Karanlık Hikayeler',
           url: 'https://www.erdemilker.com.tr',
-          logo: `${config.host}/og/default.jpg`
+          // ---> GÜNCELLENDİ: Olmayan og/default.jpg kaldırıldı, tam yol afis.jpg atandı.
+          logo: 'https://www.erdemilker.com.tr/afis.jpg'
         })}
       </script>
 
