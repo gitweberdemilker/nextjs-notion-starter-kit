@@ -22,13 +22,14 @@ export default function App({ Component, pageProps }: AppProps) {
   const [isTransitioning, setIsTransitioning] = useState(false)
 
   useEffect(() => {
-    // GECE MODUNU SİSTEME KAZI
-    const forceDark = () => {
-      localStorage.setItem('darkMode', 'true')
-      document.body.classList.add('dark-mode')
-      document.body.classList.remove('light-mode')
+    // VARSAYILAN TEMAYI AYARLA (BOZMADAN)
+    if (typeof window !== 'undefined') {
+      const savedTheme = localStorage.getItem('darkMode')
+      if (savedTheme === null) {
+        localStorage.setItem('darkMode', 'true')
+        document.body.classList.add('dark-mode')
+      }
     }
-    forceDark()
 
     const handleStart = () => setIsTransitioning(true)
     const handleComplete = () => {
