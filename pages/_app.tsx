@@ -1,58 +1,96 @@
-@import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap');
+// used for rendering equations (optional)
+import 'katex/dist/katex.min.css'
+// used for code syntax highlighting (optional)
+import 'prismjs/themes/prism-coy.css'
+// core styles shared by all of react-notion-x (required)
+import 'react-notion-x/src/styles.css'
+// global styles shared across the entire site
+import 'styles/global.css'
+// this might be better for dark mode
+// import 'prismjs/themes/prism-okaidia.css'
+// global style overrides for notion
+import 'styles/notion.css'
+// global style overrides for prism theme (optional)
+import 'styles/prism-theme.css'
 
-* { box-sizing: border-box; }
+import type { AppProps } from 'next/app'
+import * as Fathom from 'fathom-client'
+import { useRouter } from 'next/router'
+import { posthog } from 'posthog-js'
+import * as React from 'react'
 
-/* =========================================================
-   SİNEMATİK GEÇİŞ KATMANLARI
-   ========================================================= */
-.cinematic-overlay {
-  position: fixed;
-  top: 0; left: 0; width: 100vw; height: 100vh;
-  background-color: #000;
-  z-index: 999999;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.5s ease-in-out;
-}
-.cinematic-overlay.active { opacity: 1; pointer-events: all; }
+import { bootstrap } from '@/lib/bootstrap-client'
+import {
+  fathomConfig,
+  fathomId,
+  isServer,
+  posthogConfig,
+  posthogId
+} from '@/lib/config'
 
-.page-content {
-  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), filter 0.6s ease, opacity 0.6s ease;
-  transform-origin: center center;
-}
-.page-content.shrinking {
-  transform: scale(1.1);
-  filter: blur(10px) brightness(0);
-  opacity: 0;
-}
-
-/* =========================================================
-   TEMA RENKLERİ (ÇAKIŞMAYI ÖNLEYEN YAPI)
-   ========================================================= */
-body {
-  --notion-font: 'Crimson Text', serif;
-  font-family: var(--notion-font);
-  transition: background-color 0.3s ease; /* Modlar arası yumuşak geçiş */
+if (!isServer) {
+  bootstrap()
 }
 
-/* KARANLIK MOD (Default ve Aktif) */
-body.dark-mode, body:not(.light-mode) {
-  background-color: #000 !important;
-  color: #d1d1d1 !important;
-}
+export default function App({ Component, pageProps }: AppProps) {
+  const router = useRouter()
 
-/* AYDINLIK MOD (Butona basınca burası devreye girer) */
-body.light-mode {
-  background-color: #fcfcfc !important;
-  color: #1a1a1a !important;
-}
+  React.useEffect(() => {
+    // ========================================================
+    // 1. ZORUNLU GECE MODU KİLİDİ
+    // ========================================================
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('darkMode', 'true')
+      document.body.classList.add('dark-mode')
+      document.body.classList.remove('light-mode')
+    }
 
-/* Kan Kırmızısı Linkler - Hem global hem notion üzerinden garantiye alalım */
-.notion-link {
-  background-image: linear-gradient(to right, #900, #900) !important;
-}
-.notion-link:hover {
-  background-image: linear-gradient(to right, #f00, #c00) !important;
-}
+    // ========================================================
+    // 2. SİNEMATİK GEÇİŞ VE ANALİTİK (FATHOM/POSTHOG) KONTROLÜ
+    // ========================================================
+    function onRouteChangeStart() {
+      // Linke tıklandığı an geçiş animasyonunu başlat
+      document.body.classList.add('page-transitioning')
+    }
 
-/* Orijinal global.css kodunun geri kalan tüm mobil/footer ayarlarını buraya ekle... */
+    function onRouteChangeComplete() {
+      // Sayfa yüklendiğinde animasyonu kaldır
+      document.body.classList.remove('page-transitioning')
+
+      // Ziyaretçi analitiklerini çalıştır
+      if (fathomId) {
+        Fathom.trackPageview()
+      }
+      if (posthogId) {
+        posthog.capture('$pageview')
+      }
+    }
+
+    function onRouteChangeError() {
+      // Bir hata olursa ekranın karanlıkta kalmasını engelle
+      document.body.classList.remove('page-transitioning')
+    }
+
+    // Analitikleri başlat
+    if (fathomId) {
+      Fathom.load(fathomId, fathomConfig)
+    }
+    if (posthogId) {
+      posthog.init(posthogId, posthogConfig)
+    }
+
+    // Olay dinleyicilerini (Event Listeners) kaydet
+    router.events.on('routeChangeStart', onRouteChangeStart)
+    router.events.on('routeChangeComplete', onRouteChangeComplete)
+    router.events.on('routeChangeError', onRouteChangeError)
+
+    // Bileşen çöpe atılırken dinleyicileri temizle
+    return () => {
+      router.events.off('routeChangeStart', onRouteChangeStart)
+      router.events.off('routeChangeComplete', onRouteChangeComplete)
+      router.events.off('routeChangeError', onRouteChangeError)
+    }
+  }, [router.events])
+
+  return <Component {...pageProps} />
+}
