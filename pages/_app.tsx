@@ -32,59 +32,74 @@ if (!isServer) {
   bootstrap()
 }
 
+const THEME_STORAGE_KEY = 'site-theme'
+
+function applyThemeClass() {
+  if (typeof window === 'undefined') return
+
+  const savedTheme = localStorage.getItem(THEME_STORAGE_KEY)
+  const theme = savedTheme === 'light' ? 'light' : 'dark'
+
+  document.body.classList.remove('dark-mode', 'light-mode')
+  document.body.classList.add(theme === 'dark' ? 'dark-mode' : 'light-mode')
+}
+
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter()
 
   React.useEffect(() => {
     // ========================================================
-    // 1. ZORUNLU GECE MODU KİLİDİ
+    // 1. DEFAULT DARK MODE + KALICI TEMA UYGULAMA
     // ========================================================
     if (typeof window !== 'undefined') {
-      localStorage.setItem('darkMode', 'true')
-      document.body.classList.add('dark-mode')
-      document.body.classList.remove('light-mode')
+      const savedTheme = localStorage.getItem(THEME_STORAGE_KEY)
+
+      // Kullanıcı daha önce seçim yapmadıysa default dark olsun
+      if (savedTheme !== 'dark' && savedTheme !== 'light') {
+        localStorage.setItem(THEME_STORAGE_KEY, 'dark')
+      }
+
+      applyThemeClass()
     }
 
     // ========================================================
-    // 2. SİNEMATİK GEÇİŞ VE ANALİTİK (FATHOM/POSTHOG) KONTROLÜ
+    // 2. ROUTE GEÇİŞİ + ANALİTİK
     // ========================================================
     function onRouteChangeStart() {
-      // Linke tıklandığı an geçiş animasyonunu başlat
       document.body.classList.add('page-transitioning')
     }
 
     function onRouteChangeComplete() {
-      // Sayfa yüklendiğinde animasyonu kaldır
       document.body.classList.remove('page-transitioning')
 
-      // Ziyaretçi analitiklerini çalıştır
+      // Sayfa geçişinden sonra tema class'ı tekrar garanti edilsin
+      applyThemeClass()
+
       if (fathomId) {
         Fathom.trackPageview()
       }
+
       if (posthogId) {
         posthog.capture('$pageview')
       }
     }
 
     function onRouteChangeError() {
-      // Bir hata olursa ekranın karanlıkta kalmasını engelle
       document.body.classList.remove('page-transitioning')
     }
 
-    // Analitikleri başlat
     if (fathomId) {
       Fathom.load(fathomId, fathomConfig)
     }
+
     if (posthogId) {
       posthog.init(posthogId, posthogConfig)
     }
 
-    // Olay dinleyicilerini (Event Listeners) kaydet
     router.events.on('routeChangeStart', onRouteChangeStart)
     router.events.on('routeChangeComplete', onRouteChangeComplete)
     router.events.on('routeChangeError', onRouteChangeError)
 
-    // Bileşen çöpe atılırken dinleyicileri temizle
     return () => {
       router.events.off('routeChangeStart', onRouteChangeStart)
       router.events.off('routeChangeComplete', onRouteChangeComplete)
