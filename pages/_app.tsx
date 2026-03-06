@@ -6,6 +6,8 @@ import 'prismjs/themes/prism-coy.css'
 import 'react-notion-x/src/styles.css'
 // global styles shared across the entire site
 import 'styles/global.css'
+// this might be better for dark mode
+// import 'prismjs/themes/prism-okaidia.css'
 // global style overrides for notion
 import 'styles/notion.css'
 // global style overrides for prism theme (optional)
@@ -33,27 +35,24 @@ if (!isServer) {
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter()
-  // SİNEMATİK GEÇİŞ İÇİN TETİKLEYİCİ
   const [isTransitioning, setIsTransitioning] = useState(false)
 
   useEffect(() => {
-    // ========================================================
-    // 1. ZORUNLU GECE MODU KİLİDİ (BEYAZA İZİN YOK)
-    // ========================================================
-    if (typeof document !== 'undefined') {
-      document.body.classList.remove('light-mode')
-      document.body.classList.add('dark-mode')
-      localStorage.setItem('darkMode', 'true')
+    // SADECE İLK ZİYARETTE GECE MODUNU VARSAYILAN YAP
+    // (Gündüz modu butonunu ve işlevini bozmaz)
+    if (typeof window !== 'undefined') {
+      if (localStorage.getItem('darkMode') === null) {
+        localStorage.setItem('darkMode', 'true');
+        document.body.classList.add('dark-mode');
+        document.body.classList.remove('light-mode');
+      }
     }
 
-    // ========================================================
-    // 2. SİNEMATİK GEÇİŞ (PERDEYİ İNDİR / KALDIR)
-    // ========================================================
+    // SİNEMATİK GEÇİŞ TETİKLEYİCİSİ
     const handleStart = () => setIsTransitioning(true)
     const handleComplete = () => {
       setIsTransitioning(false)
       
-      // Analitik Kodları
       if (fathomId) Fathom.trackPageview()
       if (posthogId) posthog.capture('$pageview')
     }
@@ -74,10 +73,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <>
-      {/* SİNEMATİK KARANLIK PERDE */}
       <div className={`cinematic-overlay ${isTransitioning ? 'active' : ''}`}></div>
-      
-      {/* EKRANA YAKLAŞAN VE KAYBOLAN SAYFA İÇERİĞİ */}
       <div className={`page-content ${isTransitioning ? 'shrinking' : ''}`}>
         <Component {...pageProps} />
       </div>
