@@ -10,30 +10,34 @@ export function PageHead({
   pageId,
   image,
   url,
+  isBlogPost,
   keywords
 }: types.PageProps & {
   title?: string
   description?: string
   image?: string
   url?: string
+  isBlogPost?: boolean
   keywords?: string
 }) {
   title = title ?? site?.name
   description = description ?? site?.description
 
   // ==========================================
-  // SOSYAL MEDYA GÖRSELİ (ZORLAYICI YÖNTEM)
+  // SOSYAL MEDYA GÖRSELİ (KAPAK.PNG ODAKLI)
   // ==========================================
-  // Varsayılan görselimiz public/kapak.png olsun
   let socialImageUrl = 'https://www.erdemilker.com.tr/kapak.png';
 
-  // Eğer Notion'dan özel bir kapak (ikon değil) geliyorsa onu temizleyip kullanalım
   if (image && !image.includes('ikon.jpg')) {
     if (image.includes('_next/image?url=')) {
-      const urlPart = image.split('url=')[1];
-      if (urlPart) {
-        const extracted = urlPart.split('&')[0];
-        if (extracted) socialImageUrl = decodeURIComponent(extracted);
+      try {
+        const urlPart = image.split('url=')[1];
+        if (urlPart) {
+          const extracted = urlPart.split('&')[0];
+          if (extracted) socialImageUrl = decodeURIComponent(extracted);
+        }
+      } catch (e) {
+        // Hata durumunda kapak.png kalır
       }
     } else if (image.startsWith('/')) {
       socialImageUrl = `https://www.erdemilker.com.tr${image}`;
@@ -50,7 +54,7 @@ export function PageHead({
       <meta name='robots' content='index,follow' />
       <meta property='og:type' content='website' />
 
-      {/* KRİTİK GÖRSEL ETİKETLERİ */}
+      {/* SOSYAL MEDYA GÖRSEL ETİKETLERİ */}
       <meta property='og:image' content={socialImageUrl} />
       <meta name='twitter:image' content={socialImageUrl} />
       <meta name='twitter:card' content='summary_large_image' />
@@ -73,7 +77,7 @@ export function PageHead({
       {url && <link rel='canonical' href={url} />}
       <meta property='og:url' content={url || 'https://www.erdemilker.com.tr/'} />
 
-      {/* JSON-LD LOGO GÜNCELLEMESİ */}
+      {/* JSON-LD LOGO */}
       <script type='application/ld+json' dangerouslySetInnerHTML={{ __html: JSON.stringify({
         '@context': 'https://schema.org',
         '@type': 'Organization',
