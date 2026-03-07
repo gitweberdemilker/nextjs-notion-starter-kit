@@ -1,592 +1,454 @@
- @import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap');
 
 * {
-
   box-sizing: border-box;
-
 }
-
 
 /* =========================================================
-
    DEFAULT MOD: SİYAH (Dark) AÇILSIN
-
    ========================================================= */
-
 body {
-
   --notion-font: 'Crimson Text', serif;
-
   font-family: var(--notion-font);
-
   --fg-color: #d1d1d1;
-
   --bg-color: #000000;
-
   background-color: var(--bg-color) !important;
-
   color: var(--fg-color) !important;
-
 }
-
 
 .notion-app,
-
 .notion-page {
-
   background-color: #000000 !important;
-
   color: #d1d1d1 !important;
-
 }
-
 
 /* --- GECE MODU --- */
-
 .dark-mode,
-
 .dark-mode .notion-app,
-
 .dark-mode .notion-page,
-
 .dark-mode .notion-page-content,
-
 .dark-mode .notion-page-content-inner,
-
 .dark-mode .notion-scroller,
-
 .dark-mode .notion-frame,
-
 .dark-mode .notion-page-header-wrapper {
-
   background-color: #000000 !important;
-
   color: #d1d1d1 !important;
-
   --fg-color: #d1d1d1;
-
   --bg-color: #000000;
-
 }
-
 
 .dark-mode .notion-h1:not(.notion-title),
-
 .dark-mode .notion-h2,
-
 .dark-mode .notion-h3 {
-
   color: #d1d1d1 !important;
-
 }
-
 
 .dark-mode .notion-asset-caption,
-
 .dark-mode .notion-caption,
-
 .dark-mode figcaption {
-
   color: #d1d1d1 !important;
-
   opacity: 0.85 !important;
-
 }
-
 
 /* --- PARLAK (LIGHT) MOD OKUNURLUK DÜZELTMELERİ --- */
-
 .light-mode,
-
 .light-mode .notion-app,
-
 .light-mode .notion-page,
-
 .light-mode .notion-page-content,
-
 .light-mode .notion-page-content-inner,
-
 .light-mode .notion-scroller,
-
 .light-mode .notion-frame,
-
 .light-mode .notion-page-header-wrapper {
-
   background-color: #fcfcfc !important;
-
   color: #1a1a1a !important;
-
   --fg-color: #1a1a1a;
-
   --bg-color: #fcfcfc;
-
 }
 
-
-.light-mode .notion-h1:not(.notion-title), 
-
-.light-mode .notion-h2, 
-
+.light-mode .notion-h1:not(.notion-title),
+.light-mode .notion-h2,
 .light-mode .notion-h3,
-
 .light-mode .notion-nav-header a,
-
 .light-mode .notion-nav-header .notion-nav-header-item,
-
 .light-mode .notion-header a {
-
   color: #1a1a1a !important;
-
 }
 
-
-.light-mode .notion-h1:not(.notion-title):hover, 
-
-.light-mode .notion-h2:hover, 
-
+.light-mode .notion-h1:not(.notion-title):hover,
+.light-mode .notion-h2:hover,
 .light-mode .notion-h3:hover,
-
 .light-mode .notion-nav-header a:hover,
-
 .light-mode .notion-nav-header .notion-nav-header-item:hover,
-
 .light-mode .notion-header a:hover {
-
   color: #cc0000 !important;
-
   text-shadow: 0 0 10px rgba(204, 0, 0, 0.4) !important;
-
 }
-
 
 .light-mode .notion-asset-caption,
-
 .light-mode .notion-caption,
-
 .light-mode figcaption {
-
   color: #1a1a1a !important;
-
   opacity: 0.85 !important;
-
 }
-
 
 .light-mode .notion-callout {
-
   background-color: #f5f5f5 !important;
-
   border: 1px solid #d1d1d1 !important;
-
   border-left: 4px solid #cc0000 !important;
-
 }
 
-
-.light-mode .notion-callout, 
-
-.light-mode .notion-callout-text, 
-
-.light-mode .notion-callout span, 
-
+.light-mode .notion-callout,
+.light-mode .notion-callout-text,
+.light-mode .notion-callout span,
 .light-mode .notion-callout a {
-
   color: #1a1a1a !important;
-
 }
-
 
 .light-mode .notion-callout:hover {
-
   background-color: #ffffff !important;
-
   border: 1px solid #cc0000 !important;
-
   border-left: 4px solid #ff0000 !important;
-
   box-shadow: 0 0 15px rgba(204, 0, 0, 0.15) !important;
-
 }
 
-
-.light-mode .notion-callout:hover, 
-
-.light-mode .notion-callout:hover .notion-callout-text, 
-
-.light-mode .notion-callout:hover span, 
-
+.light-mode .notion-callout:hover,
+.light-mode .notion-callout:hover .notion-callout-text,
+.light-mode .notion-callout:hover span,
 .light-mode .notion-callout:hover a {
-
-  color: #000000 !important; 
-
-  text-shadow: none !important; 
-
+  color: #000000 !important;
+  text-shadow: none !important;
 }
-
 
 /* --- ORTAK AYARLAR (MENÜ, ETİKETLER, HOVER) --- */
-
 .notion-collection-page-properties,
-
 .notion-toggle,
-
 h1.notion-title,
-
 .notion-page-block > h1.notion-title,
-
 .notion-title {
-
   display: none !important;
-
   visibility: hidden !important;
-
   height: 0 !important;
-
   margin: 0 !important;
-
   padding: 0 !important;
-
   overflow: hidden !important;
-
 }
 
+.notion-header {
+  background: transparent !important;
+}
 
-.notion-header { background: transparent !important; }
-
-.notion-nav-header { backdrop-filter: blur(10px); }
-
+.notion-nav-header {
+  backdrop-filter: blur(10px);
+}
 
 .notion-nav-header a,
-
 .notion-nav-header .notion-nav-header-item,
-
 .notion-header a {
-
   color: var(--fg-color) !important;
-
   transition: all 0.9s cubic-bezier(0.4, 0, 0.2, 1) !important;
-
   transform: translateZ(0) !important;
-
 }
-
 
 .notion-nav-header a:hover,
-
 .notion-nav-header .notion-nav-header-item:hover,
-
 .notion-header a:hover {
-
   color: #cc0000 !important;
-
   transform: scale(1.1) translateY(-3px) !important;
-
   text-shadow: 0 0 20px rgba(204, 0, 0, 0.9) !important;
-
 }
 
-
-.notion-asset-wrapper img, 
-
+.notion-asset-wrapper img,
 .notion-collection-card,
-
 .notion-page img {
-
   filter: brightness(1) contrast(1) grayscale(0%) !important;
-
   transition: all 2s cubic-bezier(0.4, 0, 0.2, 1) !important;
-
   will-change: transform, filter;
-
 }
 
-
-.notion-asset-wrapper img:hover, 
-
+.notion-asset-wrapper img:hover,
 .notion-collection-card:hover,
-
 .notion-page img:hover {
-
   filter: brightness(0.8) contrast(1.3) sepia(30%) !important;
-
   transform: scale(1.05) !important;
-
 }
-
 
 /* =========================================================
-
    SOSYAL MEDYA İKONLARI - LIGHT/DARK MODE FIX
-
    ========================================================= */
-
 .notion-nav-header .nav-header-item,
-
 .notion-nav-header-rhs .nav-header-item,
-
 .nav-header-rhs .nav-header-item {
-
   color: var(--fg-color) !important;
-
   border-color: currentColor !important;
-
 }
-
 
 .notion-nav-header .nav-header-item svg,
-
 .notion-nav-header-rhs .nav-header-item svg,
-
 .nav-header-rhs .nav-header-item svg {
-
   fill: currentColor !important;
-
   stroke: currentColor !important;
-
 }
-
 
 .light-mode .notion-nav-header .nav-header-item,
-
 .light-mode .notion-nav-header-rhs .nav-header-item,
-
 .light-mode .nav-header-rhs .nav-header-item {
-
   color: #1a1a1a !important;
-
   border-color: #1a1a1a !important;
-
 }
-
 
 .light-mode .notion-nav-header .nav-header-item svg,
-
 .light-mode .notion-nav-header-rhs .nav-header-item svg,
-
 .light-mode .nav-header-rhs .nav-header-item svg {
-
   fill: #1a1a1a !important;
-
   stroke: #1a1a1a !important;
-
 }
-
 
 .dark-mode .notion-nav-header .nav-header-item,
-
 .dark-mode .notion-nav-header-rhs .nav-header-item,
-
 .dark-mode .nav-header-rhs .nav-header-item {
-
   color: #ffffff !important;
-
   border-color: #ffffff !important;
-
 }
-
 
 .dark-mode .notion-nav-header .nav-header-item svg,
-
 .dark-mode .notion-nav-header-rhs .nav-header-item svg,
-
 .dark-mode .nav-header-rhs .nav-header-item svg {
-
   fill: #ffffff !important;
-
   stroke: #ffffff !important;
-
 }
-
 
 .notion-nav-header .nav-header-item:hover,
-
 .notion-nav-header-rhs .nav-header-item:hover,
-
 .nav-header-rhs .nav-header-item:hover {
-
   color: #cc0000 !important;
-
   border-color: #cc0000 !important;
-
 }
-
 
 .notion-nav-header .nav-header-item:hover svg,
-
 .notion-nav-header-rhs .nav-header-item:hover svg,
-
 .nav-header-rhs .nav-header-item:hover svg {
-
   fill: #cc0000 !important;
-
   stroke: #cc0000 !important;
-
 }
-
 
 /* --- FOOTER --- */
-
 .notion-footer {
-
   border-top: 1px solid rgba(138, 3, 3, 0.2) !important;
-
   padding: 80px 0 !important;
-
   margin-top: 100px !important;
-
   display: flex !important;
-
   flex-direction: column !important;
-
   align-items: center !important;
-
   justify-content: center !important;
-
   gap: 16px !important;
-
 }
 
-.notion-footer-text { display: none !important; }
+.notion-footer-text {
+  display: none !important;
+}
 
-.notion-footer div { height: auto !important; margin: initial !important; color: inherit !important; }
+.notion-footer div {
+  height: auto !important;
+  margin: initial !important;
+  color: inherit !important;
+}
 
 .notion-footer::before {
-
   content: 'İletişim: erdemilker@hotmail.com' !important;
-
-  display: block !important; color: var(--fg-color) !important; font-size: 0.85rem !important; letter-spacing: 2px !important; opacity: 0.65 !important; margin-bottom: 8px !important;
-
+  display: block !important;
+  color: var(--fg-color) !important;
+  font-size: 0.85rem !important;
+  letter-spacing: 2px !important;
+  opacity: 0.65 !important;
+  margin-bottom: 8px !important;
 }
 
 .notion-footer::after {
-
   content: '© 2026 Erdem İlker - Karanlıkta Yazıldı.' !important;
-
-  display: block !important; text-align: center !important; margin-top: 14px !important; font-size: 0.95rem !important; letter-spacing: 4px !important; color: #cc0000 !important; font-style: italic !important; animation: footerGlow 4s ease-in-out infinite !important;
-
+  display: block !important;
+  text-align: center !important;
+  margin-top: 14px !important;
+  font-size: 0.95rem !important;
+  letter-spacing: 4px !important;
+  color: #cc0000 !important;
+  font-style: italic !important;
+  animation: footerGlow 4s ease-in-out infinite !important;
 }
 
 @keyframes footerGlow {
-
-  0%, 100% { opacity: 0.45; text-shadow: none; }
-
-  50% { opacity: 1; text-shadow: 0 0 15px rgba(204, 0, 0, 0.6); }
-
+  0%, 100% {
+    opacity: 0.45;
+    text-shadow: none;
+  }
+  50% {
+    opacity: 1;
+    text-shadow: 0 0 15px rgba(204, 0, 0, 0.6);
+  }
 }
 
-.notion-footer .nav-header-items { display: flex !important; justify-content: center !important; gap: 30px !important; }
+.notion-footer .nav-header-items {
+  display: flex !important;
+  justify-content: center !important;
+  gap: 30px !important;
+}
 
-.notion-footer .nav-header-items a { display: inline-flex !important; }
+.notion-footer .nav-header-items a {
+  display: inline-flex !important;
+}
 
-.notion-footer .nav-header-items a:not([href*='twitter.com']):not([href*='x.com']):not([href*='youtube.com']):not([href*='instagram.com']) { display: none !important; }
+.notion-footer .nav-header-items a:not([href*='twitter.com']):not([href*='x.com']):not([href*='youtube.com']):not([href*='instagram.com']) {
+  display: none !important;
+}
 
-.notion-footer .nav-header-item svg, .notion-footer .nav-header-items a svg { fill: var(--fg-color) !important; transition: transform 0.8s ease, fill 0.8s ease !important; }
+.notion-footer .nav-header-item svg,
+.notion-footer .nav-header-items a svg {
+  fill: var(--fg-color) !important;
+  transition: transform 0.8s ease, fill 0.8s ease !important;
+}
 
-.notion-footer .nav-header-item:hover svg, .notion-footer .nav-header-items a:hover svg { fill: #cc0000 !important; transform: scale(1.2) !important; }
-
+.notion-footer .nav-header-item:hover svg,
+.notion-footer .nav-header-items a:hover svg {
+  fill: #cc0000 !important;
+  transform: scale(1.2) !important;
+}
 
 /* --- İKON, KAYDIRMA ÇUBUĞU VE DAMGA --- */
+.notion-dark-mode-button svg,
+.notion-search-button svg {
+  display: none !important;
+}
 
-.notion-dark-mode-button svg, .notion-search-button svg { display: none !important; }
+.notion-search-button::before {
+  content: '👁️';
+  font-size: 1.1rem;
+  color: var(--fg-color) !important;
+}
 
-.notion-search-button::before { content: '👁️'; font-size: 1.1rem; color: var(--fg-color) !important; }
+.notion-dark-mode-button::before {
+  content: '💀';
+  font-size: 1.1rem;
+  color: var(--fg-color) !important;
+}
 
-.notion-dark-mode-button::before { content: '💀'; font-size: 1.1rem; color: var(--fg-color) !important; }
+::-webkit-scrollbar {
+  width: 12px !important;
+  background-color: #050505 !important;
+}
 
+::-webkit-scrollbar-track {
+  background-color: #050505 !important;
+  border-left: 1px solid rgba(138, 3, 3, 0.2) !important;
+}
 
-::-webkit-scrollbar { width: 12px !important; background-color: #050505 !important; }
+::-webkit-scrollbar-thumb {
+  background-color: #660000 !important;
+  border-radius: 6px !important;
+  border: 2px solid #050505 !important;
+}
 
-::-webkit-scrollbar-track { background-color: #050505 !important; border-left: 1px solid rgba(138, 3, 3, 0.2) !important; }
+::-webkit-scrollbar-thumb:hover {
+  background-color: #cc0000 !important;
+}
 
-::-webkit-scrollbar-thumb { background-color: #660000 !important; border-radius: 6px !important; border: 2px solid #050505 !important; }
-
-::-webkit-scrollbar-thumb:hover { background-color: #cc0000 !important; }
-
-* { scrollbar-width: thin !important; scrollbar-color: #660000 #050505 !important; }
-
+* {
+  scrollbar-width: thin !important;
+  scrollbar-color: #660000 #050505 !important;
+}
 
 .notion-app::before {
-
   content: 'KARANLIK HİKAYELER';
-
   position: fixed;
-
   left: 20px;
-
   top: 0;
-
   bottom: 0;
-
   margin: auto;
-
   display: flex;
-
   align-items: center;
-
   justify-content: center;
-
   writing-mode: vertical-rl;
-
   transform: rotate(180deg);
-
   color: #cc0000;
-
   font-family: 'Crimson Text', serif;
-
   font-size: 1.15rem;
-
   letter-spacing: 14px;
-
   opacity: 0.4;
-
   pointer-events: none;
-
   z-index: 100;
-
   animation: slowPulse 6s ease-in-out infinite;
-
 }
 
 @keyframes slowPulse {
-
-  0%, 100% { opacity: 0.2; text-shadow: none; }
-
-  50% { opacity: 0.6; text-shadow: 0 0 20px rgba(204, 0, 0, 0.8); }
-
+  0%, 100% {
+    opacity: 0.2;
+    text-shadow: none;
+  }
+  50% {
+    opacity: 0.6;
+    text-shadow: 0 0 20px rgba(204, 0, 0, 0.8);
+  }
 }
 
-@media (max-width: 1200px) { .notion-app::before { display: none !important; } }
+@media (max-width: 1200px) {
+  .notion-app::before {
+    display: none !important;
+  }
+}
 
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1000;
+  background: radial-gradient(circle, rgba(0, 0, 0, 0) 65%, rgba(0, 0, 0, 0.5) 100%);
+}
 
-body::before { content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1000; background: radial-gradient(circle, rgba(0, 0, 0, 0) 65%, rgba(0, 0, 0, 0.5) 100%); }
-
-body::after { content: ''; position: fixed; top: 0; left: 0; width: 300%; height: 300%; background-image: url('https://www.transparenttextures.com/patterns/stardust.png'); opacity: 0.05; animation: slowFog 60s linear infinite; pointer-events: none; z-index: -1; }
-
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 300%;
+  height: 300%;
+  background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+  opacity: 0.05;
+  animation: slowFog 60s linear infinite;
+  pointer-events: none;
+  z-index: -1;
+}
 
 @keyframes slowFog {
-
-  0% { transform: translate(0, 0); }
-
-  100% { transform: translate(-33%, -33%); }
-
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(-33%, -33%);
+  }
 }
 
-
 /* --- BÖLÜM BAŞLIKLARI VE CALLOUT --- */
-
 .notion-h1:not(.notion-title), .notion-h2, .notion-h3 {
-
-  background: transparent !important; text-align: center !important; color: var(--fg-color) !important; letter-spacing: 4px !important; padding-bottom: 12px !important; margin-top: 60px !important; margin-bottom: 25px !important; border-bottom: 1px solid rgba(138, 3, 3, 0.15) !important; transition: all 1s ease !important; display: block !important;
-
+  background: transparent !important;
+  text-align: center !important;
+  color: var(--fg-color) !important;
+  letter-spacing: 4px !important;
+  padding-bottom: 12px !important;
+  margin-top: 60px !important;
+  margin-bottom: 25px !important;
+  border-bottom: 1px solid rgba(138, 3, 3, 0.15) !important;
+  transition: all 1s ease !important;
+  display: block !important;
 }
 
 .notion-h1:not(.notion-title):hover, .notion-h2:hover, .notion-h3:hover {
-
-  color: #cc0000 !important; text-shadow: 0 0 25px rgba(204, 0, 0, 0.9) !important; border-bottom: 1px solid rgba(204, 0, 0, 0.8) !important; transform: scale(1.04) translateY(-3px) !important; 
-
+  color: #cc0000 !important;
+  text-shadow: 0 0 25px rgba(204, 0, 0, 0.9) !important;
+  border-bottom: 1px solid rgba(204, 0, 0, 0.8) !important;
+  transform: scale(1.04) translateY(-3px) !important;
 }
-
 
 /* --- CALLOUT KESİLME SORUNU DÜZELTMESİ --- */
 .notion-page,
@@ -609,7 +471,12 @@ body::after { content: ''; position: fixed; top: 0; left: 0; width: 300%; height
   overflow: visible !important;
 }
 
-.notion-callout, .notion-callout-text, .notion-callout span, .notion-callout a { color: #f5f5f5 !important; }
+.notion-callout,
+.notion-callout-text,
+.notion-callout span,
+.notion-callout a {
+  color: #f5f5f5 !important;
+}
 
 .notion-callout:hover {
   border: 1px solid #cc0000 !important;
@@ -620,245 +487,316 @@ body::after { content: ''; position: fixed; top: 0; left: 0; width: 300%; height
   cursor: pointer !important;
 }
 
-
 /* Vitrin Çözümleri */
-
-.notion-gallery-grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)) !important; gap: 25px !important; }
-
-.notion-collection-card { border-radius: 6px !important; border: 1px solid rgba(138, 3, 3, 0.2) !important; background-color: #080808 !important; }
-
-.notion-collection-card-cover { height: 400px !important; max-height: 400px !important; border-bottom: 1px solid rgba(138, 3, 3, 0.4) !important; background-color: #000000 !important; }
-
-.notion-collection-card-cover img { object-fit: contain !important; object-position: center !important; width: 100% !important; height: 100% !important; padding: 5px !important; }
-
-.notion-asset-wrapper { max-width: 100% !important; }
-
-.notion-asset-wrapper iframe, .notion-asset-wrapper video { max-width: 100% !important; border-radius: 8px; }
-
-
-/* =========================================================
-
-   PAGE ICON POZİSYON DÜZELTMESİ
-
-   ========================================================= */
-
-.notion-page-header-wrapper {
-
-  position: relative !important;
-
+.notion-gallery-grid {
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)) !important;
+  gap: 25px !important;
 }
 
+.notion-collection-card {
+  border-radius: 6px !important;
+  border: 1px solid rgba(138, 3, 3, 0.2) !important;
+  background-color: #080808 !important;
+}
+
+.notion-collection-card-cover {
+  height: 400px !important;
+  max-height: 400px !important;
+  border-bottom: 1px solid rgba(138, 3, 3, 0.4) !important;
+  background-color: #000000 !important;
+}
+
+.notion-collection-card-cover img {
+  object-fit: contain !important;
+  object-position: center !important;
+  width: 100% !important;
+  height: 100% !important;
+  padding: 5px !important;
+}
+
+.notion-asset-wrapper {
+  max-width: 100% !important;
+}
+
+.notion-asset-wrapper iframe,
+.notion-asset-wrapper video {
+  max-width: 100% !important;
+  border-radius: 8px;
+}
+
+/* =========================================================
+   PAGE ICON POZİSYON DÜZELTMESİ
+   ========================================================= */
+.notion-page-header-wrapper {
+  position: relative !important;
+}
 
 .notion-page-icon-hero,
-
 .notion-page-icon-wrapper {
-
   position: relative !important;
-
   display: flex !important;
-
   justify-content: center !important;
-
   align-items: center !important;
-
   width: 120px !important;
-
   height: 120px !important;
-
   margin: -60px auto 10px auto !important;
-
   left: auto !important;
-
   right: auto !important;
-
   top: auto !important;
-
   bottom: auto !important;
-
   z-index: 20 !important;
-
 }
-
 
 .notion-page-icon-hero img,
-
 .notion-page-icon-wrapper img {
-
   width: 100% !important;
-
   height: 100% !important;
-
   object-fit: cover !important;
-
   display: block !important;
-
 }
 
-
 /* =========================================================
-
    MOBİL STABİLİZASYON (TÜM TEKRARLAYAN KODLAR BİRLEŞTİRİLDİ)
-
    ========================================================= */
-
 @media (max-width: 768px) {
-
   html, body, .notion-app, .notion-page, .notion-page-content, .notion-page-content-inner {
-
-    max-width: 100% !important; overflow-x: hidden !important;
-
+    max-width: 100% !important;
+    overflow-x: hidden !important;
   }
 
-
-  .notion-collection-card-cover { height: 350px !important; max-height: 350px !important; }
-
-  
+  .notion-collection-card-cover {
+    height: 350px !important;
+    max-height: 350px !important;
+  }
 
   /* Menü ve Başlık */
+  .notion-header,
+  .notion-nav-header {
+    position: relative !important;
+    display: flex !important;
+    flex-direction: column !important;
+    height: auto !important;
+    padding: 10px 5px !important;
+    background-color: #050505 !important;
+    overflow: hidden !important;
+    z-index: 999 !important;
+  }
 
-  .notion-header, .notion-nav-header { position: relative !important; display: flex !important; flex-direction: column !important; height: auto !important; padding: 10px 5px !important; background-color: #050505 !important; overflow: hidden !important; z-index: 999 !important; }
+  .notion-nav-header > div:first-child {
+    display: flex !important;
+    width: 100% !important;
+    justify-content: center !important;
+    margin-bottom: 5px !important;
+    position: static !important;
+  }
 
-  .notion-nav-header > div:first-child { display: flex !important; width: 100% !important; justify-content: center !important; margin-bottom: 5px !important; position: static !important; }
+  .notion-nav-header-rhs,
+  .nav-header-rhs {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    width: 100% !important;
+    justify-content: center !important;
+    gap: 6px 12px !important;
+    position: static !important;
+  }
 
-  .notion-nav-header-rhs, .nav-header-rhs { display: flex !important; flex-wrap: wrap !important; width: 100% !important; justify-content: center !important; gap: 6px 12px !important; position: static !important; }
-
-  .notion-nav-header-rhs a, .nav-header-rhs a, .notion-nav-header-rhs .notion-nav-header-item { font-size: 0.8rem !important; margin: 0 !important; padding: 2px !important; }
-
+  .notion-nav-header-rhs a,
+  .nav-header-rhs a,
+  .notion-nav-header-rhs .notion-nav-header-item {
+    font-size: 0.8rem !important;
+    margin: 0 !important;
+    padding: 2px !important;
+  }
 
   /* Kapak ve İkon Ortalama */
-
-  .notion-page-header-wrapper { display: flex !important; justify-content: center !important; width: 100% !important; position: relative !important; margin: 0 !important; }
-
-  .notion-page-icon-hero, .notion-page-icon-wrapper {
-
+  .notion-page-header-wrapper {
     display: flex !important;
-
-    position: relative !important;
-
     justify-content: center !important;
-
-    align-items: center !important;
-
-    width: 80px !important;
-
-    height: 80px !important;
-
-    margin: -40px auto 8px auto !important;
-
-    left: 0 !important;
-
-    right: 0 !important;
-
-    z-index: 20 !important;
-
+    width: 100% !important;
+    position: relative !important;
+    margin: 0 !important;
+    overflow: visible !important;
   }
 
-  .notion-page-icon-hero img, .notion-page-icon-wrapper img { width: 100% !important; height: 100% !important; object-fit: cover !important; }
+  .notion-page-cover-wrapper {
+    height: 170px !important;
+    max-height: 170px !important;
+    min-height: 170px !important;
+    width: 100% !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+  }
 
-  .notion-page-cover-wrapper { height: 120px !important; max-height: 120px !important; width: 100% !important; margin: 0 !important; }
+  .notion-page-cover,
+  .notion-page-cover img,
+  .notion-page-cover-wrapper img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center center !important;
+    display: block !important;
+  }
 
-  .notion-page-cover { object-fit: cover !important; object-position: center !important; }
+  .notion-page-icon-hero,
+  .notion-page-icon-wrapper {
+    display: flex !important;
+    position: relative !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 76px !important;
+    height: 76px !important;
+    margin: -28px auto 8px auto !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 20 !important;
+  }
 
+  .notion-page-icon-hero img,
+  .notion-page-icon-wrapper img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
 
   /* İçerik Boşlukları ve Fontlar */
+  .notion-page {
+    padding-top: 0px !important;
+    margin-top: 0px !important;
+  }
 
-  .notion-page { padding-top: 0px !important; margin-top: 0px !important; }
+  .notion-h1:not(.notion-title),
+  .notion-h2,
+  .notion-h3 {
+    margin-top: 15px !important;
+    margin-bottom: 10px !important;
+  }
 
-  .notion-h1:not(.notion-title), .notion-h2, .notion-h3 { margin-top: 15px !important; margin-bottom: 10px !important; }
+  .notion-h1:not(.notion-title) {
+    font-size: 1.6rem !important;
+    letter-spacing: 1px !important;
+    line-height: 1.3 !important;
+  }
 
-  .notion-h1:not(.notion-title) { font-size: 1.6rem !important; letter-spacing: 1px !important; line-height: 1.3 !important; }
-
-  .notion-h2 { font-size: 1.3rem !important; letter-spacing: 1px !important; }
-
+  .notion-h2 {
+    font-size: 1.3rem !important;
+    letter-spacing: 1px !important;
+  }
 
   /* Sütun Düzeni (Sıralamayı Koruyan Alt Alta Dizi) */
+  .notion-row,
+  .notion-column-list,
+  .notion-column-list > div {
+    display: flex !important;
+    flex-direction: column !important;
+    flex-wrap: nowrap !important;
+    align-items: stretch !important;
+    gap: 18px !important;
+    width: 100% !important;
+    margin: 0 !important;
+  }
 
-  .notion-row, .notion-column-list, .notion-column-list > div { display: flex !important; flex-direction: column !important; flex-wrap: nowrap !important; align-items: stretch !important; gap: 18px !important; width: 100% !important; margin: 0 !important; }
-
-  .notion-column { width: 100% !important; max-width: 100% !important; min-width: 0 !important; flex: 0 0 auto !important; margin: 0 !important; padding: 0 !important; order: initial !important; }
-
+  .notion-column {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    flex: 0 0 auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    order: initial !important;
+  }
 
   /* Medya ve Taşmalar */
+  .notion-asset-wrapper,
+  .notion-asset-wrapper > div,
+  .notion-asset-wrapper img,
+  .notion-asset-wrapper iframe,
+  .notion-asset-wrapper video {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+  }
 
-  .notion-asset-wrapper, .notion-asset-wrapper > div, .notion-asset-wrapper img, .notion-asset-wrapper iframe, .notion-asset-wrapper video { display: block !important; width: 100% !important; max-width: 100% !important; height: auto !important; }
+  .notion-asset-wrapper iframe {
+    aspect-ratio: 16 / 9 !important;
+    height: auto !important;
+  }
 
-  .notion-asset-wrapper iframe { aspect-ratio: 16 / 9 !important; height: auto !important; }
+  .notion-gallery-grid,
+  .notion-collection-gallery {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 18px !important;
+  }
 
-  .notion-gallery-grid, .notion-collection-gallery { display: grid !important; grid-template-columns: 1fr !important; gap: 18px !important; }
+  .notion-collection-card,
+  .notion-collection-card-cover,
+  .notion-collection-card-cover img {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
 
-  .notion-collection-card, .notion-collection-card-cover, .notion-collection-card-cover img { width: 100% !important; max-width: 100% !important; }
-
-  .notion-collection-card-cover img { object-fit: cover !important; object-position: center !important; padding: 0 !important; }
-
-  
+  .notion-collection-card-cover img {
+    object-fit: cover !important;
+    object-position: center !important;
+    padding: 0 !important;
+  }
 
   /* Mobil Hover Zıplama İptali */
-
-  .notion-asset-wrapper img:hover, .notion-collection-card:hover, .notion-page img:hover { transform: none !important; filter: none !important; }
-
-  
+  .notion-asset-wrapper img:hover,
+  .notion-collection-card:hover,
+  .notion-page img:hover {
+    transform: none !important;
+    filter: none !important;
+  }
 
   /* Metin ve Caption Taşmaları */
+  .notion-text,
+  .notion-callout,
+  .notion-page-block {
+    max-width: 100% !important;
+    min-width: 0 !important;
+    word-break: break-word !important;
+  }
 
-  .notion-text, .notion-callout, .notion-page-block { max-width: 100% !important; min-width: 0 !important; word-break: break-word !important; }
+  .notion-asset-caption,
+  .notion-caption,
+  figcaption {
+    max-width: 100% !important;
+    word-break: break-word !important;
+  }
 
-  .notion-asset-caption, .notion-caption, figcaption { max-width: 100% !important; word-break: break-word !important; }
-
-  .notion-callout { width: 100% !important; max-width: 100% !important; margin: 0 !important; }
-
+  .notion-callout {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+  }
 }
 
-
 /* =========================================================
-
    PC EKRANI İÇİN KESİN BOYUT VE HİZA ÇÖZÜMÜ
-
    (Yan yana duran görsellerin ve altyazıların bozulmasını engeller)
-
    ========================================================= */
-
 @media (min-width: 769px) {
-
   /* 1. Sütunların (kolonların) birbirinin boyunu uzatıp kısaltmasını engeller */
-
   .notion-row {
-
-    align-items: flex-start !important; 
-
+    align-items: flex-start !important;
   }
-
-  
 
   /* 2. Görsellerin en-boy oranını sündürmeden sütuna tam oturtur */
-
   .notion-column .notion-asset-wrapper img {
-
     width: 100% !important;
-
-    height: auto !important; 
-
+    height: auto !important;
     object-fit: contain !important;
-
     display: block !important;
-
   }
-
-  
 
   /* 3. Altyazıların (caption) resmi ezmesini engeller, altına şıkça ortalar */
-
   .notion-column .notion-asset-caption,
-
   .notion-column figcaption {
-
     width: 100% !important;
-
     text-align: center !important;
-
     margin-top: 12px !important;
-
     display: block !important;
-
   }
-
 }
