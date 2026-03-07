@@ -13,53 +13,84 @@ export default function ReaderPage() {
   const router = useRouter()
   const { slug } = router.query
   const viewerRef = useRef<HTMLDivElement | null>(null)
-  const [ready, setReady] = useState(false)
+
+  const [epubReady, setEpubReady] = useState(false)
+  const [zipReady, setZipReady] = useState(false)
+  const [status, setStatus] = useState('Yükleniyor...')
   const [error, setError] = useState('')
 
   useEffect(() => {
-    if (!ready) return
     if (!slug || Array.isArray(slug)) return
     if (!viewerRef.current) return
-    if (!window.ePub) return
+    if (!epubReady || !zipReady) return
 
     const bookUrl = `/epub/${slug}.epub`
 
     let book: any = null
     let rendition: any = null
+    let cancelled = false
 
-    try {
-      book = window.ePub(bookUrl)
+    async function loadBook() {
+      try {
+        setStatus('Kitap dosyası kontrol ediliyor...')
 
-      rendition = book.renderTo(viewerRef.current, {
-        width: '100%',
-        height: '100%',
-        method: 'continuous',
-        flow: 'scrolled-doc'
-      })
+        const res = await fetch(bookUrl, { method: 'HEAD' })
+        if (!res.ok) {
+          throw new Error(`EPUB dosyası bulunamadı: ${bookUrl}`)
+        }
 
-      rendition.display()
-    } catch (e) {
-      setError('Kitap yüklenirken bir hata oluştu.')
+        if (!window.ePub) {
+          throw new Error('epub.js yüklenmedi.')
+        }
+
+        setStatus('Kitap açılıyor...')
+
+        book = window.ePub(bookUrl)
+
+        rendition = book.renderTo(viewerRef.current, {
+          width: '100%',
+          height: '100%',
+          method: 'continuous',
+          flow: 'scrolled-doc'
+        })
+
+        await rendition.display()
+
+        if (!cancelled) {
+          setStatus('')
+        }
+      } catch (e: any) {
+        if (!cancelled) {
+          setError(e?.message || 'Kitap yüklenirken bir hata oluştu.')
+          setStatus('')
+        }
+      }
     }
 
+    loadBook()
+
     return () => {
+      cancelled = true
       try {
         rendition?.destroy?.()
         book?.destroy?.()
       } catch {}
     }
-  }, [ready, slug])
+  }, [slug, epubReady, zipReady])
 
   return (
     <>
       <Script
         src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"
-        strategy="beforeInteractive"
+        strategy="afterInteractive"
+        onLoad={() => setZipReady(true)}
+        onError={() => setError('JSZip yüklenemedi.')}
       />
       <Script
-        src="https://cdn.jsdelivr.net/npm/epubjs/dist/epub.min.js"
+        src="https://unpkg.com/epubjs/dist/epub.min.js"
         strategy="afterInteractive"
-        onLoad={() => setReady(true)}
+        onLoad={() => setEpubReady(true)}
+        onError={() => setError('epub.js yüklenemedi.')}
       />
 
       <div
@@ -87,10 +118,23 @@ export default function ReaderPage() {
           <div
             style={{
               padding: '24px',
-              textAlign: 'center'
+              textAlign: 'center',
+              color: '#ff8080',
+              lineHeight: 1.6
             }}
           >
             {error}
+          </div>
+        ) : status ? (
+          <div
+            style={{
+              padding: '24px',
+              textAlign: 'center',
+              color: '#ddd',
+              lineHeight: 1.6
+            }}
+          >
+            {status}
           </div>
         ) : (
           <div
