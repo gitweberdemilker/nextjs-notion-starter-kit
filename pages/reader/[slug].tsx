@@ -1,50 +1,108 @@
 import { useRouter } from 'next/router'
-import { useEffect } from 'react'
+import Script from 'next/script'
+import { useEffect, useRef, useState } from 'react'
 
-const BOOK_LINKS: Record<string, { mobile: string; desktop: string }> = {
-  'son-yil': {
-    mobile: '/epub/son-yil.epub',
-    desktop: 'https://heyzine.com/flip-book/a47b59fa15.html'
+declare global {
+  interface Window {
+    ePub: any
+    JSZip: any
   }
 }
 
-function isMobileDevice() {
-  if (typeof navigator === 'undefined') return false
-
-  const ua = navigator.userAgent || navigator.vendor || ''
-  return /android|iphone|ipad|ipod|mobile|opera mini|iemobile|wpdesktop/i.test(
-    ua.toLowerCase()
-  )
-}
-
-export default function Reader() {
+export default function ReaderPage() {
   const router = useRouter()
   const { slug } = router.query
+  const viewerRef = useRef<HTMLDivElement | null>(null)
+  const [ready, setReady] = useState(false)
+  const [error, setError] = useState('')
 
   useEffect(() => {
+    if (!ready) return
     if (!slug || Array.isArray(slug)) return
+    if (!viewerRef.current) return
+    if (!window.ePub) return
 
-    const book = BOOK_LINKS[slug]
-    if (!book) return
+    const bookUrl = `/epub/${slug}.epub`
 
-    const mobile = isMobileDevice()
-    window.location.href = mobile ? book.mobile : book.desktop
-  }, [slug])
+    let book: any = null
+    let rendition: any = null
+
+    try {
+      book = window.ePub(bookUrl)
+
+      rendition = book.renderTo(viewerRef.current, {
+        width: '100%',
+        height: '100%',
+        method: 'continuous',
+        flow: 'scrolled-doc'
+      })
+
+      rendition.display()
+    } catch (e) {
+      setError('Kitap yüklenirken bir hata oluştu.')
+    }
+
+    return () => {
+      try {
+        rendition?.destroy?.()
+        book?.destroy?.()
+      } catch {}
+    }
+  }, [ready, slug])
 
   return (
-    <div
-      style={{
-        width: '100%',
-        height: '100vh',
-        background: '#111',
-        color: '#fff',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        fontSize: '18px'
-      }}
-    >
-      Yükleniyor...
-    </div>
+    <>
+      <Script
+        src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"
+        strategy="beforeInteractive"
+      />
+      <Script
+        src="https://cdn.jsdelivr.net/npm/epubjs/dist/epub.min.js"
+        strategy="afterInteractive"
+        onLoad={() => setReady(true)}
+      />
+
+      <div
+        style={{
+          minHeight: '100vh',
+          background: '#0b0b0b',
+          color: '#f5f5f5',
+          display: 'flex',
+          flexDirection: 'column'
+        }}
+      >
+        <div
+          style={{
+            padding: '14px 16px',
+            borderBottom: '1px solid #222',
+            textAlign: 'center',
+            fontSize: '14px',
+            letterSpacing: '0.5px'
+          }}
+        >
+          {Array.isArray(slug) ? slug[0] : slug}
+        </div>
+
+        {error ? (
+          <div
+            style={{
+              padding: '24px',
+              textAlign: 'center'
+            }}
+          >
+            {error}
+          </div>
+        ) : (
+          <div
+            ref={viewerRef}
+            style={{
+              flex: 1,
+              width: '100%',
+              minHeight: 'calc(100vh - 52px)'
+            }}
+          />
+        )}
+      </div>
+    </>
   )
 }
