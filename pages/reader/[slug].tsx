@@ -67,9 +67,7 @@ export default function ReaderPage() {
         await loadScript('https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js')
         await loadScript('https://unpkg.com/epubjs/dist/epub.min.js')
 
-        if (!window.ePub) {
-          throw new Error('epub.js yüklenmedi.')
-        }
+        if (!window.ePub) throw new Error('epub.js yüklenmedi.')
 
         setStatus('Kitap açılıyor...')
 
@@ -89,15 +87,18 @@ export default function ReaderPage() {
           if (e.key === 'ArrowLeft') rendition.prev()
         })
 
-        // swipe (mobil) ✅ TS SAFE
+        // ✅ TS SAFE SWIPE
         let startX = 0
 
         viewer.addEventListener('touchstart', (e: TouchEvent) => {
+          if (!e.changedTouches || e.changedTouches.length === 0) return
           startX = e.changedTouches[0].screenX
         })
 
         viewer.addEventListener('touchend', (e: TouchEvent) => {
+          if (!e.changedTouches || e.changedTouches.length === 0) return
           const endX = e.changedTouches[0].screenX
+
           if (startX - endX > 50) rendition.next()
           if (endX - startX > 50) rendition.prev()
         })
