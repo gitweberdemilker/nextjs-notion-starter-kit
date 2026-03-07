@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Karanlık Okuyucu</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.5/jszip.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/epubjs/dist/epub.min.js"></script>
+    <style>
+        body, html { margin: 0; padding: 0; background-color: #000; color: #d1d1d1; height: 100%; overflow: hidden; font-family: serif; }
+        #desktop-reader { width: 100%; height: 100%; display: none; border: none; }
+        #mobile-reader { width: 100%; height: 100%; display: none; flex-direction: column; }
+        #viewer { width: 100%; height: 85vh; }
+        .controls { height: 15vh; display: flex; justify-content: space-around; align-items: center; background: #050505; border-top: 1px solid rgba(204,0,0,0.3); }
+        button { background: transparent; color: #cc0000; border: 1px solid #cc0000; padding: 10px 30px; font-size: 16px; border-radius: 5px; cursor: pointer; transition: 0.3s; }
+        button:hover { background: #cc0000; color: #000; }
+    </style>
+</head>
+<body>
+
+    <iframe id="desktop-reader" allowfullscreen="true" allow="clipboard-write"></iframe>
+
+    <div id="mobile-reader">
+        <div id="viewer"></div>
+        <div class="controls">
+            <button onclick="bookRendition.prev()">< Geri</button>
+            <button onclick="bookRendition.next()">İleri ></button>
+        </div>
+    </div>
+
+    <script>
+        // Notion'dan gelen linkteki parametreleri alıyoruz
+        const urlParams = new URLSearchParams(window.location.search);
+        const epubFile = urlParams.get('epub');
+        const heyzineLink = urlParams.get('heyzine');
+        
+        // Ekran genişliğini kontrol et (768px altı mobil sayılır)
+        const isMobile = window.innerWidth <= 768;
+        var bookRendition;
+
+        if (!isMobile && heyzineLink) {
+            // PC'deysek Heyzine'i tam ekran göster
+            const iframe = document.getElementById('desktop-reader');
+            iframe.src = heyzineLink;
+            iframe.style.display = 'block';
+        } else if (isMobile && epubFile) {
+            // Mobildeysek EPUB dosyasını okuyucuda aç
+            document.getElementById('mobile-reader').style.display = 'flex';
+            var book = ePub(epubFile);
+            bookRendition = book.renderTo("viewer", {
+                width: "100%", height: "100%", spread: "none"
+            });
+            // Karanlık tema ve büyük font ayarları
+            bookRendition.themes.default({
+                "body": { "background": "#000 !important", "color": "#d1d1d1 !important", "font-family": "serif" },
+                "p": { "font-size": "120% !important", "line-height": "1.6 !important", "margin-bottom": "15px" }
+            });
+            bookRendition.display();
+        } else {
+            document.body.innerHTML = "<h3 style='text-align:center; color:#cc0000; margin-top:50px;'>Kitap bulunamadı veya link eksik.</h3>";
+        }
+    </script>
+</body>
+</html>
