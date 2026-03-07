@@ -13,17 +13,9 @@ function loadScript(src: string) {
     const existing = document.querySelector(`script[src="${src}"]`) as HTMLScriptElement | null
 
     if (existing) {
-      if (existing.dataset.loaded === 'true') {
-        resolve()
-        return
-      }
-
-      existing.addEventListener('load', () => resolve(), { once: true })
-      existing.addEventListener(
-        'error',
-        () => reject(new Error(`Script yüklenemedi: ${src}`)),
-        { once: true }
-      )
+      if (existing.dataset.loaded === 'true') return resolve()
+      existing.onload = () => resolve()
+      existing.onerror = () => reject(new Error(`Script yüklenemedi: ${src}`))
       return
     }
 
@@ -87,17 +79,20 @@ export default function ReaderPage() {
           if (e.key === 'ArrowLeft') rendition.prev()
         })
 
-        // ✅ TS SAFE SWIPE
+        // ✅ TS SAFE SWIPE (KESİN)
         let startX = 0
 
         viewer.addEventListener('touchstart', (e: TouchEvent) => {
-          if (!e.changedTouches || e.changedTouches.length === 0) return
-          startX = e.changedTouches[0].screenX
+          const touch = e.changedTouches?.[0]
+          if (!touch) return
+          startX = touch.screenX
         })
 
         viewer.addEventListener('touchend', (e: TouchEvent) => {
-          if (!e.changedTouches || e.changedTouches.length === 0) return
-          const endX = e.changedTouches[0].screenX
+          const touch = e.changedTouches?.[0]
+          if (!touch) return
+
+          const endX = touch.screenX
 
           if (startX - endX > 50) rendition.next()
           if (endX - startX > 50) rendition.prev()
@@ -139,8 +134,7 @@ export default function ReaderPage() {
           padding: '14px 16px',
           borderBottom: '1px solid #222',
           textAlign: 'center',
-          fontSize: '14px',
-          letterSpacing: '0.5px'
+          fontSize: '14px'
         }}
       >
         {Array.isArray(slug) ? slug[0] : slug}
@@ -170,10 +164,7 @@ export default function ReaderPage() {
             background: error ? 'rgba(11,11,11,0.92)' : 'rgba(11,11,11,0.72)',
             color: error ? '#ff8a8a' : '#ddd',
             textAlign: 'center',
-            lineHeight: 1.6,
-            paddingLeft: '20px',
-            paddingRight: '20px',
-            zIndex: 5
+            padding: '32px'
           }}
         >
           {error || status}
