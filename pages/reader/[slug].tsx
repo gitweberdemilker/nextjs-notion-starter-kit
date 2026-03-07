@@ -1,5 +1,4 @@
 import { useRouter } from 'next/router'
-import Script from 'next/script'
 import { useEffect, useRef, useState } from 'react'
 
 declare global {
@@ -9,29 +8,62 @@ declare global {
   }
 }
 
+function loadScript(src: string) {
+  return new Promise<void>((resolve, reject) => {
+    const existing = document.querySelector(`script[src="${src}"]`) as HTMLScriptElement | null
+    if (existing) {
+      if (existing.dataset.loaded === 'true') {
+        resolve()
+        return
+      }
+      existing.addEventListener('load', () => resolve(), { once: true })
+      existing.addEventListener('error', () => reject(new Error(`Script yüklenemedi: ${src}`)), {
+        once: true
+      })
+      return
+    }
+
+    const script = document.createElement('script')
+    script.src = src
+    script.async = true
+    script.onload = () => {
+      script.dataset.loaded = 'true'
+      resolve()
+    }
+    script.onerror = () => reject(new Error(`Script yüklenemedi: ${src}`))
+    document.body.appendChild(script)
+  })
+}
+
 export default function ReaderPage() {
   const router = useRouter()
   const { slug } = router.query
   const viewerRef = useRef<HTMLDivElement | null>(null)
 
-  const [epubReady, setEpubReady] = useState(false)
-  const [zipReady, setZipReady] = useState(false)
-  const [status, setStatus] = useState('Yükleniyor...')
+  const [status, setStatus] = useState('Hazırlanıyor...')
   const [error, setError] = useState('')
 
   useEffect(() => {
     if (!slug || Array.isArray(slug)) return
     if (!viewerRef.current) return
-    if (!epubReady || !zipReady) return
 
     const bookUrl = `/epub/${slug}.epub`
-
     let book: any = null
     let rendition: any = null
     let cancelled = false
 
-    async function loadBook() {
+    async function init() {
       try {
+        setError('')
+        setStatus('Scriptler yükleniyor...')
+
+        await loadScript('https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js')
+        await loadScript('https://unpkg.com/epubjs/dist/epub.min.js')
+
+        if (!window.ePub) {
+          throw new Error('epub.js global olarak yüklenmedi.')
+        }
+
         setStatus('Kitap dosyası kontrol ediliyor...')
 
         const res = await fetch(bookUrl, { method: 'HEAD' })
@@ -39,14 +71,9 @@ export default function ReaderPage() {
           throw new Error(`EPUB dosyası bulunamadı: ${bookUrl}`)
         }
 
-        if (!window.ePub) {
-          throw new Error('epub.js yüklenmedi.')
-        }
-
         setStatus('Kitap açılıyor...')
 
         book = window.ePub(bookUrl)
-
         rendition = book.renderTo(viewerRef.current, {
           width: '100%',
           height: '100%',
@@ -67,7 +94,7 @@ export default function ReaderPage() {
       }
     }
 
-    loadBook()
+    init()
 
     return () => {
       cancelled = true
@@ -76,77 +103,62 @@ export default function ReaderPage() {
         book?.destroy?.()
       } catch {}
     }
-  }, [slug, epubReady, zipReady])
+  }, [slug])
 
   return (
-    <>
-      <Script
-        src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"
-        strategy="afterInteractive"
-        onLoad={() => setZipReady(true)}
-        onError={() => setError('JSZip yüklenemedi.')}
-      />
-      <Script
-        src="https://unpkg.com/epubjs/dist/epub.min.js"
-        strategy="afterInteractive"
-        onLoad={() => setEpubReady(true)}
-        onError={() => setError('epub.js yüklenemedi.')}
-      />
-
+    <div
+      style={{
+        minHeight: '100vh',
+        background: '#0b0b0b',
+        color: '#f5f5f5',
+        display: 'flex',
+        flexDirection: 'column'
+      }}
+    >
       <div
         style={{
-          minHeight: '100vh',
-          background: '#0b0b0b',
-          color: '#f5f5f5',
-          display: 'flex',
-          flexDirection: 'column'
+          padding: '14px 16px',
+          borderBottom: '1px solid #222',
+          textAlign: 'center',
+          fontSize: '14px',
+          letterSpacing: '0.5px'
         }}
       >
+        {Array.isArray(slug) ? slug[0] : slug}
+      </div>
+
+      {error ? (
         <div
           style={{
-            padding: '14px 16px',
-            borderBottom: '1px solid #222',
+            padding: '24px',
             textAlign: 'center',
-            fontSize: '14px',
-            letterSpacing: '0.5px'
+            color: '#ff8a8a',
+            lineHeight: 1.6
           }}
         >
-          {Array.isArray(slug) ? slug[0] : slug}
+          {error}
         </div>
-
-        {error ? (
-          <div
-            style={{
-              padding: '24px',
-              textAlign: 'center',
-              color: '#ff8080',
-              lineHeight: 1.6
-            }}
-          >
-            {error}
-          </div>
-        ) : status ? (
-          <div
-            style={{
-              padding: '24px',
-              textAlign: 'center',
-              color: '#ddd',
-              lineHeight: 1.6
-            }}
-          >
-            {status}
-          </div>
-        ) : (
-          <div
-            ref={viewerRef}
-            style={{
-              flex: 1,
-              width: '100%',
-              minHeight: 'calc(100vh - 52px)'
-            }}
-          />
-        )}
-      </div>
-    </>
+      ) : status ? (
+        <div
+          style={{
+            padding: '24px',
+            textAlign: 'center',
+            color: '#ddd',
+            lineHeight: 1.6
+          }}
+        >
+          {status}
+        </div>
+      ) : (
+        <div
+          ref={viewerRef}
+          style={{
+            flex: 1,
+            width: '100%',
+            minHeight: 'calc(100vh - 52px)'
+          }}
+        />
+      )}
+    </div>
   )
 }
