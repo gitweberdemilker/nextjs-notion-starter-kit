@@ -52,6 +52,7 @@ export default function ReaderPage() {
     if (!slug || Array.isArray(slug)) return
     if (!viewerRef.current) return
 
+    const viewer = viewerRef.current
     const bookUrl = `/${slug}.epub`
 
     let book: any = null
@@ -74,28 +75,28 @@ export default function ReaderPage() {
 
         book = window.ePub(bookUrl)
 
-        rendition = book.renderTo(viewerRef.current, {
+        rendition = book.renderTo(viewer, {
           width: '100%',
           height: '100%',
-          flow: 'paginated' // ✅ BURASI DEĞİŞTİ
+          flow: 'paginated'
         })
 
         await rendition.display()
 
-        // ✅ ok tuşları
+        // ok tuşları
         rendition.on('keyup', (e: any) => {
           if (e.key === 'ArrowRight') rendition.next()
           if (e.key === 'ArrowLeft') rendition.prev()
         })
 
-        // ✅ swipe (mobil)
+        // swipe (mobil) ✅ TS SAFE
         let startX = 0
 
-        viewerRef.current.addEventListener('touchstart', (e: any) => {
+        viewer.addEventListener('touchstart', (e: TouchEvent) => {
           startX = e.changedTouches[0].screenX
         })
 
-        viewerRef.current.addEventListener('touchend', (e: any) => {
+        viewer.addEventListener('touchend', (e: TouchEvent) => {
           const endX = e.changedTouches[0].screenX
           if (startX - endX > 50) rendition.next()
           if (endX - startX > 50) rendition.prev()
