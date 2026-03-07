@@ -11,15 +11,19 @@ declare global {
 function loadScript(src: string) {
   return new Promise<void>((resolve, reject) => {
     const existing = document.querySelector(`script[src="${src}"]`) as HTMLScriptElement | null
+
     if (existing) {
       if (existing.dataset.loaded === 'true') {
         resolve()
         return
       }
+
       existing.addEventListener('load', () => resolve(), { once: true })
-      existing.addEventListener('error', () => reject(new Error(`Script yüklenemedi: ${src}`)), {
-        once: true
-      })
+      existing.addEventListener(
+        'error',
+        () => reject(new Error(`Script yüklenemedi: ${src}`)),
+        { once: true }
+      )
       return
     }
 
@@ -44,10 +48,13 @@ export default function ReaderPage() {
   const [error, setError] = useState('')
 
   useEffect(() => {
+    if (!router.isReady) return
     if (!slug || Array.isArray(slug)) return
     if (!viewerRef.current) return
 
-    const bookUrl = `/epub/${slug}.epub`
+    // Şimdilik GitHub raw link kullanıyoruz.
+    const bookUrl = `https://raw.githubusercontent.com/gitweberdemilker/nextjs-notion-starter-kit/main/public/epub/${slug}.epub`
+
     let book: any = null
     let rendition: any = null
     let cancelled = false
@@ -61,7 +68,7 @@ export default function ReaderPage() {
         await loadScript('https://unpkg.com/epubjs/dist/epub.min.js')
 
         if (!window.ePub) {
-          throw new Error('epub.js global olarak yüklenmedi.')
+          throw new Error('epub.js yüklenmedi.')
         }
 
         setStatus('Kitap dosyası kontrol ediliyor...')
@@ -103,7 +110,7 @@ export default function ReaderPage() {
         book?.destroy?.()
       } catch {}
     }
-  }, [slug])
+  }, [router.isReady, slug])
 
   return (
     <div
@@ -112,7 +119,8 @@ export default function ReaderPage() {
         background: '#0b0b0b',
         color: '#f5f5f5',
         display: 'flex',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        position: 'relative'
       }}
     >
       <div
@@ -127,37 +135,38 @@ export default function ReaderPage() {
         {Array.isArray(slug) ? slug[0] : slug}
       </div>
 
-      {error ? (
+      <div
+        ref={viewerRef}
+        style={{
+          flex: 1,
+          width: '100%',
+          minHeight: 'calc(100vh - 52px)'
+        }}
+      />
+
+      {(status || error) && (
         <div
           style={{
-            padding: '24px',
+            position: 'absolute',
+            top: '52px',
+            left: 0,
+            right: 0,
+            bottom: 0,
+            display: 'flex',
+            alignItems: 'flex-start',
+            justifyContent: 'center',
+            paddingTop: '32px',
+            background: error ? 'rgba(11,11,11,0.92)' : 'rgba(11,11,11,0.72)',
+            color: error ? '#ff8a8a' : '#ddd',
             textAlign: 'center',
-            color: '#ff8a8a',
-            lineHeight: 1.6
+            lineHeight: 1.6,
+            paddingLeft: '20px',
+            paddingRight: '20px',
+            zIndex: 5
           }}
         >
-          {error}
+          {error || status}
         </div>
-      ) : status ? (
-        <div
-          style={{
-            padding: '24px',
-            textAlign: 'center',
-            color: '#ddd',
-            lineHeight: 1.6
-          }}
-        >
-          {status}
-        </div>
-      ) : (
-        <div
-          ref={viewerRef}
-          style={{
-            flex: 1,
-            width: '100%',
-            minHeight: 'calc(100vh - 52px)'
-          }}
-        />
       )}
     </div>
   )
