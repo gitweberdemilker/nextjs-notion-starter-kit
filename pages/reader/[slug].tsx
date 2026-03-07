@@ -8,6 +8,15 @@ const BOOK_LINKS: Record<string, { mobile: string; desktop: string }> = {
   }
 }
 
+function isMobileDevice() {
+  if (typeof navigator === 'undefined') return false
+
+  const ua = navigator.userAgent || navigator.vendor || ''
+  return /android|iphone|ipad|ipod|mobile|opera mini|iemobile|wpdesktop/i.test(
+    ua.toLowerCase()
+  )
+}
+
 export default function Reader() {
   const router = useRouter()
   const { slug } = router.query
@@ -18,8 +27,8 @@ export default function Reader() {
     const book = BOOK_LINKS[slug]
     if (!book) return
 
-    const isMobile = window.innerWidth <= 768
-    window.location.href = isMobile ? book.mobile : book.desktop
+    const mobile = isMobileDevice()
+    window.location.href = mobile ? book.mobile : book.desktop
   }, [slug])
 
   return (
