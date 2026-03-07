@@ -70,28 +70,38 @@ export default function ReaderPage() {
           throw new Error('epub.js yüklenmedi.')
         }
 
-        setStatus('Kitap dosyası kontrol ediliyor...')
-
-        const res = await fetch(bookUrl, { method: 'HEAD' })
-        if (!res.ok) {
-          throw new Error(`EPUB dosyası bulunamadı: ${bookUrl}`)
-        }
-
         setStatus('Kitap açılıyor...')
 
         book = window.ePub(bookUrl)
+
         rendition = book.renderTo(viewerRef.current, {
           width: '100%',
           height: '100%',
-          method: 'continuous',
-          flow: 'scrolled-doc'
+          flow: 'paginated' // ✅ BURASI DEĞİŞTİ
         })
 
         await rendition.display()
 
-        if (!cancelled) {
-          setStatus('')
-        }
+        // ✅ ok tuşları
+        rendition.on('keyup', (e: any) => {
+          if (e.key === 'ArrowRight') rendition.next()
+          if (e.key === 'ArrowLeft') rendition.prev()
+        })
+
+        // ✅ swipe (mobil)
+        let startX = 0
+
+        viewerRef.current.addEventListener('touchstart', (e: any) => {
+          startX = e.changedTouches[0].screenX
+        })
+
+        viewerRef.current.addEventListener('touchend', (e: any) => {
+          const endX = e.changedTouches[0].screenX
+          if (startX - endX > 50) rendition.next()
+          if (endX - startX > 50) rendition.prev()
+        })
+
+        if (!cancelled) setStatus('')
       } catch (e: any) {
         if (!cancelled) {
           setError(e?.message || 'Kitap yüklenirken bir hata oluştu.')
