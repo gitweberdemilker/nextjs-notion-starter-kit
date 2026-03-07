@@ -45,7 +45,9 @@ export default function ReaderPage() {
     if (!viewerRef.current) return
 
     const viewer = viewerRef.current
-    const bookUrl = `/${slug}.epub`
+
+    // ✅ DOĞRU EPUB YOLU
+    const bookUrl = `/epub/${slug}.epub`
 
     let book: any = null
     let rendition: any = null
@@ -54,14 +56,12 @@ export default function ReaderPage() {
     async function init() {
       try {
         setError('')
-        setStatus('Scriptler yükleniyor...')
+        setStatus('Kitap yükleniyor...')
 
         await loadScript('https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js')
         await loadScript('https://unpkg.com/epubjs/dist/epub.min.js')
 
         if (!window.ePub) throw new Error('epub.js yüklenmedi.')
-
-        setStatus('Kitap açılıyor...')
 
         book = window.ePub(bookUrl)
 
@@ -79,20 +79,19 @@ export default function ReaderPage() {
           if (e.key === 'ArrowLeft') rendition.prev()
         })
 
-        // ✅ TS SAFE SWIPE (KESİN)
+        // swipe
         let startX = 0
 
         viewer.addEventListener('touchstart', (e: TouchEvent) => {
-          const touch = e.changedTouches?.[0]
-          if (!touch) return
-          startX = touch.screenX
+          const t = e.changedTouches?.[0]
+          if (!t) return
+          startX = t.screenX
         })
 
         viewer.addEventListener('touchend', (e: TouchEvent) => {
-          const touch = e.changedTouches?.[0]
-          if (!touch) return
-
-          const endX = touch.screenX
+          const t = e.changedTouches?.[0]
+          if (!t) return
+          const endX = t.screenX
 
           if (startX - endX > 50) rendition.next()
           if (endX - startX > 50) rendition.prev()
@@ -101,7 +100,7 @@ export default function ReaderPage() {
         if (!cancelled) setStatus('')
       } catch (e: any) {
         if (!cancelled) {
-          setError(e?.message || 'Kitap yüklenirken bir hata oluştu.')
+          setError(e?.message || 'Kitap açılırken hata oluştu.')
           setStatus('')
         }
       }
@@ -158,10 +157,9 @@ export default function ReaderPage() {
             right: 0,
             bottom: 0,
             display: 'flex',
-            alignItems: 'flex-start',
+            alignItems: 'center',
             justifyContent: 'center',
-            paddingTop: '32px',
-            background: error ? 'rgba(11,11,11,0.92)' : 'rgba(11,11,11,0.72)',
+            background: 'rgba(11,11,11,0.9)',
             color: error ? '#ff8a8a' : '#ddd',
             textAlign: 'center',
             padding: '32px'
