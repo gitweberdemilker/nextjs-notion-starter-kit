@@ -52,8 +52,7 @@ export default function ReaderPage() {
     if (!slug || Array.isArray(slug)) return
     if (!viewerRef.current) return
 
-    // Şimdilik GitHub raw link kullanıyoruz.
-    const bookUrl = `https://raw.githubusercontent.com/gitweberdemilker/nextjs-notion-starter-kit/main/public/epub/${slug}.epub`
+    const bookUrl = `/${slug}.epub`
 
     let book: any = null
     let rendition: any = null
