@@ -588,11 +588,37 @@ body::after { content: ''; position: fixed; top: 0; left: 0; width: 300%; height
 }
 
 
-.notion-callout { border-left: 4px solid #cc0000 !important; background-color: #111111 !important; border-radius: 6px !important; border: 1px solid #2a2a2a !important; transition: all 0.9s cubic-bezier(0.4, 0, 0.2, 1) !important; }
+/* --- CALLOUT KESİLME SORUNU DÜZELTMESİ --- */
+.notion-page,
+.notion-page-content,
+.notion-page-content-inner,
+.notion-page-block,
+.notion-row,
+.notion-column,
+.notion-collection-card,
+.notion-gallery-grid {
+  overflow: visible !important;
+}
+
+.notion-callout {
+  border-left: 4px solid #cc0000 !important;
+  background-color: #111111 !important;
+  border-radius: 6px !important;
+  border: 1px solid #2a2a2a !important;
+  transition: all 0.9s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  overflow: visible !important;
+}
 
 .notion-callout, .notion-callout-text, .notion-callout span, .notion-callout a { color: #f5f5f5 !important; }
 
-.notion-callout:hover { border: 1px solid #cc0000 !important; border-left: 4px solid #ff0000 !important; background-color: #1a0505 !important; box-shadow: 0 0 25px rgba(204, 0, 0, 0.6) !important; transform: scale(1.03) translateY(-3px) !important; cursor: pointer !important; }
+.notion-callout:hover {
+  border: 1px solid #cc0000 !important;
+  border-left: 4px solid #ff0000 !important;
+  background-color: #1a0505 !important;
+  box-shadow: 0 0 25px rgba(204, 0, 0, 0.6) !important;
+  transform: scale(1.03) translateY(-3px) !important;
+  cursor: pointer !important;
+}
 
 
 /* Vitrin Çözümleri */
@@ -835,4 +861,4 @@ body::after { content: ''; position: fixed; top: 0; left: 0; width: 300%; height
 
   }
 
-} 
+}
