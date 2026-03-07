@@ -569,7 +569,7 @@ body::after {
     max-height: 350px !important;
   }
 
-  /* Menü ve Başlık - Mobildeki Hizalama Sorunları İçin */
+  /* Menü ve Başlık */
   .notion-header,
   .notion-nav-header {
     position: relative !important;
@@ -610,7 +610,7 @@ body::after {
     white-space: nowrap !important;
   }
 
-  /* Kapak ve İkon Ortalama - Alt alta binmeyi önlemek için */
+  /* Kapak ve İkon Ortalama */
   .notion-page-header-wrapper {
     display: flex !important;
     flex-direction: column !important;
@@ -622,7 +622,7 @@ body::after {
   }
 
   .notion-page-cover-wrapper {
-    height: 140px !important; /* Mobilde biraz daha daraltıldı */
+    height: 140px !important;
     max-height: 140px !important;
     min-height: 140px !important;
     width: 100% !important;
@@ -640,7 +640,6 @@ body::after {
     display: block !important;
   }
 
-  /* Sayfa İkonu - Mobilde tam ortalama ve üst boşluk */
   .notion-page-icon-hero,
   .notion-page-icon-wrapper {
     display: flex !important;
@@ -649,28 +648,31 @@ body::after {
     align-items: center !important;
     width: 80px !important;
     height: 80px !important;
-    margin: -40px auto 15px auto !important; /* -60'tan -40'a çekildi ki çok yukarı binmesin */
+    margin: -40px auto 15px auto !important;
     left: 0 !important;
     right: 0 !important;
     z-index: 20 !important;
   }
 
-  /* Başlıklar İçin Mobilde Ekstra Boşluk (İkonun üstüne binmemesi için) */
-  .notion-page-header {
-    margin-top: 20px !important;
-  }
-
-  .notion-h1:not(.notion-title),
-  .notion-h2,
-  .notion-h3 {
+  /* Başlık Boyutları (Mobil için küçültüldü) */
+  .notion-h1:not(.notion-title) {
+    font-size: 1.45rem !important; /* Devasa görüntü engellendi */
+    letter-spacing: 1px !important;
+    line-height: 1.3 !important;
     margin-top: 25px !important;
     margin-bottom: 15px !important;
-    line-height: 1.4 !important;
   }
 
-  .notion-h1:not(.notion-title) {
-    font-size: 1.7rem !important;
-    letter-spacing: 2px !important;
+  .notion-h2 {
+    font-size: 1.25rem !important;
+    letter-spacing: 1px !important;
+    margin-top: 20px !important;
+    margin-bottom: 12px !important;
+  }
+
+  .notion-h3 {
+    font-size: 1.15rem !important;
+    margin-top: 15px !important;
   }
 
   /* Sütun Düzeni */
@@ -683,12 +685,79 @@ body::after {
     width: 100% !important;
   }
 
-  /* Mobil Hover İptali (İstemsiz zıplamaları önler) */
+  .notion-column {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    flex: 0 0 auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    order: initial !important;
+  }
+
+  .notion-asset-wrapper,
+  .notion-asset-wrapper > div,
+  .notion-asset-wrapper img,
+  .notion-asset-wrapper iframe,
+  .notion-asset-wrapper video {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+  }
+
+  .notion-asset-wrapper iframe {
+    aspect-ratio: 16 / 9 !important;
+    height: auto !important;
+  }
+
+  .notion-gallery-grid,
+  .notion-collection-gallery {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 18px !important;
+  }
+
+  .notion-collection-card,
+  .notion-collection-card-cover,
+  .notion-collection-card-cover img {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .notion-collection-card-cover img {
+    object-fit: cover !important;
+    object-position: center !important;
+    padding: 0 !important;
+  }
+
+  /* Mobil Hover İptali */
   .notion-asset-wrapper img:hover,
   .notion-collection-card:hover,
   .notion-page img:hover {
     transform: none !important;
     filter: none !important;
+  }
+
+  .notion-text,
+  .notion-callout,
+  .notion-page-block {
+    max-width: 100% !important;
+    min-width: 0 !important;
+    word-break: break-word !important;
+  }
+
+  .notion-asset-caption,
+  .notion-caption,
+  figcaption {
+    max-width: 100% !important;
+    word-break: break-word !important;
+  }
+
+  .notion-callout {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
   }
 }
 
@@ -714,4 +783,35 @@ body::after {
     margin-top: 12px !important;
     display: block !important;
   }
+}
+
+/* ==========================================================================
+   SİNEMATİK SAYFA GEÇİŞ ANİMASYONU (KARANLIĞA ÇEKİLME)
+   ========================================================================== */
+.cinematic-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #050505;
+  z-index: 999999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease-in-out;
+}
+
+.cinematic-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.page-content {
+  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), filter 0.4s ease;
+  transform-origin: center center;
+}
+
+.page-content.shrinking {
+  transform: scale(1.05);
+  filter: blur(4px) brightness(0.2);
 }
