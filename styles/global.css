@@ -845,33 +845,36 @@ body::after {
    ========================================================= */
 
 /* =========================================================
-   HEYZINE ÇİFT SAYFA VE KUSURSUZ MERKEZLEME (FİNAL ÇÖZÜM)
+   HEYZINE ÇİFT SAYFA VE KUSURSUZ MERKEZLEME (NİHAİ ÇÖZÜM)
    ========================================================= */
 
-.notion-asset-wrapper-iframe,
-.notion-asset-wrapper {
-  /* Heyzine'e çift sayfa açtıracak o mükemmel genişliği veriyoruz */
-  width: 1150px !important; 
-  
-  /* Scrollbar hatasını önlemek için 100vw yerine 94vw sınırı koyuyoruz */
-  max-width: 94vw !important; 
-  
-  /* Matematiksel olarak KESİN ortalama formülü */
-  position: relative !important;
-  left: 50% !important;
-  transform: translateX(-50%) !important;
-  
-  /* Notion'ın sağa/sola çekmesini engeller */
-  display: block !important; 
-  margin-top: 30px !important;
-  margin-bottom: 30px !important;
+/* 1. Kaymaları tetikleyen o gizli yatay scrollbar boşluğunu tamamen yok eder */
+body, html {
+  overflow-x: hidden !important;
 }
 
-.notion-asset-wrapper-iframe iframe,
-.notion-asset-wrapper iframe {
+/* 2. Notion'ın dar sütununu yoksayıp ekranı uçtan uca kaplayan görünmez bir şerit açar */
+.notion-asset-wrapper,
+.notion-asset-wrapper-iframe {
+  width: 100vw !important;
+  position: relative !important;
+  left: 50% !important;
+  right: 50% !important;
+  margin-left: -50vw !important;
+  margin-right: -50vw !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  background: transparent !important;
+  padding: 0 !important;
+}
+
+/* 3. Kitabı bu devasa şeridin tam merkezine çiviler */
+.notion-asset-wrapper iframe,
+.notion-asset-wrapper-iframe iframe {
   width: 100% !important;
+  max-width: 1150px !important;
   height: 85vh !important;
   border: none !important;
-  display: block !important;
   margin: 0 !important;
 }
