@@ -815,3 +815,28 @@ body::after {
   transform: scale(1.05);
   filter: blur(4px) brightness(0.2);
 }
+/* =========================================================
+   GALERİ / BLOG SAYFASI BEYAZ PATLAMA VE YAZI DÜZELTMESİ
+   ========================================================= */
+
+/* 1. Blog/Galeri sayfalarının kendi kendine beyaza dönmesini kesin olarak engeller */
+.notion-collection-page,
+.notion-collection-page-view,
+.notion-default-background {
+  background-color: var(--bg-color) !important;
+}
+
+/* 2. Kartların içindeki yazıların (başlık, kategori, tarih) siyah olup kaybolmasını engeller */
+.notion-collection-card .notion-property-text,
+.notion-collection-card .notion-page-title-text,
+.notion-collection-card .notion-property,
+.notion-collection-card span {
+  color: #d1d1d1 !important; /* Yazıları daima açık gri/beyaz yapar */
+  transition: color 0.3s ease !important;
+}
+
+/* 3. Etkileşim: Kartın üstüne gelince başlığın kan kırmızısı parlaması */
+.notion-collection-card:hover .notion-page-title-text {
+  color: #ff0000 !important;
+  text-shadow: 0 0 10px rgba(255, 0, 0, 0.6) !important;
+}
