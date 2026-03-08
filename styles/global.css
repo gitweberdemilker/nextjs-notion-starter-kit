@@ -840,3 +840,23 @@ body::after {
   color: #ff0000 !important;
   text-shadow: 0 0 10px rgba(255, 0, 0, 0.6) !important;
 }
+/* =========================================================
+   HEYZINE KİTAP OKUYUCU (IFRAME) SINIRLARI YIKMA
+   ========================================================= */
+
+/* Embed (gömme) kutusunu dar metin sütunundan kurtarıp genişletir */
+.notion-asset-wrapper-iframe,
+.notion-asset-wrapper {
+  width: 100vw !important;
+  max-width: 1100px !important; /* Bilgisayarda 2 sayfa açması için gereken genişlik */
+  position: relative !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+}
+
+/* İçindeki Heyzine kitabının bu geniş alana tam oturmasını sağlar */
+.notion-asset-wrapper iframe {
+  width: 100% !important;
+  min-height: 85vh !important; /* Dikeyde de kocaman, ferah bir görünüm verir */
+  border: none !important;
+}
