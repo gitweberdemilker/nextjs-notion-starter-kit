@@ -844,25 +844,34 @@ body::after {
    HEYZINE ÇİFT SAYFA VE KUSURSUZ MERKEZLEME (VIEWPORT TAKTİĞİ)
    ========================================================= */
 
-/* 1. Gömme kutusunu Notion sınırlarından kurtar ve ekranı uçtan uca kaplayan görünmez bir şerit yap */
+/* =========================================================
+   HEYZINE ÇİFT SAYFA VE KUSURSUZ MERKEZLEME (FİNAL ÇÖZÜM)
+   ========================================================= */
+
 .notion-asset-wrapper-iframe,
 .notion-asset-wrapper {
-  width: 100vw !important;
+  /* Heyzine'e çift sayfa açtıracak o mükemmel genişliği veriyoruz */
+  width: 1150px !important; 
+  
+  /* Scrollbar hatasını önlemek için 100vw yerine 94vw sınırı koyuyoruz */
+  max-width: 94vw !important; 
+  
+  /* Matematiksel olarak KESİN ortalama formülü */
   position: relative !important;
   left: 50% !important;
-  right: 50% !important;
-  margin-left: -50vw !important;
-  margin-right: -50vw !important;
-  display: flex !important;
-  justify-content: center !important;
-  background: transparent !important;
+  transform: translateX(-50%) !important;
+  
+  /* Notion'ın sağa/sola çekmesini engeller */
+  display: block !important; 
+  margin-top: 30px !important;
+  margin-bottom: 30px !important;
 }
 
-/* 2. İçindeki Heyzine kitabını bu devasa şeridin tam merkezinde, çift sayfa açılacak genişlikte tut */
 .notion-asset-wrapper-iframe iframe,
 .notion-asset-wrapper iframe {
   width: 100% !important;
-  max-width: 1150px !important;
   height: 85vh !important;
   border: none !important;
+  display: block !important;
+  margin: 0 !important;
 }
