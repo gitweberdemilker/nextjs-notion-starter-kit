@@ -839,42 +839,35 @@ body::after {
 .notion-collection-card:hover .notion-page-title-text {
   color: #ff0000 !important;
   text-shadow: 0 0 10px rgba(255, 0, 0, 0.6) !important;
-}
 /* =========================================================
-   HEYZINE ÇİFT SAYFA VE KUSURSUZ MERKEZLEME (VIEWPORT TAKTİĞİ)
+   HEYZINE ÇİFT SAYFA VE KUSURSUZ MERKEZLEME (İÇ KUTU KIRICI)
    ========================================================= */
 
-/* =========================================================
-   HEYZINE ÇİFT SAYFA VE KUSURSUZ MERKEZLEME (NİHAİ ÇÖZÜM)
-   ========================================================= */
-
-/* 1. Kaymaları tetikleyen o gizli yatay scrollbar boşluğunu tamamen yok eder */
-body, html {
-  overflow-x: hidden !important;
-}
-
-/* 2. Notion'ın dar sütununu yoksayıp ekranı uçtan uca kaplayan görünmez bir şerit açar */
-.notion-asset-wrapper,
+/* 1. Dış kutuyu sayfa kısıtlamasından kurtar ve ekranın tam merkezine çivile */
 .notion-asset-wrapper-iframe {
-  width: 100vw !important;
+  width: 95vw !important;
+  max-width: 1200px !important; /* Çift sayfa açılması için garanti genişlik */
   position: relative !important;
   left: 50% !important;
-  right: 50% !important;
-  margin-left: -50vw !important;
-  margin-right: -50vw !important;
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-  background: transparent !important;
-  padding: 0 !important;
+  transform: translateX(-50%) !important;
+  margin-top: 40px !important;
+  margin-bottom: 40px !important;
 }
 
-/* 3. Kitabı bu devasa şeridin tam merkezine çiviler */
-.notion-asset-wrapper iframe,
+/* 2. GİZLİ DÜŞMAN: Notion'ın kitabı sardığı o iç kutunun görünmez sınırlarını parçala */
+.notion-asset-wrapper-iframe > div {
+  width: 100% !important;
+  max-width: 100% !important;
+  height: 85vh !important;
+  padding-bottom: 0 !important; /* Notion'ın otomatik oran boşluğunu sıfırla */
+  display: block !important;
+}
+
+/* 3. Kitabı bu devasa ve ortalanmış alanın içine tam olarak oturt */
 .notion-asset-wrapper-iframe iframe {
   width: 100% !important;
-  max-width: 1150px !important;
-  height: 85vh !important;
+  height: 100% !important;
+  position: static !important;
   border: none !important;
   margin: 0 !important;
 }
