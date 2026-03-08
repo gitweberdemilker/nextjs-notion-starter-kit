@@ -841,22 +841,26 @@ body::after {
   text-shadow: 0 0 10px rgba(255, 0, 0, 0.6) !important;
 }
 /* =========================================================
-   HEYZINE KİTAP OKUYUCU (IFRAME) SINIRLARI YIKMA
+   HEYZINE KİTAP OKUYUCU (IFRAME) SINIRLARI YIKMA VE ORTALAMA
    ========================================================= */
 
-/* Embed (gömme) kutusunu dar metin sütunundan kurtarıp genişletir */
-.notion-asset-wrapper-iframe,
-.notion-asset-wrapper {
+/* Sadece ana gömme kutusunu sayfa sınırından kurtar ve ekranın tam ortasına sabitle */
+.notion-asset-wrapper-iframe {
   width: 100vw !important;
-  max-width: 1100px !important; /* Bilgisayarda 2 sayfa açması için gereken genişlik */
+  max-width: 1100px !important;
   position: relative !important;
   left: 50% !important;
   transform: translateX(-50%) !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
 }
 
-/* İçindeki Heyzine kitabının bu geniş alana tam oturmasını sağlar */
-.notion-asset-wrapper iframe {
+/* İçindeki Heyzine kitabını bu ortalanmış kutuya tam oturt */
+.notion-asset-wrapper-iframe iframe {
   width: 100% !important;
-  min-height: 85vh !important; /* Dikeyde de kocaman, ferah bir görünüm verir */
+  max-width: 1100px !important;
+  min-height: 85vh !important;
   border: none !important;
+  margin: 0 auto !important;
 }
