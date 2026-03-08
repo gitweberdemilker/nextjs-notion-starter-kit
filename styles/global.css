@@ -840,13 +840,11 @@ body::after {
   color: #ff0000 !important;
   text-shadow: 0 0 10px rgba(255, 0, 0, 0.6) !important;
 /* =========================================================
-   HEYZINE ÇİFT SAYFA VE KUSURSUZ MERKEZLEME (İÇ KUTU KIRICI)
+   HEYZINE KUSURSUZ MERKEZLEME VE ÇİFT SAYFA (MEDYA SORGULU)
    ========================================================= */
 
-/* 1. Dış kutuyu sayfa kısıtlamasından kurtar ve ekranın tam merkezine çivile */
+/* 1. TÜM CİHAZLAR İÇİN: Ana kutuyu tam merkeze çivile */
 .notion-asset-wrapper-iframe {
-  width: 95vw !important;
-  max-width: 1200px !important; /* Çift sayfa açılması için garanti genişlik */
   position: relative !important;
   left: 50% !important;
   transform: translateX(-50%) !important;
@@ -854,20 +852,33 @@ body::after {
   margin-bottom: 40px !important;
 }
 
-/* 2. GİZLİ DÜŞMAN: Notion'ın kitabı sardığı o iç kutunun görünmez sınırlarını parçala */
-.notion-asset-wrapper-iframe > div {
-  width: 100% !important;
-  max-width: 100% !important;
-  height: 85vh !important;
-  padding-bottom: 0 !important; /* Notion'ın otomatik oran boşluğunu sıfırla */
-  display: block !important;
-}
-
-/* 3. Kitabı bu devasa ve ortalanmış alanın içine tam olarak oturt */
+/* 2. GİZLİ DÜŞMAN İPTALİ: İç kutuların kendi kendine daralmasını yasakla */
+.notion-asset-wrapper-iframe > div,
 .notion-asset-wrapper-iframe iframe {
   width: 100% !important;
-  height: 100% !important;
-  position: static !important;
+  max-width: none !important; /* Notion'ın gizli daraltmasını tamamen ezer */
   border: none !important;
-  margin: 0 !important;
+}
+
+/* 3. SADECE BİLGİSAYARLARDA: Dev genişlik ver ve Çift Sayfaya zorla */
+@media (min-width: 800px) {
+  .notion-asset-wrapper-iframe {
+    width: 95vw !important;
+    max-width: 1200px !important; /* Heyzine'e "Yerimiz çok geniş, 2 sayfa aç" der */
+  }
+  .notion-asset-wrapper-iframe > div {
+    height: 85vh !important;
+    padding-bottom: 0 !important; /* Notion'ın video/kitap oranını sıfırlar */
+  }
+  .notion-asset-wrapper-iframe iframe {
+    height: 100% !important;
+    position: relative !important;
+  }
+}
+
+/* 4. SADECE MOBİLDE: Tasarımı bozmamak için dar ve tek sayfa bırak */
+@media (max-width: 799px) {
+  .notion-asset-wrapper-iframe {
+    width: 95vw !important; /* Mobilde ekrana tam oturur */
+  }
 }
