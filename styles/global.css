@@ -841,23 +841,28 @@ body::after {
   text-shadow: 0 0 10px rgba(255, 0, 0, 0.6) !important;
 }
 /* =========================================================
-   HEYZINE ÇİFT SAYFA VE KUSURSUZ ORTALAMA MİMARİSİ
+   HEYZINE ÇİFT SAYFA VE KUSURSUZ MERKEZLEME (VIEWPORT TAKTİĞİ)
    ========================================================= */
 
-/* 1. Dar sayfa sınırlarını kır, genişle ve tam merkeze kilitlen */
-.notion-asset-wrapper,
-.notion-asset-wrapper-iframe {
+/* 1. Gömme kutusunu Notion sınırlarından kurtar ve ekranı uçtan uca kaplayan görünmez bir şerit yap */
+.notion-asset-wrapper-iframe,
+.notion-asset-wrapper {
   width: 100vw !important;
-  max-width: 1150px !important; /* Çift sayfa için mükemmel ferahlık */
-  margin-left: 50% !important;
-  transform: translateX(-50%) !important;
+  position: relative !important;
+  left: 50% !important;
+  right: 50% !important;
+  margin-left: -50vw !important;
+  margin-right: -50vw !important;
+  display: flex !important;
+  justify-content: center !important;
+  background: transparent !important;
 }
 
-/* 2. İçindeki kitabı bu devasa alana tam olarak yay */
-.notion-asset-wrapper iframe,
-.notion-asset-wrapper-iframe iframe {
+/* 2. İçindeki Heyzine kitabını bu devasa şeridin tam merkezinde, çift sayfa açılacak genişlikte tut */
+.notion-asset-wrapper-iframe iframe,
+.notion-asset-wrapper iframe {
   width: 100% !important;
+  max-width: 1150px !important;
   height: 85vh !important;
   border: none !important;
-  display: block !important;
 }
