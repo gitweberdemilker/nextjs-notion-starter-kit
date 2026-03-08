@@ -841,26 +841,23 @@ body::after {
   text-shadow: 0 0 10px rgba(255, 0, 0, 0.6) !important;
 }
 /* =========================================================
-   HEYZINE KİTAP OKUYUCU (IFRAME) SINIRLARI YIKMA VE ORTALAMA
+   HEYZINE ÇİFT SAYFA VE KUSURSUZ ORTALAMA MİMARİSİ
    ========================================================= */
 
-/* Sadece ana gömme kutusunu sayfa sınırından kurtar ve ekranın tam ortasına sabitle */
+/* 1. Dar sayfa sınırlarını kır, genişle ve tam merkeze kilitlen */
+.notion-asset-wrapper,
 .notion-asset-wrapper-iframe {
   width: 100vw !important;
-  max-width: 1100px !important;
-  position: relative !important;
-  left: 50% !important;
+  max-width: 1150px !important; /* Çift sayfa için mükemmel ferahlık */
+  margin-left: 50% !important;
   transform: translateX(-50%) !important;
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
 }
 
-/* İçindeki Heyzine kitabını bu ortalanmış kutuya tam oturt */
+/* 2. İçindeki kitabı bu devasa alana tam olarak yay */
+.notion-asset-wrapper iframe,
 .notion-asset-wrapper-iframe iframe {
   width: 100% !important;
-  max-width: 1100px !important;
-  min-height: 85vh !important;
+  height: 85vh !important;
   border: none !important;
-  margin: 0 auto !important;
+  display: block !important;
 }
