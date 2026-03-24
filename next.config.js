@@ -1,5 +1,13 @@
 export default {
-  staticPageGenerationTimeout: 300,
+  // Sayfalar artık tek tek derleneceği için işlem uzayacaktır.
+  // Vercel'in zaman aşımına uğramaması için süreyi 1000 saniyeye çıkarıyoruz.
+  staticPageGenerationTimeout: 1000,
+
+  // Next.js'in sayfaları paralel oluşturup Notion API'sini kilitlemesini (429 hatası) engeller.
+  experimental: {
+    workerThreads: false,
+    cpus: 1
+  },
 
   async redirects() {
     return [
