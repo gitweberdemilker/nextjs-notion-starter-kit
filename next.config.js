@@ -1,36 +1,25 @@
 export default {
-  // Sayfalar artık tek tek derleneceği için işlem uzayacaktır.
-  // Vercel'in zaman aşımına uğramaması için süreyi 1000 saniyeye çıkarıyoruz.
   staticPageGenerationTimeout: 1000,
-
-  // Next.js'in sayfaları paralel oluşturup Notion API'sini kilitlemesini (429 hatası) engeller.
+  
+  // Vercel üzerinde Next.js build'ini yavaşlatacak ayarlar
   experimental: {
     workerThreads: false,
-    cpus: 1
+    cpus: 1,
+    // Bu özellik, aynı anda çok fazla pre-render yapılmasını engeller.
+    isrMemoryCacheSize: 0 
+  },
+
+  // Eşzamanlı export sınırını belirliyoruz:
+  onDemandEntries: {
+    maxInactiveAge: 60 * 1000,
+    pagesBufferLength: 1,
   },
 
   async redirects() {
     return [
-      // Kırık "yeni-site-yaynda" bağlantısını onaran yönlendirme
-      {
-        source: '/yeni-site-yaynda',
-        destination: '/yeni-site-yayinda',
-        permanent: true
-      },
-
-      // Eski tamamlanan-kitaplar klasörü
-      {
-        source: '/tamamlanan-kitaplar/:slug',
-        destination: '/:slug',
-        permanent: true
-      },
-
-      // Eski kısa karanlık hikayeler klasörü
-      {
-        source: '/kisa---karanlik-hikayeler/:slug',
-        destination: '/:slug',
-        permanent: true
-      }
+      { source: '/yeni-site-yaynda', destination: '/yeni-site-yayinda', permanent: true },
+      { source: '/tamamlanan-kitaplar/:slug', destination: '/:slug', permanent: true },
+      { source: '/kisa---karanlik-hikayeler/:slug', destination: '/:slug', permanent: true }
     ]
   },
 
@@ -45,8 +34,7 @@ export default {
     ],
     formats: ['image/avif', 'image/webp'],
     dangerouslyAllowSVG: true,
-    contentSecurityPolicy:
-      "default-src 'self'; script-src 'none'; sandbox;"
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;"
   },
 
   transpilePackages: ['react-tweet']
