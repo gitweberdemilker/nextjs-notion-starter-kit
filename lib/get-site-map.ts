@@ -34,7 +34,7 @@ const getPage = async (pageId: string, opts?: any) => {
   console.log('\nnotion getPage', uuidToId(pageId))
   return notion.getPage(pageId, {
     kyOptions: {
-      timeout: 30_000
+      timeout: 60_000 // Süreyi 30'dan 60'a çıkardık, ağır sayfalar için daha güvenli.
     },
     ...opts
   })
@@ -54,7 +54,8 @@ async function getAllPagesImpl(
     rootNotionSpaceId,
     getPage,
     {
-      maxDepth
+      maxDepth,
+      concurrency: 1 // CRITICAL: Notion 429 hatasını engellemek için sayfaları tek tek çeker.
     }
   )
 
