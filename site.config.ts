@@ -21,7 +21,7 @@ export default siteConfig({
   defaultPageCover: 'https://www.erdemilker.com.tr/kapak.png',
   defaultPageCoverPosition: 0.5,
 
-  isPreviewImageSupportEnabled: true,
+  isPreviewImageSupportEnabled: false,
   isRedisEnabled: false,
 
   // === ORİJİNAL, ÇALIŞAN (DÜZ) LİNK YAPISI ===
