@@ -6,10 +6,19 @@ import { getSiteMap } from '@/lib/get-site-map'
 import { resolveNotionPage } from '@/lib/resolve-notion-page'
 import { type PageProps, type Params } from '@/lib/types'
 
+// BEKLEME FONKSİYONU: Next.js'in Notion'a DDoS atmasını engeller :)
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
 export const getStaticProps: GetStaticProps<PageProps, Params> = async (
   context
 ) => {
   const rawPageId = context.params?.pageId as string
+
+  // NOTION API'SİNİ YORMAMAK İÇİN RASTGELE 4 İLA 10 SANİYE BEKLE
+  // İstekleri zamana yayarak 429 (Too Many Requests) hatasını engelliyoruz.
+  const waitTime = Math.floor(Math.random() * 6000) + 4000; 
+  console.log(`[Throttle] Sayfa çekilmeden önce bekleniyor: ${waitTime}ms - Sayfa: ${rawPageId}`);
+  await delay(waitTime);
 
   try {
     const props = await resolveNotionPage(domain, rawPageId)
