@@ -11,7 +11,8 @@ export default class MyDocument extends Document {
           <link rel='manifest' href='/manifest.json' />
         </Head>
 
-        <body>
+        {/* SUNUCUDA SAYFAYI ZORLA KARANLIK MODDA OLUŞTUR */}
+        <body className="dark-mode">
           <script
             dangerouslySetInnerHTML={{
               __html: `
@@ -24,9 +25,6 @@ export default class MyDocument extends Document {
     document.body.classList.add(darkMode ? classNameDark : classNameLight)
     document.body.classList.remove(darkMode ? classNameLight : classNameDark)
   }
-  var preferDarkQuery = '(prefers-color-scheme: dark)'
-  var mql = window.matchMedia(preferDarkQuery)
-  var supportsColorSchemeQuery = mql.media === preferDarkQuery
   var localStorageTheme = null
   try {
     localStorageTheme = localStorage.getItem(storageKey)
@@ -35,18 +33,15 @@ export default class MyDocument extends Document {
   if (localStorageExists) {
     localStorageTheme = JSON.parse(localStorageTheme)
   }
+  
   // Determine the source of truth
   if (localStorageExists) {
-    // source of truth from localStorage
+    // Kullanıcı daha önce bir seçim yaptıysa (Güneş/Ay ikonuna bastıysa) onu hatırla
     setClassOnDocumentBody(localStorageTheme)
-  } else if (supportsColorSchemeQuery) {
-    // source of truth from system
-    setClassOnDocumentBody(mql.matches)
-    localStorage.setItem(storageKey, mql.matches)
   } else {
-    // source of truth from document.body
-    var isDarkMode = document.body.classList.contains(classNameDark)
-    localStorage.setItem(storageKey, JSON.stringify(isDarkMode))
+    // SİTEYE İLK KEZ GİREN HERKES İÇİN (Sistemi aydınlık olsa bile) ZORLA KARANLIK MOD
+    setClassOnDocumentBody(true)
+    localStorage.setItem(storageKey, 'true')
   }
 })();
 `
